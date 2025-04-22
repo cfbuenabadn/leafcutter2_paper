@@ -1,0 +1,7 @@
+Trait	Author	Accession	PubMed_ID	Assembly	http_link
+Dupuytrens_disease	Riesmeijer SA	GCST90301252	38172110	GRCh38	https://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST90301001-GCST90302000/GCST90301252/harmonised/GCST90301252.h.tsv.gz
+Chronic_obstructive_pulmonary_disease	Cosentino J	GCST90244098	37069358	GRCh38	https://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST90244001-GCST90245000/GCST90244098/harmonised/GCST90244098.h.tsv.gz
+Hypothyroidism	Figueredo J	GCST90319320	39067062	GRCh38	https://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST90319001-GCST90320000/GCST90319320/harmonised/GCST90319320.h.tsv.gz
+Visceral_adipose_tissue_measurement	Karlsson T	GCST008744	31501611	GRCh37 	https://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST008001-GCST009000/GCST008744/VAT_SEX-COMBINED_UKB.txt.gz
+Atopic_eczema	Budu-Aggrey A	GCST90244787	37794016	GRCh37	https://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST90244001-GCST90245000/GCST90244787/GCST90244787_buildGRCh37.tsv
+Rheumatoid_arthritis	Okada Y	GCST002318	24390342	GRCh38	https://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST002001-GCST003000/GCST002318/harmonised/24390342-GCST002318-EFO_0000685.h.tsv.gz

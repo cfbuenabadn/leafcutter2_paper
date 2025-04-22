@@ -1,0 +1,27 @@
+# The main entry point of your workflow.
+# After configuring, running snakemake -n in a clone of this repository should successfully execute a dry-run of the workflow.
+
+configfile: "config/config.yaml"
+include: "rules/common.py"
+
+
+include: "rules/ds-dge.smk"
+include: "rules/eqtl.smk"
+include: "rules/sqtl.smk"
+include: "rules/coloc.smk"
+include: "rules/PrepareGWAS.smk"
+include: "rules/Sashimi.smk"
+
+localrules:
+    all,
+    InstallHyprcoloc,
+
+rule all:
+    input:
+        # The first rule should define the default target files
+        # Subsequent target rules can be specified below. They should start with all_*.
+
+
+
+
+include: "rules/other.smk"
