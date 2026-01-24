@@ -1,0 +1,1 @@
+/project/yangili1/dylan_stermer/GitHubTesting/RNAseq_Snakemake/results/SplicingAnalysis/juncfiles/UPF1Degron_0h_1.junc

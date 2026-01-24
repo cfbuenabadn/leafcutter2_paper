@@ -11,6 +11,8 @@ include: "rules/sqtl.smk"
 include: "rules/coloc.smk"
 include: "rules/PrepareGWAS.smk"
 include: "rules/Sashimi.smk"
+include: "rules/TCGA.smk"
+include: "rules/BFS_comparisons.smk"
 
 localrules:
     all,

@@ -49,3 +49,10 @@ wb_samples = [x.split('.')[0] for x in os.listdir('/project2/yangili1/GTEx_v8/be
 
 
 hela_samples = pd.read_csv('/project/yangili1/cfbuenabadn/leafcutter2_paper/code/config/HeLa_samples.tsv', sep='\t')
+
+
+tcga_samples = []
+# tissues = []
+with open('config/tcga_samples.txt', 'r') as fh:
+    for tsamples in fh:
+        tcga_samples.append(tsamples.rstrip())
