@@ -1,0 +1,21 @@
+trait	n_tissues_in_box	n_tissues_nonzero	n_gwas_loci_tested	n_gwas_loci_colocalized	median_pct	q1_pct	q3_pct	min_pct	max_pct	in_panel	trait_name	trait_file	accession	source	assembly	author	pubmed
+bipolar_disorder	49	22	65	11	0.0	0.0	1.5384615384615385	0.0	4.615384615384615	True	Bipolar disorder	Bipolar_disorder	bip2021	Torino	GRCh38		
+IMSGC2019	49	49	76	11	2.6315789473684212	2.6315789473684212	3.9473684210526314	1.3157894736842106	6.578947368421052	True	Multiple sclerosis	Multiple_sclerosis	IMSGC2019	Ben	GRCh38		
+heart_failure	49	5	42	5	0.0	0.0	0.0	0.0	4.761904761904762	True	Heart failure	Heart_failure	GCST90162626	Torino	GRCh38		
+coronary_artery_disease	49	48	221	22	1.3574660633484164	0.9049773755656109	2.262443438914027	0.0	3.6199095022624435	True	Coronary artery disease	Coronary_artery_disease	GCST90132314	Torino	GRCh38		
+myocardial_infarction	49	12	84	8	0.0	0.0	0.0	0.0	2.380952380952381	True	Myocardial infarction	Myocardial_infarction	GCST011365	Torino	GRCh38		
+Visceral_adipose_tissue_measurement	49	47	325	30	0.9230769230769231	0.6153846153846154	1.2307692307692308	0.0	2.4615384615384617	True	Visceral adipose tissue	Visceral_adipose_tissue_measurement	GCST008744	Leafcutter2	GRCh37	Karlsson T	31501611
+age_when_finished_full-time_education	49	46	307	27	0.6514657980456026	0.3257328990228013	0.9771986970684039	0.0	2.9315960912052117	True	Age when finished education	Age_when_finished_full-time_education	GCST90267280	Torino	GRCh38		
+GCST004131	49	32	141	12	0.7092198581560284	0.0	0.7092198581560284	0.0	2.127659574468085	True	Inflammatory bowel disease	Inflammatory_bowel_disease	GCST004131	Ben	GRCh38		
+schizophrenia	49	33	202	17	0.49504950495049505	0.0	0.9900990099009901	0.0	2.9702970297029703	True	Schizophrenia	Schizophrenia	scz2022	Torino	GRCh38		
+GCST007800	49	37	109	9	1.834862385321101	0.9174311926605505	2.7522935779816513	0.0	4.587155963302752	True	Asthma - childhood onset	Asthma_childhood_onset	GCST007800	Ben	GRCh38		
+GCST004133	49	26	62	5	1.6129032258064515	0.0	1.6129032258064515	0.0	3.225806451612903	True	Ulcerative colitis	Ulcerative_colitis	GCST004133	Ben	GRCh38		
+Hypothyroidism	49	29	151	12	0.6622516556291391	0.0	1.3245033112582782	0.0	2.6490066225165565	True	Hypothyroidism	Hypothyroidism	GCST90319320	Leafcutter2	GRCh38	Figueredo J	39067062
+Chronic_obstructive_pulmonary_disease	49	48	432	33	0.46296296296296297	0.23148148148148148	0.9259259259259259	0.0	1.8518518518518519	True	Chronic obstructive pulmonary disease	Chronic_obstructive_pulmonary_disease	GCST90244098	Leafcutter2	GRCh38	Cosentino J	37069358
+basal_cell_carcinoma	49	13	94	7	0.0	0.0	1.0638297872340425	0.0	2.127659574468085	True	Basal cell carcinoma	Basal_cell_carcinoma	GCST90137411	Torino	GRCh38		
+GCST004988	49	23	168	12	0.0	0.0	0.5952380952380952	0.0	1.7857142857142858	True	Breast cancer	Breast_cancer	GCST004988	Ben	GRCh38		
+Dupuytrens_disease	49	16	64	4	0.0	0.0	1.5625	0.0	1.5625	True	Dupuytren's disease	Dupuytrens_disease	GCST90301252	Leafcutter2	GRCh38	Riesmeijer SA	38172110
+GCST004132	49	8	97	6	0.0	0.0	0.0	0.0	2.0618556701030926	True	Crohn's disease	Crohns_disease	GCST004132	Ben	GRCh38		
+atrial_fibrillation	49	7	111	4	0.0	0.0	0.0	0.0	1.8018018018018018	True	Atrial fibrillation	Atrial_fibrillation	GCST006061	Torino	GRCh38		
+Atopic_eczema	49	2	70	1	0.0	0.0	0.0	0.0	1.4285714285714286	True	Atopic eczema	Atopic_eczema	GCST90244787	Leafcutter2	GRCh37	Budu-Aggrey A	37794016
+Rheumatoid_arthritis	49	0	76	0	0.0	0.0	0.0	0.0	0.0	False	Rheumatoid arthritis	Rheumatoid_arthritis	GCST002318	Leafcutter2	GRCh38	Okada Y	24390342

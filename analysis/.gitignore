@@ -1,0 +1,63 @@
+# ---------------------------------------------------------------------------
+# analysis/
+#
+# Ignore everything by default, then re-include only what the repository needs:
+#   * the Figure2 / Figure4 / Figure5 build directories -- their notebooks,
+#     helper modules and cached plot-ready data (figure_data/)
+#   * a short list of standalone analysis notebooks
+#
+# Rendered figures are never tracked: plots/ is excluded in every figure
+# directory, and stray image files are excluded wherever they appear.
+# ---------------------------------------------------------------------------
+
+*
+
+# --- Figure build directories ----------------------------------------------
+# Un-exclude the directory first, then its contents; git will not descend into
+# a directory that is still excluded, so the order matters.
+!Figure2/
+!Figure4/
+!Figure5/
+!Figure2/**
+!Figure4/**
+!Figure5/**
+
+# ...but never the rendered panels themselves.
+Figure2/plots/
+Figure4/plots/
+Figure5/plots/
+Figure2/**/*.png
+Figure2/**/*.pdf
+Figure2/**/*.svg
+Figure4/**/*.png
+Figure4/**/*.pdf
+Figure4/**/*.svg
+Figure5/**/*.png
+Figure5/**/*.pdf
+Figure5/**/*.svg
+
+# --- Standalone analysis notebooks kept in the repository -------------------
+!2SLS.ipynb
+!GO_analysis.ipynb
+!Recursive_Introns.ipynb
+!RIN_classification.ipynb
+!Supplementary_coloc_examples.ipynb
+!UPF3A_confounder.ipynb
+!Yang supplementary figures.ipynb
+!Zhang2018_recursive_introns_overlap.ipynb
+
+# --- workflowr site scaffolding ---------------------------------------------
+# This is a workflowr project (_workflowr.yml, analysis/_site.yml, docs/).
+# index.Rmd is the site homepage; dropping these breaks wflow_build/wflow_publish.
+!index.Rmd
+!about.Rmd
+!license.Rmd
+!_site.yml
+
+# --- Repository metadata ----------------------------------------------------
+!.gitignore
+
+# --- Junk that stays ignored even where the rules above would keep it -------
+**/.ipynb_checkpoints/
+**/__pycache__/
+*-checkpoint.ipynb
