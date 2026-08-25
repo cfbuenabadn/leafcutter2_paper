@@ -1,32 +1,40 @@
+# Ignore everything by default; only the workflow source is tracked.
 *
-!config
-!config/*
-!snakemake_profiles
+
+# --- Workflow source ---
+!config/
+!config/**
+!envs/
+!envs/**
+!rules/
+!rules/**
+!scripts/
+!scripts/**
+!module_workflows/
+!module_workflows/**
+!snakemake_profiles/
 !snakemake_profiles/**
-!scripts
-!scripts/*
-!module_workflows
-!module_workflows/*
-!scripts/common
-!scripts/common/*
-scripts/.snakemake*
+!.test/
+!.test/**
+# resources/ is a data dump; only these two small reference files are tracked
+!resources/
+!resources/all_genes.protein_coding.bed.gz
+!resources/hg38_w_chrEBV.chrom.sizes
+
 !Snakefile
-!config.yaml
 !samples.tsv
-!resources
-!resources/*
-!envs
-!envs/*
-!environment.yaml
-!LICENSE
 !README.md
-!rules
-!rules/*
+!LICENSE
+
+# --- Repo metadata ---
 !.gitignore
 !.gitattributes
 !.editorconfig
-!.travis.yml
-!.test
-!snakemake.sbatch
-!cluster-config.json
+
+# --- Junk that stays ignored even inside the directories above ---
+**/.ipynb_checkpoints/
+**/__pycache__/
+*.pyc
+*.ipynb
 *.swp
+.snakemake*

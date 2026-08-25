@@ -4,13 +4,5 @@
 .Ruserdata
 .Rapp.history
 .DS_Store
-analysis/figure
-analysis/*
-!analysis/*ipynb
-analysis/Untitled.ipynb
-analysis/Untitled1.ipynb
-!analysis/*Rmd
-analysis/*png
-analysis/*html
-analysis/*_cache
-analysis/site_libs
+
+# analysis/ and code/ have their own .gitignore
