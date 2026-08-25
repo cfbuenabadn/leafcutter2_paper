@@ -56,6 +56,62 @@ rule LeafCutter2LCLs:
             --max_juncs {params.max_juncs} {params.other_params}) &> {log}
         """
 
+
+rule LeafCutter2LCLs_recursive:
+    output:
+        ds_numers = 'results/LCLs_recursive/{RNAtype}/leafcutter2.junction_counts.const.gz',
+    params:
+        gtf = config['annotation']['gtf']['v43'],
+        genome = config['genome38'],
+        max_juncs = 1000, # maximum number of introns per gene
+        junc_files = '/project/yangili1/cfbuenabadn/leafcutter2_paper/code/config/{RNAtype}.LCL_juncs_updated.txt',
+        res_dir = 'results/LCLs_recursive/{RNAtype}/',
+        other_params = '--includeconst'
+    log:
+        "logs/LCLs/{RNAtype}/lc2.log"
+    resources:
+        mem_mb = 52000
+    wildcard_constraints:
+        RNAtype = 'steady_state|nascent'
+    shell:
+        """
+        (leafcutter2 \
+            -j {params.junc_files} \
+            -r {params.res_dir} \
+            -A {params.gtf} \
+            -G {params.genome} \
+            --max_juncs {params.max_juncs} {params.other_params}) &> {log}
+        """
+
+
+rule LeafCutter2HeLa_recursive:
+    output:
+        ds_numers = 'results/HeLa_recursive/{condition}/leafcutter2.junction_counts.const.gz',
+    params:
+        gtf = config['annotation']['gtf']['v43'],
+        genome = config['genome38'],
+        max_juncs = 1000, # maximum number of introns per gene
+        res_dir = 'results/HeLa_recursive/{condition}/',
+        other_params = '--includeconst',
+        condition_juncs = 'resources/HeLa/juncs/{condition}.',
+    log:
+        "logs/HeLa_recursive/{condition}/lc2.log"
+    resources:
+        mem_mb = 52000
+    wildcard_constraints:
+        condition = 'controls|HeLa_dKD'
+    shell:
+        """
+        (leafcutter2 \
+            -j <(cat <(ls {params.condition_juncs}*tsv.gz)) \
+            -r {params.res_dir} \
+            -A {params.gtf} \
+            -G {params.genome} \
+            --max_juncs {params.max_juncs} {params.other_params}) &> {log}
+        """
+
+
+
 rule CollectLeafCutter2LCLs:
     input:
         expand('results/LCLs/{RNAtype}/leafcutter2.junction_counts.const.gz', 
