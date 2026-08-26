@@ -63,16 +63,27 @@ directory and cannot overwrite the published figures:
   `SupFig_coloc_examples.ipynb`, so it could be reconstructed by substituting
   Spleen — but that would be a reconstruction, not a reproduction.
 
+## Things corrected
+
+* **`sup_fig_lambda` ignored its `tissue` argument.** In `QTL_analysis.ipynb`,
+  `get_var_eqtls(tissue, …)` hard-coded Testis in the nominal-pass path, so the
+  grey null was the same Testis distribution in all 49 panels. `get_var_eqtls`
+  here reads the tissue it is given, so each panel's null is its own. The
+  regenerated figure differs from the earlier one in the grey points.
+* **Cells that rebuild main figures are disabled.** Several copied notebooks
+  also wrote `fig2A`/`fig2B*`/`fig2C*`/`fig4_coloc_example*`/`fig4_ASB16`.
+  Those are reproduced properly in `../Figure2/` and `../Figure4/`, so here the
+  cell is commented out when nothing later depends on it, and only its
+  `savefig` lines are disabled when the computation feeds later cells.
+* **Truncated cells removed.** Eight cells in the source notebooks were
+  fragments that do not parse (pasted regression output, a dangling subscript,
+  a bare `, `). They were dropped from the copies.
+
 ## Things preserved that look like mistakes
 
 Reproduced as-is because the published figures contain them, flagged so nobody
 "fixes" them silently.
 
-* **`sup_fig_lambda` ignores its `tissue` argument.** `get_var_eqtls(tissue, …)`
-  hard-codes Testis in the path, so the grey null is the same Testis
-  distribution in all 49 panels. Pass `use_source_tissue_bug=False` for the
-  per-tissue null the code evidently intended. **This affects a figure under
-  revision and is worth a decision.**
 * **`sup_fig4A` vs the gene panels** use different subsample sizes for the
   confidence band (15 tissues vs 30), changing the band width between panels of
   the same figure.
