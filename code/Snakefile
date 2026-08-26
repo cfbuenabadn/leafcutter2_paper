@@ -14,6 +14,13 @@ include: "rules/Sashimi.smk"
 include: "rules/TCGA.smk"
 include: "rules/BFS_comparisons.smk"
 
+# Upstream rules from the SpliFi project, reproduced verbatim but COMMENTED OUT.
+# They document where the GTEx splicing/expression phenotypes and genotypes that
+# this workflow reads by absolute path actually came from, and would let the
+# chain be re-run here. Uncomment this include AND the rules in that file, and
+# switch the commented local `input:` lines in coloc/sqtl/eqtl/ds-dge/Sashimi.
+# include: "rules/SpliFi_upstream.smk"
+
 localrules:
     all,
     InstallHyprcoloc,

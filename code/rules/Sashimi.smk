@@ -36,6 +36,9 @@ rule CollectBigWig:
 rule TabixPhenTables:
     input:
         "/project/yangili1/cfbuenabadn/SpliFi/code/results/pheno/noisy/GTEx/{tissue}/separateNoise/leafcutter.phen_{chrom}.gz"
+        # If the SpliFi chain is ever re-run inside this repo (see rules/SpliFi_upstream.smk),
+        # swap the line(s) above for these local paths:
+        # "results/pheno/noisy/GTEx/{tissue}/separateNoise/leafcutter.phen_{chrom}.gz"
     output:
         bed = "results/pheno/GTEx/{tissue}/leafcutter.phen_{chrom}.sorted.gz",
         tbi = "results/pheno/GTEx/{tissue}/leafcutter.phen_{chrom}.sorted.gz.tbi"
@@ -51,6 +54,9 @@ rule TabixPhenTables:
 rule TabixCountTables:
     input:
         "/project/yangili1/cfbuenabadn/SpliFi/code/results/pheno/noisy/GTEx/{tissue}/leafcutter_perind_numers.counts.gz"
+        # If the SpliFi chain is ever re-run inside this repo (see rules/SpliFi_upstream.smk),
+        # swap the line(s) above for these local paths:
+        # "results/pheno/noisy/GTEx/{tissue}/leafcutter_perind_numers.counts.gz"
     output:
         bed = "results/pheno/GTEx/{tissue}/leafcutter.counts.sorted.gz",
         tbi = "results/pheno/GTEx/{tissue}/leafcutter.counts.sorted.gz.tbi"

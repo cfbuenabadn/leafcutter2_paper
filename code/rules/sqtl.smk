@@ -11,11 +11,19 @@ rule sQTLs_perm:
         phenoPrep = '/project/yangili1/cfbuenabadn/SpliFi/code/results/pheno/noisy/{datasource}/{group}/separateNoise/done',
         vcf = '/project/yangili1/cfbuenabadn/SpliFi/code/results/geno/{datasource}/{group}/{chrom}.vcf.gz',
         cov = '/project/yangili1/cfbuenabadn/SpliFi/code/results/pheno/noisy/{datasource}/{group}/separateNoise/{chrom}_CovMatrix.txt',
+        # If the SpliFi chain is ever re-run inside this repo (see rules/SpliFi_upstream.smk),
+        # swap the line(s) above for these local paths:
+        # phenoPrep = 'results/pheno/noisy/{datasource}/{group}/separateNoise/done',
+        # vcf = 'results/geno/{datasource}/{group}/{chrom}.vcf.gz',
+        # cov = 'results/pheno/noisy/{datasource}/{group}/separateNoise/{chrom}_CovMatrix.txt',
     output: temp('results/sqtl/{datasource}/{group}/cis_{window}/perm/chunks/{chrom}.{QTLTools_chunk_n}.txt')
     log: 'logs/NominalQTL_{datasource}_{group}_{window}_{chrom}.{QTLTools_chunk_n}.log'
     params:
         cis_window = lambda w: int(w.window),
         pheno = '/project/yangili1/cfbuenabadn/SpliFi/code/results/pheno/noisy/{datasource}/{group}/separateNoise/leafcutter.qqnorm_{chrom}.gz',
+        # If the SpliFi chain is ever re-run inside this repo (see rules/SpliFi_upstream.smk),
+        # swap the line(s) above for these local paths:
+        # pheno = 'results/pheno/noisy/{datasource}/{group}/separateNoise/leafcutter.qqnorm_{chrom}.gz',
         NChunks = N_PermutationChunks
     resources: mem_mb = 54000
     shell:
@@ -42,11 +50,19 @@ rule NominalQTL:
         phenoPrep = '/project/yangili1/cfbuenabadn/SpliFi/code/results/pheno/noisy/{datasource}/{group}/separateNoise/done',
         vcf = '/project/yangili1/cfbuenabadn/SpliFi/code/results/geno/{datasource}/{group}/{chrom}.vcf.gz',
         cov = '/project/yangili1/cfbuenabadn/SpliFi/code/results/pheno/noisy/{datasource}/{group}/separateNoise/{chrom}_CovMatrix.txt',
+        # If the SpliFi chain is ever re-run inside this repo (see rules/SpliFi_upstream.smk),
+        # swap the line(s) above for these local paths:
+        # phenoPrep = 'results/pheno/noisy/{datasource}/{group}/separateNoise/done',
+        # vcf = 'results/geno/{datasource}/{group}/{chrom}.vcf.gz',
+        # cov = 'results/pheno/noisy/{datasource}/{group}/separateNoise/{chrom}_CovMatrix.txt',
     output: temp('results/sqtl/{datasource}/{group}/cis_{window}/nom/chunks/{chrom}.{QTLTools_chunk_n}.txt')
     log: 'logs/NominalQTL_{datasource}_{group}_{window}_{chrom}.{QTLTools_chunk_n}.log'
     params:
         cis_window = lambda w: int(w.window) + 10000, # add 10kb to the window
         pheno = '/project/yangili1/cfbuenabadn/SpliFi/code/results/pheno/noisy/{datasource}/{group}/separateNoise/leafcutter.qqnorm_{chrom}.gz',
+        # If the SpliFi chain is ever re-run inside this repo (see rules/SpliFi_upstream.smk),
+        # swap the line(s) above for these local paths:
+        # pheno = 'results/pheno/noisy/{datasource}/{group}/separateNoise/leafcutter.qqnorm_{chrom}.gz',
         NChunks = N_PermutationChunks
     resources: mem_mb = 54000
     shell:

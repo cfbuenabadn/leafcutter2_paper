@@ -8,8 +8,14 @@ def GetQTLtoolsWindowFlag(wildcards):
 def GetPhenotypeInput(wildcards):
     if wildcards.pheno == 'leafcutter':
         return '/project/yangili1/cfbuenabadn/SpliFi/code/results/pheno/noisy/GTEx/{tissue}/separateNoise/leafcutter.qqnorm_{chrom}.gz'
+        # If the SpliFi chain is ever re-run inside this repo (see rules/SpliFi_upstream.smk),
+        # swap the line(s) above for these local paths:
+        # return 'results/pheno/noisy/GTEx/{tissue}/separateNoise/leafcutter.qqnorm_{chrom}.gz'
     else:
         return '/project/yangili1/cfbuenabadn/SpliFi/code/results/eqtl/GTEx/{tissue}/qqnorm.sorted.{chrom}.bed.gz'
+        # If the SpliFi chain is ever re-run inside this repo (see rules/SpliFi_upstream.smk),
+        # swap the line(s) above for these local paths:
+        # return 'results/eqtl/GTEx/{tissue}/qqnorm.sorted.{chrom}.bed.gz'
         
 
 
@@ -87,6 +93,9 @@ rule coloc_QTLs:
     input: 
         pheno = "results/coloc/data/{tissue}/{chrom}.{pheno}.ForGWASColoc.sorted.qqnorm.bed.gz",
         vcf = '/project/yangili1/cfbuenabadn/SpliFi/code/results/geno/GTEx/{tissue}/{chrom}.vcf.gz',
+        # If the SpliFi chain is ever re-run inside this repo (see rules/SpliFi_upstream.smk),
+        # swap the line(s) above for these local paths:
+        # vcf = 'results/geno/GTEx/{tissue}/{chrom}.vcf.gz',
         cov = "results/coloc/data/{tissue}/{chrom}.{pheno}.ForGWASColoc.sorted.qqnorm.bed.pca",
     output: temp('results/coloc/qtls/{tissue}/{pheno}.PermutationPass_chunks/{chrom}.{QTLTools_chunk_n}.txt')
     log: '/scratch/midway2/cnajar/logs/PermutationQTL_GTEx_{tissue}_{pheno}_{chrom}.{QTLTools_chunk_n}.log'
@@ -193,6 +202,9 @@ rule coloc_QTLs_nominal:
     input: 
         pheno = GetInputPhenoForNominalPass, #"results/coloc/data/{tissue}/{chrom}.{pheno}.ForGWASColoc.sorted.significant_only.qqnorm.bed.gz",
         vcf = '/project/yangili1/cfbuenabadn/SpliFi/code/results/geno/GTEx/{tissue}/{chrom}.vcf.gz',
+        # If the SpliFi chain is ever re-run inside this repo (see rules/SpliFi_upstream.smk),
+        # swap the line(s) above for these local paths:
+        # vcf = 'results/geno/GTEx/{tissue}/{chrom}.vcf.gz',
         cov = "results/coloc/data/{tissue}/{chrom}.{pheno}.ForGWASColoc.sorted.qqnorm.bed.pca",
     output: 'results/coloc/qtls/{tissue}/{pheno}.NominalPass_chunks/{chrom}.{QTLTools_chunk_n}.txt'
     log: '/scratch/midway2/cnajar/logs/NominalQTL_GTEx_{tissue}_{pheno}_{chrom}.{QTLTools_chunk_n}.log'
@@ -426,6 +438,9 @@ rule HyprcolocGWASLoci_allTissues:
 rule getClusterAnnotations:
     input:
         expand("/project/yangili1/cfbuenabadn/SpliFi/code/results/pheno/noisy/GTEx/{{tissue}}/separateNoise/leafcutter.qqnorm_{chrom}.gz",
+        # If the SpliFi chain is ever re-run inside this repo (see rules/SpliFi_upstream.smk),
+        # swap the line(s) above for these local paths:
+        # expand("results/pheno/noisy/GTEx/{{tissue}}/separateNoise/leafcutter.qqnorm_{chrom}.gz",
         chrom = ['chr' + str(i) for i in range(1, 23)])
     output:
         'results/data/cluster_annotations/tmp/{tissue}.txt'

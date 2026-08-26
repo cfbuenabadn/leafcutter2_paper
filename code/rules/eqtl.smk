@@ -8,6 +8,11 @@ rule NominaleQTL:
         cov = '/project/yangili1/cfbuenabadn/SpliFi/code/results/eqtl/{datasource}/{group}/qqnorm.sorted.{chrom}.pca',
         bed = '/project/yangili1/cfbuenabadn/SpliFi/code/results/eqtl/{datasource}/{group}/qqnorm.sorted.{chrom}.bed.gz',
         vcf = '/project/yangili1/cfbuenabadn/SpliFi/code/results/geno/{datasource}/{group}/{chrom}.vcf.gz',
+        # If the SpliFi chain is ever re-run inside this repo (see rules/SpliFi_upstream.smk),
+        # swap the line(s) above for these local paths:
+        # cov = 'results/eqtl/{datasource}/{group}/qqnorm.sorted.{chrom}.pca',
+        # bed = 'results/eqtl/{datasource}/{group}/qqnorm.sorted.{chrom}.bed.gz',
+        # vcf = 'results/geno/{datasource}/{group}/{chrom}.vcf.gz',
     output: temp('results/eqtl/{datasource}/{group}/cis_{window}/nom/chunks/{chrom}.{QTLTools_chunk_n}.txt')
     log: 'logs/NominaleQTL_{datasource}_{group}_{window}_{chrom}.{QTLTools_chunk_n}.log'
     params:

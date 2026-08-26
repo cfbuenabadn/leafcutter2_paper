@@ -20,6 +20,11 @@ rule LeafcutterForDSGtex:
         pre_clusters = '/project/yangili1/cfbuenabadn/SpliFi/code/results/ds/GTEx/all49tissues_refined_noisy',
         tissue1_flag = '/project/yangili1/cfbuenabadn/SpliFi/code/resources/GTEx/juncs/all49tissues/{ds_tissue_1}.done',
         tissue2_flag = '/project/yangili1/cfbuenabadn/SpliFi/code/resources/GTEx/juncs/all49tissues/{ds_tissue_2}.done',
+        # If the SpliFi chain is ever re-run inside this repo (see rules/SpliFi_upstream.smk),
+        # swap the line(s) above for these local paths:
+        # pre_clusters = 'results/ds/GTEx/all49tissues_refined_noisy',
+        # tissue1_flag = 'resources/GTEx/juncs/all49tissues/{ds_tissue_1}.done',
+        # tissue2_flag = 'resources/GTEx/juncs/all49tissues/{ds_tissue_2}.done',
     output:
         ds_numers = 'results/ds/GTEx/{ds_tissue_2}_v_{ds_tissue_1}/ds_perind_numers.counts.noise_by_intron.gz',
         # ds_counts_lf1 is necessary for leafcutter_ds.R script
@@ -30,8 +35,15 @@ rule LeafcutterForDSGtex:
         out_prefix = 'ds',
         tissue1_juncs = '/project/yangili1/cfbuenabadn/SpliFi/code/resources/GTEx/juncs/all49tissues/{ds_tissue_1}',
         tissue2_juncs = '/project/yangili1/cfbuenabadn/SpliFi/code/resources/GTEx/juncs/all49tissues/{ds_tissue_2}',
+        # If the SpliFi chain is ever re-run inside this repo (see rules/SpliFi_upstream.smk),
+        # swap the line(s) above for these local paths:
+        # tissue1_juncs = 'resources/GTEx/juncs/all49tissues/{ds_tissue_1}',
+        # tissue2_juncs = 'resources/GTEx/juncs/all49tissues/{ds_tissue_2}',
         NSamples = N_DIFFER, # select this number of samples per tissue type
         pre_clustered = '-c /project/yangili1/cfbuenabadn/SpliFi/code/results/ds/GTEx/all49tissues_refined_noisy',
+        # If the SpliFi chain is ever re-run inside this repo (see rules/SpliFi_upstream.smk),
+        # swap the line(s) above for these local paths:
+        # pre_clustered = '-c results/ds/GTEx/all49tissues_refined_noisy',
         gtf = config['annotation']['gtf']['v43'],
         genome = config['genome38'],
         max_juncs = 1000, # maximum number of introns per gene
@@ -123,6 +135,9 @@ rule LeafcutterForDSHeLa:
     message: '### Run leafcutter2 on GTEx samples for differential splicing analysis'
     input:
         pre_clusters = '/project/yangili1/cfbuenabadn/SpliFi/code/results/ds/GTEx/all49tissues_refined_noisy',
+        # If the SpliFi chain is ever re-run inside this repo (see rules/SpliFi_upstream.smk),
+        # swap the line(s) above for these local paths:
+        # pre_clusters = 'results/ds/GTEx/all49tissues_refined_noisy',
         cond_flag = 'resources/HeLa/juncs/{condition}.done.txt',
         control_flag = 'resources/HeLa/juncs/HeLa_controls.done.txt'
     output:
@@ -137,6 +152,9 @@ rule LeafcutterForDSHeLa:
         tissue1_juncs = 'resources/HeLa/juncs/{condition}.',
         tissue2_juncs = 'resources/HeLa/juncs/HeLa_controls.',
         pre_clustered = '-c /project/yangili1/cfbuenabadn/SpliFi/code/results/ds/GTEx/all49tissues_refined_noisy',
+        # If the SpliFi chain is ever re-run inside this repo (see rules/SpliFi_upstream.smk),
+        # swap the line(s) above for these local paths:
+        # pre_clustered = '-c results/ds/GTEx/all49tissues_refined_noisy',
         gtf = config['annotation']['gtf']['v43'],
         genome = config['genome38'],
         max_juncs = 1000, # maximum number of introns per gene
@@ -301,6 +319,10 @@ rule ExtractGTExGeneExpression:
     input: 
       tpm = '/project/yangili1/cfbuenabadn/SpliFi/code/resources/GTEx/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_tpm.gct.gz',
       cnt = '/project/yangili1/cfbuenabadn/SpliFi/code/resources/GTEx/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_reads.gct.gz'
+      # If the SpliFi chain is ever re-run inside this repo (see rules/SpliFi_upstream.smk),
+      # swap the line(s) above for these local paths:
+      # tpm = 'resources/GTEx/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_tpm.gct.gz',
+      # cnt = 'resources/GTEx/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_reads.gct.gz'
     output: 
       tpm = 'resources/GTEx/expression/{tissue}_gene_tpm.tsv.gz',
       cnt = 'resources/GTEx/expression/{tissue}_gene_reads.tsv.gz',
@@ -337,6 +359,10 @@ rule PrepareGTExDGE:
     input: 
         cnt1 = '/project/yangili1/cfbuenabadn/SpliFi/code/resources/GTEx/expression/{dge_tissue1}_gene_reads.tsv.gz',
         cnt2 = '/project/yangili1/cfbuenabadn/SpliFi/code/resources/GTEx/expression/{dge_tissue2}_gene_reads.tsv.gz',
+        # If the SpliFi chain is ever re-run inside this repo (see rules/SpliFi_upstream.smk),
+        # swap the line(s) above for these local paths:
+        # cnt1 = 'resources/GTEx/expression/{dge_tissue1}_gene_reads.tsv.gz',
+        # cnt2 = 'resources/GTEx/expression/{dge_tissue2}_gene_reads.tsv.gz',
         ds_samples = 'results/ds/GTEx/{dge_tissue2}_v_{dge_tissue1}/ds_sample_group.txt'
     output: 
         #NOTE: tissue2 is intended to be numerator, and tissue 1 denominator, in subsequent dge step
