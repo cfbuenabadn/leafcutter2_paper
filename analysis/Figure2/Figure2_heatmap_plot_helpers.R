@@ -84,3 +84,74 @@ save_fig2_heatmap <- function(ht, path, width = 12, height = 15, raster_quality 
   dev.off()
   invisible(path)
 }
+
+
+save_heatmap_source_data <- function(ht, X, prefix) {
+  # Source-data tables for a drawn fig2c heatmap.
+  #
+  # `ht` must be the object returned by plot_fig2_heatmap(), i.e. already drawn
+  # -- the k-means row and column groups do not exist until draw() runs, so this
+  # is the only point at which they can be recovered. Writes two files:
+  #
+  #   <prefix>.tsv          one row per intron: gene, k-means row group, the
+  #                         position it occupies in the drawn figure, and the
+  #                         z-scored PSI actually plotted in each tissue
+  #   <prefix>.tissues.tsv  one row per tissue: k-means column group and drawn
+  #                         position
+  #
+  # The z-scores are recomputed with the same t/scale/t as plot_fig2_heatmap;
+  # scale() is deterministic, so they match the figure exactly.
+  ro <- ComplexHeatmap::row_order(ht)
+  co <- ComplexHeatmap::column_order(ht)
+  if (!is.list(ro)) ro <- list(`1` = ro)
+  if (!is.list(co)) co <- list(`1` = co)
+
+  Z <- X %>% as.matrix() %>% t() %>% scale() %>% t()
+
+  row_group <- rep(NA_character_, nrow(X))
+  row_pos <- rep(NA_integer_, nrow(X))
+  pos <- 1L
+  for (g in names(ro)) {
+    for (i in ro[[g]]) { row_group[i] <- g; row_pos[i] <- pos; pos <- pos + 1L }
+  }
+
+  col_group <- rep(NA_character_, ncol(X))
+  col_pos <- rep(NA_integer_, ncol(X))
+  pos <- 1L
+  for (g in names(co)) {
+    for (j in co[[g]]) { col_group[j] <- g; col_pos[j] <- pos; pos <- pos + 1L }
+  }
+
+  ann <- attr(X, 'row_annotation')
+  out <- data.frame(intron = rownames(X), stringsAsFactors = FALSE)
+  if (!is.null(ann)) {
+    out$cluster <- ann$cluster
+    out$gene_name <- ann$gene_name
+    out$gene_id <- ann$gene_id
+  }
+  out$row_group <- row_group
+  out$position_in_figure <- row_pos
+  out <- cbind(out, as.data.frame(Z, check.names = FALSE))
+  out <- out[order(out$position_in_figure), ]
+
+  tissues <- data.frame(tissue = colnames(X),
+                        column_group = col_group,
+                        position_in_figure = col_pos,
+                        stringsAsFactors = FALSE)
+  tissues <- tissues[order(tissues$position_in_figure), ]
+
+  # Base R rather than readr::write_tsv: readr pulls in vroom, whose compiled
+  # library needs a newer libstdc++ than some environments provide. A TSV writer
+  # should not be able to fail for that reason. na = 'NA' matches write_tsv().
+  write_tsv_base <- function(df, path) {
+    write.table(df, path, sep = '\t', quote = FALSE, row.names = FALSE,
+                col.names = TRUE, na = 'NA')
+  }
+  write_tsv_base(out, paste0(prefix, '.tsv'))
+  write_tsv_base(tissues, paste0(prefix, '.tissues.tsv'))
+  cat(sprintf("  %s.tsv          %d introns x %d tissues, %d row groups\n",
+              basename(prefix), nrow(out), ncol(Z), length(ro)))
+  cat(sprintf("  %s.tissues.tsv  %d tissues, %d column groups\n",
+              basename(prefix), nrow(tissues), length(co)))
+  invisible(list(rows = out, tissues = tissues))
+}

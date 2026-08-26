@@ -372,6 +372,31 @@ rule collect_hyprcoloc_table:
         (cat {input} | gzip - > {output}) %>% {log}
         """
     
+rule filter_hyprcoloc_table:
+    """Drop the hyprcoloc iterations that found no colocalization.
+
+    hyprcoloc emits one row per iteration and writes the literal 'None' in the
+    traits column when that iteration colocalized nothing; 532,242 of the
+    669,148 rows are such rows. Everything downstream (Figure 4d, and the
+    UP_colocs / lfc_colocs / expr_colocs flags derived in
+    analysis/Figure4/Figure4_helpers.py) works from the colocalizing subset.
+
+    This step previously happened interactively and was never recorded, leaving
+    hyprcoloc_results_filtered.tsv.gz with no traceable origin. The awk below
+    reproduces the existing file byte for byte.
+    """
+    input:
+        'results/coloc/hyprcoloc_results/tables/hyprcoloc_results.tsv.gz'
+    output:
+        'results/coloc/hyprcoloc_results/tables/hyprcoloc_results_filtered.tsv.gz'
+    log:
+        'logs/filter_hyprcoloc_table.log'
+    shell:
+        """
+        (zcat {input} | awk -F'\t' 'NR==1 || $2 != "None"' | gzip -c > {output}) &> {log}
+        """
+
+
 rule collect_hyprcoloc:
     input:
         expand('results/coloc/hyprcoloc_results/rds/{gwas_loci}.rds', gwas_loci = gwas_loci)

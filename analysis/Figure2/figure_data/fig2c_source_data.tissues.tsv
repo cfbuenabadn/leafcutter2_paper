@@ -1,0 +1,51 @@
+tissue	column_group	position_in_figure
+Testis	3	1
+Whole blood	2	2
+Liver	2	3
+Skin - Not sun exposed (suprapubic)	2	4
+Skin - Sun exposed (lower leg)	2	5
+Breast - Mammary tissue	2	6
+Adipose - Subcutaneous	2	7
+Nerve - Tibial	2	8
+Ovary	2	9
+Uterus	2	10
+Prostate	2	11
+Vagina	2	12
+Lung	2	13
+Bladder	2	14
+Colon - Sigmoid	2	15
+Esophagus - Muscularis	2	16
+Esophagus - Gastroesophageal junction	2	17
+Artery - Aorta	2	18
+Artery - Coronary	2	19
+Artery - Tibial	2	20
+Pituitary	2	21
+Spleen	2	22
+Small intestine - Terminal ileum	2	23
+Thyroid	2	24
+Kidney - Cortex	2	25
+Pancreas	2	26
+Heart - Atrial appendage	2	27
+Heart - Left ventricle	2	28
+Adipose - Visceral (omentum)	2	29
+Stomach	2	30
+Colon - Transverse	2	31
+Minor salivary gland	2	32
+Esophagus - Mucosa	2	33
+Adrenal gland	2	34
+Cells - EBV-transformed lymphocytes	2	35
+Cells - Cultured fibroblasts	2	36
+Muscle - Skeletal	2	37
+Brain - Cerebellum	1	38
+Brain - Cerebellar hemisphere	1	39
+Brain - Spinalcord (cervical c-1)	1	40
+Brain - Hippocampus	1	41
+Brain - Amygdala	1	42
+Brain - Substantia nigra	1	43
+Brain - Hypothalamus	1	44
+Brain - Cortex	1	45
+Brain - Anterior cingulate cortex (BA24)	1	46
+Brain - Frontal cortex (BA9)	1	47
+Brain - Nucleus accumbens (basal ganglia)	1	48
+Brain - Putamen (basal ganglia)	1	49
+Brain - Caudate (basal ganglia)	1	50

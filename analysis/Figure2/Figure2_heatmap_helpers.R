@@ -2,8 +2,11 @@
 # Data loading and processing for fig2_heatmap.
 #
 # Created with Figure code cleaner.
-# Source notebooks: ../DS_Heatmap2.ipynb and ../DS_Heatmap.ipynb (the plotting
-# cell is byte-identical in both; the duplicate was collapsed).
+# Source notebook: ../DS_Heatmap.ipynb (the published Figure 2c).
+#
+# ../DS_Heatmap2.ipynb has a byte-identical PLOTTING cell but different
+# significance thresholds, so it is NOT a duplicate -- it yields a much smaller
+# heatmap. See SIG_THRESHOLDS below.
 #
 # The source notebook builds the matrix twice -- once per unproductive intron
 # and once averaged per gene (its commented-out fig2_heatmap_aver.pdf) -- but
@@ -22,10 +25,23 @@ suppressMessages({
 # --- Paths (absolute: this notebook sits one directory deeper than the
 # --- originals, where '../code/...' would no longer resolve) ----------------
 
-PSI_TABLE <- paste0('/project/yangili1/cfbuenabadn/leafcutter2_paper/code/',
-                    'analysis_files/GTEx.psi.tsv.gz')
-RDS_DIR <- paste0('/project/yangili1/cfbuenabadn/leafcutter2_paper/code/',
-                  'results/ds_v_dge_confounder/rds_files/')
+BASE <- '/project/yangili1/cfbuenabadn/leafcutter2_paper'
+
+# Fitted per-group PSI, merged over all 1,225 tissue pairs by
+# ../GetGTExTables.ipynb. Two versions exist and they differ slightly, because
+# the PSI is fitted by leafcutter_ds rather than counted raw:
+#   PSI_TABLE             pre-confounder run   -> Fig. 2c as published
+#   PSI_TABLE_CONFOUNDER  confounder-corrected -> Fig. 2c_confounders
+# (the confounder run adds a log(UP reads / total reads) covariate per sample;
+# no samples are dropped, but the fitted PSI shifts: median |delta| = 0.002.)
+PSI_TABLE <- file.path(BASE, 'code/analysis_files/GTEx.psi.tsv.gz')
+PSI_TABLE_CONFOUNDER <- file.path(BASE, 'code/analysis_files/GTEx.psi.confounder.tsv.gz')
+
+RDS_DIR <- paste0(BASE, '/code/results/ds_v_dge_confounder/rds_files/')
+
+# Panels go where the Python notebooks in this directory write theirs, so all of
+# Figure 2 lands in one place.
+PLOTS_DIR <- 'plots'
 
 # Column indices of the 50 GTEx tissues in GTEx.psi.tsv.gz
 TISSUE_COLS <- 7:56
@@ -339,23 +355,54 @@ load_psi <- function(psi_table = PSI_TABLE) {
 }
 
 
-get_sig_clusters <- function(comparison, rds_dir = RDS_DIR) {
+# Significance thresholds for selecting the heatmap's rows.
+#
+# ../DS_Heatmap.ipynb and ../DS_Heatmap2.ipynb share a byte-identical PLOTTING
+# cell but NOT these filters, which is the one thing that changes how many rows
+# the heatmap has:
+#
+#   DS_Heatmap.ipynb   dPSI >= 0.1, p.adjust <= 1e-1, padj <= 1e-1, |lfc| >= 1
+#                      -> 4,596 clusters -> 4,073 unproductive introns  PUBLISHED
+#   DS_Heatmap2.ipynb  dPSI >= 0.2, p.adjust <= 1e-2, padj <= 1e-2, |lfc| >= 2
+#                      -> a much smaller, stricter subset
+#
+# The published Figure 2c is the DS_Heatmap.ipynb version, so those are the
+# defaults. DS_HEATMAP2_THRESHOLDS is kept for reference.
+SIG_THRESHOLDS <- list(min_abs_deltapsi = 0.1,
+                       max_ds_padjust   = 1e-1,
+                       max_dge_padj     = 1e-1,
+                       min_abs_log2fc   = 1)
+
+DS_HEATMAP2_THRESHOLDS <- list(min_abs_deltapsi = 0.2,
+                               max_ds_padjust   = 1e-2,
+                               max_dge_padj     = 1e-2,
+                               min_abs_log2fc   = 2)
+
+
+get_sig_clusters <- function(comparison, rds_dir = RDS_DIR,
+                             thresholds = SIG_THRESHOLDS) {
   # Clusters with a significant unproductive splicing change in a tissue pair,
   # restricted to genes that are also differentially expressed in that pair.
+  # (DS_Heatmap.ipynb calls this list `ds_dge`; its `ds` variant, without the
+  # gene restriction, feeds `cluster_list2` and never reaches the heatmap.)
   rds <- readRDS(glue::glue(rds_dir, '{comparison}.rds'))
 
   sig_genes <- rds$dge %>%
-    filter(padj <= 1e-2, abs(log2FoldChange) >= 2) %>%
+    filter(padj <= thresholds$max_dge_padj,
+           abs(log2FoldChange) >= thresholds$min_abs_log2fc) %>%
     pull(gene_id) %>% unique()
 
   rds$ds %>%
-    filter(abs(deltapsi) >= 0.2, p.adjust <= 1e-2, itype == 'UP', ctype == 'PR,UP',
+    filter(abs(deltapsi) >= thresholds$min_abs_deltapsi,
+           p.adjust <= thresholds$max_ds_padjust,
+           itype == 'UP', ctype == 'PR,UP',
            (gene_id %in% sig_genes)) %>%
     pull(cluster) %>% unique()
 }
 
 
-collect_sig_clusters <- function(rds_dir = RDS_DIR) {
+collect_sig_clusters <- function(rds_dir = RDS_DIR,
+                                thresholds = SIG_THRESHOLDS) {
   # Union of significant clusters over every tissue pair (Bladder excluded).
   comparisons <- sub("\\.rds$", "", list.files(rds_dir))
   comparisons <- comparisons[!grepl("Bladder", comparisons)]
@@ -364,7 +411,7 @@ collect_sig_clusters <- function(rds_dir = RDS_DIR) {
   pb <- txtProgressBar(min = 0, max = length(comparisons), initial = 0)
   stepi <- 0
   for (comparison in comparisons) {
-    cluster_list <- union(cluster_list, get_sig_clusters(comparison, rds_dir))
+    cluster_list <- union(cluster_list, get_sig_clusters(comparison, rds_dir, thresholds))
     setTxtProgressBar(pb, stepi)
     stepi <- stepi + 1
   }
@@ -381,17 +428,39 @@ make_ds_df <- function(cluster_list) {
 }
 
 
-make_X_introns <- function(psi, ds_df, display_names = TISSUE_DISPLAY_NAMES) {
+# Tissues to drop from the matrix. Bladder is excluded from the 1,176 pairwise
+# comparisons that select the rows (collect_sig_clusters), so keeping it as a
+# column means colouring a tissue that took no part in the selection -- and,
+# because the NA filter below spans every column, letting it discard rows too.
+# The published Fig. 2c keeps all 50 columns; Fig. 2c_confounders drops Bladder
+# for consistency with the filtering.
+EXCLUDE_TISSUES_CONFOUNDER <- c('Bladder')
+
+
+make_X_introns <- function(psi, ds_df, display_names = TISSUE_DISPLAY_NAMES,
+                           exclude_tissues = character(0)) {
   # fig2_heatmap: one row per unproductive intron of a selected PR,UP cluster.
   up_psi <- psi %>%
     filter(cluster %in% (ds_df %>% pull(cluster)), itype == 'UP', ctype == 'PR,UP')
-  up_psi <- up_psi[rowSums(is.na(up_psi)) <= 0, ]
 
-  tissues <- (up_psi %>% colnames())[TISSUE_COLS]
-  X <- up_psi[rowSums(is.na(up_psi)) <= 0, tissues]
-  rownames(X) <- up_psi[rowSums(is.na(up_psi)) <= 0, ]$intron
+  all_tissue_cols <- (up_psi %>% colnames())[TISSUE_COLS]
+  keep <- !(display_names %in% exclude_tissues)
+  tissue_cols <- all_tissue_cols[keep]
+  kept_names <- display_names[keep]
 
-  colnames(X) <- display_names
+  # Drop rows with any missing value, over the metadata columns plus only the
+  # tissues actually kept -- so an excluded tissue cannot discard a row.
+  meta_cols <- colnames(up_psi)[-TISSUE_COLS]
+  complete <- rowSums(is.na(up_psi[, c(meta_cols, tissue_cols)])) <= 0
+
+  X <- up_psi[complete, tissue_cols]
+  rownames(X) <- up_psi[complete, ]$intron
+  colnames(X) <- kept_names
+
+  # Carried along so the source-data table can name the gene behind each intron
+  # without re-reading the 56 MB PSI table. Survives saveRDS().
+  attr(X, 'row_annotation') <-
+    up_psi[complete, c('intron', 'cluster', 'gene_name', 'gene_id')]
   X
 }
 
@@ -400,32 +469,36 @@ make_X_introns <- function(psi, ds_df, display_names = TISSUE_DISPLAY_NAMES) {
 # Orchestration
 # ---------------------------------------------------------------------------
 
-PLOT_READY_VARS <- c('heatmap_X_introns')
+PLOT_READY_VARS <- c('heatmap_X_introns', 'heatmap_X_introns_confounder')
 
 
-run_all <- function(data_dir = 'figure_data') {
+run_all <- function(data_dir = 'figure_data', psi_table = PSI_TABLE,
+                    var_name = 'heatmap_X_introns', thresholds = SIG_THRESHOLDS,
+                    exclude_tissues = character(0)) {
+  # `psi_table` selects which fitted-PSI table the matrix is built from, and
+  # `var_name` the file it is cached under, so the pre-confounder and
+  # confounder-corrected matrices can coexist in figure_data/.
   dir.create(data_dir, showWarnings = FALSE, recursive = TRUE)
+  dir.create(PLOTS_DIR, showWarnings = FALSE, recursive = TRUE)
 
-  psi <- load_psi()
-  cluster_list <- collect_sig_clusters()
+  psi <- load_psi(psi_table)
+  cluster_list <- collect_sig_clusters(RDS_DIR, thresholds)
   ds_df <- make_ds_df(cluster_list)
 
-  heatmap_X_introns <- make_X_introns(psi, ds_df)
+  X <- make_X_introns(psi, ds_df, exclude_tissues = exclude_tissues)
 
-  data <- list(heatmap_X_introns = heatmap_X_introns)
+  saveRDS(X, file.path(data_dir, paste0(var_name, '.rds')))
 
-  for (name in PLOT_READY_VARS) {
-    saveRDS(data[[name]], file.path(data_dir, paste0(name, '.rds')))
-  }
-
+  data <- list(); data[[var_name]] <- X
   data
 }
 
 
-load_plot_data <- function(data_dir = 'figure_data') {
+load_plot_data <- function(data_dir = 'figure_data', vars = PLOT_READY_VARS) {
   data <- list()
-  for (name in PLOT_READY_VARS) {
-    data[[name]] <- readRDS(file.path(data_dir, paste0(name, '.rds')))
+  for (name in vars) {
+    f <- file.path(data_dir, paste0(name, '.rds'))
+    if (file.exists(f)) data[[name]] <- readRDS(f)
   }
   data
 }
