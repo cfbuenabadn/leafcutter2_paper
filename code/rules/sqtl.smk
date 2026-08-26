@@ -294,3 +294,62 @@ rule AddQValueToPermutationPass:
 rule collectRu:
     input:
         expand('AD_QTLs/results/{MAF}.PermutationPass.FDR_Added.txt.gz', MAF = ['ALL', 'MAF05'])
+
+
+## -----------------------------------------------------------------------------
+##   Per-tissue sQTL summary tables consumed by Figure 4
+##
+##   Both were previously built by cells in ../analysis/QTL_analysis.ipynb whose
+##   to_csv() calls were commented out, written to the notebook's own directory
+##   and moved into analysis_files/ by hand -- so neither had a traceable origin.
+##   See code_report.txt.
+##
+##   Note: get_perm_counts() also reads the leafcutter2 noise tables from the
+##   separate SpliFi project
+##     /project/yangili1/cfbuenabadn/SpliFi/code/results/pheno/noisy/GTEx/
+##   which is outside this workflow, so it is not declared as an input.
+## -----------------------------------------------------------------------------
+
+rule MakeTotalsQTLTable:
+    """Per-tissue counts of significant sQTLs by cluster type (Figure 4a)."""
+    input:
+        perm = expand('results/sqtl/GTEx/{tissue}/cis_100000/perm/PermutationPass.Qval.txt.gz',
+                      tissue = tissues)
+    output:
+        'analysis_files/Total_sQTLs.tsv.gz'
+    params:
+        tissues = ' '.join(tissues)
+    resources:
+        mem_mb = 24000
+    log:
+        'logs/MakeTotalsQTLTable.log'
+    shell:
+        """
+        (python scripts/MakeTotalsQTLTable.py {output} {params.tissues}) &> {log}
+        """
+
+
+rule MakesQTLStatsTable:
+    """Per-tissue sQTL-vs-eQTL effect-size correlations (Figure 4c, Supp. Table 9).
+
+    Slow: one tabix query against the eQTL nominal pass per significant sQTL,
+    over 49 tissues x 3 sQTL classes.
+    """
+    input:
+        perm = expand('results/sqtl/GTEx/{tissue}/cis_100000/perm/PermutationPass.Qval.txt.gz',
+                      tissue = tissues),
+        eqtl_nom = expand('results/eqtl/GTEx/{tissue}/cis_100000/nom/{chrom}.txt.gz',
+                          tissue = tissues,
+                          chrom = ['chr' + str(x) for x in range(1, 23)])
+    output:
+        'analysis_files/sQTL_stats.tsv.gz'
+    params:
+        tissues = ' '.join(tissues)
+    resources:
+        mem_mb = 24000
+    log:
+        'logs/MakesQTLStatsTable.log'
+    shell:
+        """
+        (python scripts/MakesQTLStatsTable.py {output} {params.tissues}) &> {log}
+        """
