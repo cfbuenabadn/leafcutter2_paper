@@ -12,6 +12,17 @@
 
 *
 
+# --- Supplementary figure notebooks -----------------------------------------
+# Same rule as the figure directories: notebooks, helper modules and cached
+# plot-ready data, but never the rendered panels.
+!SupFigures/
+!SupFigures/**
+SupFigures/plots/
+SupFigures/revision_plots/
+SupFigures/**/*.png
+SupFigures/**/*.pdf
+SupFigures/**/*.svg
+
 # --- Figure build directories ----------------------------------------------
 # Un-exclude the directory first, then its contents; git will not descend into
 # a directory that is still excluded, so the order matters.
