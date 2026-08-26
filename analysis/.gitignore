@@ -46,6 +46,16 @@ Figure5/**/*.svg
 !Yang supplementary figures.ipynb
 !Zhang2018_recursive_introns_overlap.ipynb
 
+# --- Notebooks that GENERATE inputs for Figures 2/4/5 -----------------------
+# Not part of the Snakemake workflow, but the only record of how these files
+# were made. See code/code_report.txt.
+# GetGTExTables.ipynb  -> code/analysis_files/GTEx.*.tsv.gz     (Fig 2c)
+# GetLDmatrices.ipynb  -> code/results/coloc/LD/{locus}.tsv.gz   (Fig 4f)
+# NOTE: a '#' only starts a comment at the beginning of a line; a trailing
+# '# ...' would become part of the pattern and silently break the negation.
+!GetGTExTables.ipynb
+!GetLDmatrices.ipynb
+
 # --- workflowr site scaffolding ---------------------------------------------
 # This is a workflowr project (_workflowr.yml, analysis/_site.yml, docs/).
 # index.Rmd is the site homepage; dropping these breaks wflow_build/wflow_publish.
