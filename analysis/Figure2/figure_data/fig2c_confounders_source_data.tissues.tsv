@@ -1,28 +1,28 @@
 tissue	column_group	position_in_figure
-Muscle - Skeletal	3	1
-Ovary	3	2
-Nerve - Tibial	3	3
-Vagina	3	4
-Prostate	3	5
-Uterus	3	6
-Pituitary	3	7
-Artery - Aorta	3	8
-Artery - Coronary	3	9
-Artery - Tibial	3	10
-Colon - Sigmoid	3	11
-Esophagus - Gastroesophageal junction	3	12
-Esophagus - Muscularis	3	13
-Heart - Atrial appendage	3	14
-Heart - Left ventricle	3	15
-Testis	2	16
-Liver	2	17
-Whole blood	2	18
-Lung	2	19
-Esophagus - Mucosa	2	20
+Testis	3	1
+Muscle - Skeletal	3	2
+Heart - Atrial appendage	3	3
+Heart - Left ventricle	3	4
+Liver	2	5
+Whole blood	2	6
+Ovary	2	7
+Vagina	2	8
+Prostate	2	9
+Uterus	2	10
+Pituitary	2	11
+Nerve - Tibial	2	12
+Breast - Mammary tissue	2	13
+Adipose - Subcutaneous	2	14
+Artery - Aorta	2	15
+Artery - Coronary	2	16
+Artery - Tibial	2	17
+Colon - Sigmoid	2	18
+Esophagus - Gastroesophageal junction	2	19
+Esophagus - Muscularis	2	20
 Skin - Not sun exposed (suprapubic)	2	21
 Skin - Sun exposed (lower leg)	2	22
-Breast - Mammary tissue	2	23
-Adipose - Subcutaneous	2	24
+Lung	2	23
+Esophagus - Mucosa	2	24
 Pancreas	2	25
 Spleen	2	26
 Small intestine - Terminal ileum	2	27
