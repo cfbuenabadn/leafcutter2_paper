@@ -59,6 +59,7 @@ nothing to install:
 |---|---|
 | [Figure 2](https://cfbuenabadn.github.io/leafcutter2_paper/Figure2.html) | unproductive splicing across GTEx tissues; UPF3A; splicing vs expression |
 | [Figure 2c](https://cfbuenabadn.github.io/leafcutter2_paper/Figure2_heatmap.html) | the tissue-pattern heatmap |
+| [Figure 2d](https://cfbuenabadn.github.io/leafcutter2_paper/Figure2_prepare_sashimi.html) | inputs for the *GABBR1* sashimi panel |
 | [Figure 4](https://cfbuenabadn.github.io/leafcutter2_paper/Figure4.html) | p-sQTLs and u-sQTLs; GWAS colocalization; the *ASB16* locus |
 | [Figure 5 (Python)](https://cfbuenabadn.github.io/leafcutter2_paper/Figure5_Python.html) | *TSPAN14* mediation |
 | [Figure 5 (R)](https://cfbuenabadn.github.io/leafcutter2_paper/Figure5_R.html) | QTL enrichment and PTWAS panels |

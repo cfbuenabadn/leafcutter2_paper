@@ -22,17 +22,22 @@ OUT = os.path.join(os.path.dirname(BASE), 'docs')
 AUTHOR = "Carlos F Buen Abad Najar"
 DATE = "2026-08-26"
 
+# (path, page title, produces inline figures)
+# The sashimi notebook prepares inputs for an external tool and draws nothing,
+# so the "no figures means you forgot to save" check must not apply to it.
 NOTEBOOKS = [
     ("Figure2/Figure2.ipynb",
-     "Figure 2: differential unproductive splicing across human tissues"),
+     "Figure 2: differential unproductive splicing across human tissues", True),
     ("Figure2/Figure2_heatmap.ipynb",
-     "Figure 2c: unproductive splicing with concordant differential expression"),
+     "Figure 2c: unproductive splicing with concordant differential expression", True),
+    ("Figure2/Figure2_prepare_sashimi.ipynb",
+     "Figure 2d: GABBR1 sashimi plot inputs", False),
     ("Figure4/Figure4.ipynb",
-     "Figure 4: genetic basis of variation in unproductive splicing"),
+     "Figure 4: genetic basis of variation in unproductive splicing", True),
     ("Figure5/Figure5_Python.ipynb",
-     "Figure 5: unproductive splicing in Alzheimer's disease (Python panel)"),
+     "Figure 5: unproductive splicing in Alzheimer's disease (Python panel)", True),
     ("Figure5/Figure5_R.ipynb",
-     "Figure 5: unproductive splicing in Alzheimer's disease (R panels)"),
+     "Figure 5: unproductive splicing in Alzheimer's disease (R panels)", True),
 ]
 
 FRONT_MATTER = """---
@@ -118,13 +123,15 @@ def main(argv):
         sys.exit("quarto not found; install it or put it on PATH")
     os.makedirs(OUT, exist_ok=True)
 
-    todo = [(n, t) for n, t in NOTEBOOKS
-            if not argv or any(a in n for a in argv)]
+    todo = [e for e in NOTEBOOKS
+            if not argv or any(a in e[0] for a in argv)]
     if not todo:
         sys.exit(f"no notebook matches {argv}")
 
     bad = []
-    for n, _ in todo:
+    for n, _, wants_figs in todo:
+        if not wants_figs:
+            continue
         code, any_out, imgs = output_census(os.path.join(BASE, n))
         # A figure notebook that has been run and saved has an image in most of
         # its plotting cells. No images at all means the outputs are still only
@@ -140,7 +147,7 @@ def main(argv):
                   f"{imgs:3d} with a figure")
         return 1
 
-    for nbpath, title in todo:
+    for nbpath, title, _ in todo:
         src = os.path.join(BASE, nbpath)
         code, any_out, imgs = output_census(src)
         print(f"--- {nbpath}  ({imgs} figures in {any_out}/{code} cells)")

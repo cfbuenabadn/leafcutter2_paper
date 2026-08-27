@@ -281,7 +281,7 @@ $(document).ready(function () {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -292,8 +292,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -306,9 +306,9 @@ aria-hidden="true"></span> </a>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 1
+aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong>
@@ -332,21 +332,18 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
@@ -437,15 +434,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomcfbuenabadnleafcutter2papertreef7fff144d0155d1ce30543d28c7fc43a82231ab3targetblankf7fff14a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomcfbuenabadnleafcutter2papertreeab54a6e1ea28c44db8673a584c2c27e1b755abd0targetblankab54a6ea">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/cfbuenabadn/leafcutter2_paper/tree/f7fff144d0155d1ce30543d28c7fc43a82231ab3" target="_blank">f7fff14</a>
+<a href="https://github.com/cfbuenabadn/leafcutter2_paper/tree/ab54a6e1ea28c44db8673a584c2c27e1b755abd0" target="_blank">ab54a6e</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomcfbuenabadnleafcutter2papertreef7fff144d0155d1ce30543d28c7fc43a82231ab3targetblankf7fff14a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomcfbuenabadnleafcutter2papertreeab54a6e1ea28c44db8673a584c2c27e1b755abd0targetblankab54a6ea"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -455,7 +452,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/cfbuenabadn/leafcutter2_paper/tree/f7fff144d0155d1ce30543d28c7fc43a82231ab3" target="_blank">f7fff14</a>.
+<a href="https://github.com/cfbuenabadn/leafcutter2_paper/tree/ab54a6e1ea28c44db8673a584c2c27e1b755abd0" target="_blank">ab54a6e</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -648,7 +645,9 @@ Ignored files:
     Ignored:    code/untitled.txt
 
 Unstaged changes:
-    Modified:   analysis/index.Rmd
+    Modified:   README.md
+    Modified:   analysis/Figure2/Figure2_prepare_sashimi.ipynb
+    Modified:   analysis/render_notebooks.py
 
 </code></pre>
 <p>
@@ -697,6 +696,42 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/cfbuenabadn/leafcutter2_paper/blob/ab54a6e1ea28c44db8673a584c2c27e1b755abd0/analysis/index.Rmd" target="_blank">ab54a6e</a>
+</td>
+<td>
+cfbuenabadn
+</td>
+<td>
+2026-08-26
+</td>
+<td>
+Build the workflowr site so docs/ has a homepage indexing the figure
+pages
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/cfbuenabadn/leafcutter2_paper/ab54a6e1ea28c44db8673a584c2c27e1b755abd0/docs/index.html" target="_blank">ab54a6e</a>
+</td>
+<td>
+cfbuenabadn
+</td>
+<td>
+2026-08-26
+</td>
+<td>
+Build the workflowr site so docs/ has a homepage indexing the figure
+pages
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/cfbuenabadn/leafcutter2_paper/blob/c7e8ad21fa011cc5858ce149dd49339969d2df9e/analysis/index.Rmd" target="_blank">c7e8ad2</a>
 </td>
 <td>
@@ -732,6 +767,8 @@ benchmark</a>.</p>
 <h2>Rendered figure notebooks</h2>
 <p>Every panel, with the code that made it:</p>
 <p><a href="Figure2_heatmap.html">Figure2_heatmap</a></p>
+<p><a
+href="Figure2_prepare_sashimi.html">Figure2_prepare_sashimi</a></p>
 <p><a href="Figure2.html">Figure2</a></p>
 <p><a href="Figure4.html">Figure4</a></p>
 <p><a href="Figure5_Python.html">Figure5_Python</a></p>
