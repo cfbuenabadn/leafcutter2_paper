@@ -128,6 +128,11 @@ repository needs, so rendered figures and multi-terabyte intermediates stay out.
   and statistical-genetics analyses: [Zenodo 10.5281/zenodo.15098365](https://doi.org/10.5281/zenodo.15098365).
 * GTEx v8 and ROSMAP are controlled-access and are not redistributed here.
 
+## License
+
+MIT — see [LICENSE](LICENSE). Applies to the code in this repository; the GTEx and
+ROSMAP data it reads are governed by their own access agreements.
+
 ---
 
 This is a [workflowr][] project; `analysis/_site.yml` and `docs/` are its site scaffolding.
