@@ -56,6 +56,11 @@ Figure5/**/*.png
 Figure5/**/*.pdf
 Figure5/**/*.svg
 
+# --- Rendering ---------------------------------------------------------------
+# Renders the figure notebooks to self-contained HTML in docs/, the way the
+# comparative-splicing and simulation bundles publish theirs.
+!render_notebooks.py
+
 # --- Standalone analysis notebooks kept in the repository -------------------
 !2SLS.ipynb
 !GO_analysis.ipynb
