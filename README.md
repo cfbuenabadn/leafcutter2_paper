@@ -50,6 +50,31 @@ Figure 1 is not built in this repository.
 [comp]: https://github.com/bfairkun/20260825_comparativesplicing_paper
 [sim]: https://github.com/bfairkun/20260825_leaf2simulation_paper
 
+## Rendered figure notebooks
+
+Every panel, with the code that made it, as a single self-contained page — no setup,
+nothing to install:
+
+| | |
+|---|---|
+| [Figure 2](https://cfbuenabadn.github.io/leafcutter2_paper/Figure2.html) | unproductive splicing across GTEx tissues; UPF3A; splicing vs expression |
+| [Figure 2c](https://cfbuenabadn.github.io/leafcutter2_paper/Figure2_heatmap.html) | the tissue-pattern heatmap |
+| [Figure 4](https://cfbuenabadn.github.io/leafcutter2_paper/Figure4.html) | p-sQTLs and u-sQTLs; GWAS colocalization; the *ASB16* locus |
+| [Figure 5 (Python)](https://cfbuenabadn.github.io/leafcutter2_paper/Figure5_Python.html) | *TSPAN14* mediation |
+| [Figure 5 (R)](https://cfbuenabadn.github.io/leafcutter2_paper/Figure5_R.html) | QTL enrichment and PTWAS panels |
+
+The same files are committed under [`docs/`](docs/). To rebuild them after re-running a
+notebook — save it first, then:
+
+```bash
+python3 analysis/render_notebooks.py            # all of them
+python3 analysis/render_notebooks.py Figure4    # just one
+```
+
+Quarto renders the outputs stored in the notebook rather than re-executing it, so this
+takes seconds and the heavy cells stay run once. The script refuses to render a notebook
+whose figures are not saved to disk, rather than emit a page with no plots.
+
 ## Reproducing the figures
 
 Each figure directory follows the same three-file layout: a `*_helpers.py` (or `.R`) that

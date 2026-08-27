@@ -15,7 +15,7 @@ page. Save the notebook in Jupyter/VSCode first.
     python3 analysis/render_notebooks.py            # render all
     python3 analysis/render_notebooks.py Figure4    # render one
 """
-import json, os, shutil, subprocess, sys
+import json, os, shutil, subprocess, sys, tempfile
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(os.path.dirname(BASE), 'docs')
@@ -72,6 +72,35 @@ def set_front_matter(path, title):
 IMG = ('image/png', 'image/jpeg', 'image/svg+xml')
 
 
+def drop_duplicate_figures(nb):
+    """Remove an execute_result image that duplicates a display_data image.
+
+    A cell whose last expression returns a Figure/Axes stores the plot twice:
+    once as execute_result (the returned object's repr) and once as
+    display_data (the inline backend). Both carry the same PNG, so the
+    rendered page embeds every panel twice. Dropping the execute_result copy
+    changes nothing visible and halves the file.
+    """
+    dropped = 0
+    for c in nb['cells']:
+        if c['cell_type'] != 'code':
+            continue
+        outs = c.get('outputs', [])
+        shown = {o['data'][k] for o in outs if o.get('output_type') == 'display_data'
+                 for k in IMG if k in o.get('data', {})}
+        if not shown:
+            continue
+        keep = []
+        for o in outs:
+            if (o.get('output_type') == 'execute_result'
+                    and any(o.get('data', {}).get(k) in shown for k in IMG)):
+                dropped += 1
+                continue
+            keep.append(o)
+        c['outputs'] = keep
+    return dropped
+
+
 def output_census(path):
     """(code cells, cells with any output, cells with an image output)."""
     nb = json.load(open(path))
@@ -116,9 +145,19 @@ def main(argv):
         code, any_out, imgs = output_census(src)
         print(f"--- {nbpath}  ({imgs} figures in {any_out}/{code} cells)")
         set_front_matter(src, title)
-        subprocess.run([quarto, "render", os.path.basename(src), "--to", "html",
-                        "--output-dir", os.path.relpath(OUT, os.path.dirname(src))],
-                       cwd=os.path.dirname(src), check=True)
+
+        # Render a de-duplicated copy so the saved notebook is left alone.
+        with tempfile.TemporaryDirectory() as td:
+            nb = json.load(open(src))
+            n = drop_duplicate_figures(nb)
+            if n:
+                print(f"    dropped {n} duplicate figure output(s)")
+            tmp = os.path.join(td, os.path.basename(src))
+            json.dump(nb, open(tmp, 'w'), indent=1)
+            subprocess.run([quarto, "render", os.path.basename(tmp), "--to", "html"],
+                           cwd=td, check=True, stdout=subprocess.DEVNULL)
+            html = tmp[:-len('.ipynb')] + '.html'
+            shutil.copy2(html, os.path.join(OUT, os.path.basename(html)))
 
     print("\nrendered into", OUT)
     for f in sorted(os.listdir(OUT)):
