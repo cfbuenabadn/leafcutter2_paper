@@ -2367,10 +2367,17 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># actually plotted. The groups only exist once the heatmap is drawn.</span></span>
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="fu">save_heatmap_source_data</span>(ht, heatmap_X_introns, <span class="st">&#39;figure_data/fig2c_source_data&#39;</span>)</span>
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co"># The source notebook wrote this as fig2_heatmap.pdf:</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co"># pdf(&quot;../code/plots/fig2_heatmap.pdf&quot;,  width = 12, height = 15)</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co"># draw(ht, raster_quality = 2)</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co"># dev.off()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co"># UP_clusters.tsv -- the input analysis/GO_analysis.ipynb reads. Same rows and</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co"># z-scores as the source data above, plus itype/ctype and the k-means group</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co"># numbered by top-to-bottom position in the drawn figure (the paper&#39;s groups</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co"># I-VI). Verified to reproduce code/analysis_files/UP_clusters.tsv: identical</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co"># rows, order and Cluster column, and all 203,650 values bit-identical.</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="fu">write_up_clusters</span>(ht, heatmap_X_introns, <span class="st">&#39;figure_data/UP_clusters.tsv&#39;</span>)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="co"># The source notebook wrote this as fig2_heatmap.pdf:</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="co"># pdf(&quot;../code/plots/fig2_heatmap.pdf&quot;,  width = 12, height = 15)</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="co"># draw(ht, raster_quality = 2)</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="co"># dev.off()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>  fig2c_source_data.tsv          4073 introns x 50 tissues, 6 row groups

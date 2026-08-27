@@ -155,3 +155,46 @@ save_heatmap_source_data <- function(ht, X, prefix) {
               basename(prefix), nrow(tissues), length(co)))
   invisible(list(rows = out, tissues = tissues))
 }
+
+
+write_up_clusters <- function(ht, X, path) {
+  # UP_clusters.tsv -- the input GO_analysis.ipynb reads.
+  #
+  # One row per unproductive intron, in the matrix's own row order, carrying the
+  # z-scored PSI actually plotted plus the k-means group the intron falls in.
+  # `ht` must already be drawn: the k-means groups do not exist before draw().
+  #
+  # Group numbering follows the groups' top-to-bottom order in the drawn figure,
+  # which is what the archived file used. k-means labels themselves are
+  # arbitrary, so ordering by figure position is what makes the numbering
+  # reproducible rather than incidental -- and it is the numbering the paper
+  # refers to as groups I-VI.
+  ro <- ComplexHeatmap::row_order(ht)
+  if (!is.list(ro)) ro <- list(`1` = ro)
+
+  # row_order() returns the groups already in top-to-bottom figure order, and
+  # each element holds that group's row indices in drawn order.
+  row_group <- rep(NA_integer_, nrow(X))
+  for (k in seq_along(ro)) row_group[ro[[k]]] <- k
+
+  Z <- X %>% as.matrix() %>% t() %>% scale() %>% t()
+  ann <- attr(X, 'row_annotation')
+
+  out <- data.frame(intron = rownames(X),
+                    cluster = ann$cluster,
+                    itype = 'UP',        # make_X_introns filters to these,
+                    ctype = 'PR,UP',     # so they are constant by construction
+                    gene_name = ann$gene_name,
+                    gene_id = ann$gene_id,
+                    stringsAsFactors = FALSE, check.names = FALSE)
+  # 17 significant digits so the doubles round-trip exactly
+  Zc <- as.data.frame(lapply(as.data.frame(Z, check.names = FALSE),
+                             function(v) vapply(v, function(x) sprintf('%.17g', x), '')),
+                      check.names = FALSE, stringsAsFactors = FALSE)
+  colnames(Zc) <- colnames(Z)
+  out <- cbind(out, Zc)
+  out$Cluster <- row_group
+
+  write.table(out, path, sep = '\t', quote = FALSE, row.names = FALSE, na = 'NA')
+  invisible(path)
+}
