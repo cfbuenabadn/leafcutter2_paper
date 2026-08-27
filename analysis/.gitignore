@@ -23,6 +23,15 @@ SupFigures/**/*.png
 SupFigures/**/*.pdf
 SupFigures/**/*.svg
 
+# --- Collaborator records ---------------------------------------------------
+# Ru's ROSMAP AC/DLPFC/PCC sQTL preprocessing notebooks: the upstream
+# provenance for the Figure 5 inputs. SoS notebooks that ran on Columbia
+# hardware -- documentation only, not runnable here, not part of the workflow.
+# Kept with their stored outputs, so the *.png/*.pdf rules below must not
+# reach into this directory (they are scoped to Figure2/4/5 and SupFigures).
+!sQTL_data_preprocessing_Ru/
+!sQTL_data_preprocessing_Ru/**
+
 # --- Figure build directories ----------------------------------------------
 # Un-exclude the directory first, then its contents; git will not descend into
 # a directory that is still excluded, so the order matters.
