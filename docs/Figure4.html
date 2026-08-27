@@ -2212,7 +2212,16 @@ vertical-align: -.125em;
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#figure-4-genetic-basis-of-variation-in-unproductive-splicing" id="toc-figure-4-genetic-basis-of-variation-in-unproductive-splicing" class="nav-link active" data-scroll-target="#figure-4-genetic-basis-of-variation-in-unproductive-splicing">Figure 4 | Genetic basis of variation in unproductive splicing</a></li>
+  <li><a href="#figure-4-genetic-basis-of-variation-in-unproductive-splicing" id="toc-figure-4-genetic-basis-of-variation-in-unproductive-splicing" class="nav-link active" data-scroll-target="#figure-4-genetic-basis-of-variation-in-unproductive-splicing">Figure 4 | Genetic basis of variation in unproductive splicing</a>
+  <ul class="collapse">
+  <li><a href="#fig.-4a" id="toc-fig.-4a" class="nav-link" data-scroll-target="#fig.-4a">Fig. 4a</a></li>
+  <li><a href="#fig.-4b" id="toc-fig.-4b" class="nav-link" data-scroll-target="#fig.-4b">Fig. 4b</a></li>
+  <li><a href="#fig.-4c" id="toc-fig.-4c" class="nav-link" data-scroll-target="#fig.-4c">Fig. 4c</a></li>
+  <li><a href="#fig.-4d" id="toc-fig.-4d" class="nav-link" data-scroll-target="#fig.-4d">Fig. 4d</a></li>
+  <li><a href="#fig.-4e" id="toc-fig.-4e" class="nav-link" data-scroll-target="#fig.-4e">Fig. 4e</a></li>
+  <li><a href="#fig.-4f" id="toc-fig.-4f" class="nav-link" data-scroll-target="#fig.-4f">Fig. 4f</a></li>
+  <li><a href="#not-a-figure-4-panel-fig4_colocs_sc2" id="toc-not-a-figure-4-panel-fig4_colocs_sc2" class="nav-link" data-scroll-target="#not-a-figure-4-panel-fig4_colocs_sc2">Not a Figure 4 panel — <code>fig4_colocs_sc2</code></a></li>
+  </ul></li>
   </ul>
 </nav>
 </div>
@@ -2419,7 +2428,10 @@ vertical-align: -.125em;
 <span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>fig4E_eQTL_box_stats  <span class="op">=</span> data[<span class="st">&#39;fig4E_eQTL_box_stats&#39;</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="cell-5" class="cell" data-execution_count="4">
+<section id="fig.-4a" class="level3">
+<h3 class="anchored" data-anchor-id="fig.-4a">Fig. 4a</h3>
+<p>Number of productive (p-sQTL) and unproductive (u-sQTL) sQTLs identified in each of the 49 GTEx tissues, against the number of genotyped donors in that tissue.</p>
+<div id="cell-6" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 4a | fig4A -- from QTL_analysis.ipynb</span></span>
@@ -2441,7 +2453,11 @@ vertical-align: -.125em;
 </div>
 </div>
 </div>
-<div id="cell-6" class="cell" data-execution_count="5">
+</section>
+<section id="fig.-4b" class="level3">
+<h3 class="anchored" data-anchor-id="fig.-4b">Fig. 4b</h3>
+<p>Effect of each sQTL on intron excision against its effect on host-gene expression, in GTEx cultured fibroblasts from 483 donors. Left, u-sQTLs (n = 1,391 unproductive introns); right, p-sQTLs (n = 6,032 productive introns), which serve as the negative control.</p>
+<div id="cell-8" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 4b (left) | fig4B_usQTL -- from QTL_analysis.ipynb  (was named fig4B1)</span></span>
@@ -2479,7 +2495,7 @@ vertical-align: -.125em;
 </div>
 </div>
 </div>
-<div id="cell-7" class="cell" data-execution_count="6">
+<div id="cell-9" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 4b (right) | fig4B_psQTL -- from QTL_analysis.ipynb  (was named fig4B2)</span></span>
@@ -2516,7 +2532,7 @@ vertical-align: -.125em;
 </div>
 </div>
 <p><strong>Fig. 4b legend.</strong> Effect of each sQTL on intron excision (β, <em>x</em> axis) against its effect on host-gene expression (β, <em>y</em> axis) in GTEx cultured fibroblasts, from n = 483 donors; donors are biological replicates, each contributing one primary culture, one library and one genotype, with no technical replication. Each point is one intron–variant–gene triplet, not a replicate: <strong>b1</strong>, n = 1,391 unproductive introns; <strong>b2</strong>, n = 6,032 productive introns, which serve as the negative control for b1. Dashed line, least-squares linear fit; no error band is shown. Association was tested by two-sided Spearman rank correlation, without adjustment for multiple comparisons as each panel is a single test: <strong>b1</strong>, ρ = −0.331 (95% CI −0.378 to −0.282), <em>t</em>(1,389) = −13.07, <em>P</em> = 6.70 × 10⁻³⁷; <strong>b2</strong>, ρ = −0.015 (95% CI −0.040 to 0.011), <em>t</em>(6,030) = −1.13, <em>P</em> = 0.257.</p>
-<div id="cell-9" class="cell" data-execution_count="7">
+<div id="cell-11" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fig4B_usQTL / fig4B_psQTL reporting -- the numbers quoted in the legend above.</span></span>
@@ -2540,7 +2556,11 @@ fig4B2 (p-sQTLs): n = 6032 triplets, 483 donors | rho = -0.015 (95% CI -0.040 to
     OLS slope (dashed line) = -0.0062, 95% CI [-0.0156, 0.0032], P = 0.197</code></pre>
 </div>
 </div>
-<div id="cell-10" class="cell" data-execution_count="8">
+</section>
+<section id="fig.-4c" class="level3">
+<h3 class="anchored" data-anchor-id="fig.-4c">Fig. 4c</h3>
+<p>Spearman’s ρ between sQTL and eQTL effect size, computed separately in each of the 49 GTEx tissues for u-sQTLs and p-sQTLs.</p>
+<div id="cell-13" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 4c | fig4C -- from QTL_analysis.ipynb  (was named fig4B)</span></span>
@@ -2565,7 +2585,7 @@ fig4B2 (p-sQTLs): n = 6032 triplets, 483 donors | rho = -0.015 (95% CI -0.040 to
 </div>
 </div>
 <p><strong>Fig. 4c legend.</strong> Spearman’s ρ between sQTL and eQTL effect size, computed separately in each of 49 GTEx tissues for u-sQTLs (red) and p-sQTLs (blue); each point is one tissue, ordered by u-sQTL <em>P</em> value, with the GTEx tissue colour at left. Within a tissue, ρ was computed across intron–variant–gene triplets (u-sQTL, n = 129 to 1,852 triplets; p-sQTL, n = 540 to 6,032), mapped in 73 to 706 donors per tissue (median 233); donors are biological replicates, each contributing one tissue sample, one library and one genotype, with no technical replication. Exact per-tissue n, donor count, ρ, <em>t</em>, d.f., two-sided <em>P</em> and 95% CI are given in Source Data. Association was tested by two-sided Spearman rank correlation with no adjustment for multiple comparisons across tissues; marker size denotes the u-sQTL <em>P</em> value (≤ 1 × 10⁻¹⁰, 5 tissues; ≤ 1 × 10⁻⁴, 14; ≤ 0.05, 19; &gt; 0.05, 11, drawn as crosses).</p>
-<div id="cell-12" class="cell" data-execution_count="9">
+<div id="cell-15" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fig4C reporting -- per-tissue Source Data table (49 tissues x 2 sQTL classes).</span></span>
@@ -2593,7 +2613,11 @@ rows: 98 | tissues: 49 | donors per tissue: 73 - 706 (median 233 )
   u-sQTL (unproductive intron): n_pairs 129-1852, 38/49 tissues at P &lt;= 0.05</code></pre>
 </div>
 </div>
-<div id="cell-13" class="cell" data-execution_count="10">
+</section>
+<section id="fig.-4d" class="level3">
+<h3 class="anchored" data-anchor-id="fig.-4d">Fig. 4d</h3>
+<p>Percentage of GWAS loci colocalizing with a u-sQTL, for each of 19 complex traits. Each box summarizes the 49 GTEx tissues, one observation per tissue.</p>
+<div id="cell-17" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 4d | fig4D -- from hyprcoloc_results.ipynb  (was named fig4D2_coloc)</span></span>
@@ -2620,7 +2644,7 @@ rows: 98 | tissues: 49 | donors per tissue: 73 - 706 (median 233 )
 </div>
 </div>
 <p><strong>Fig. 4d legend.</strong> Percentage of GWAS loci colocalizing with a u-sQTL, for each of 19 traits. Twenty traits were tested; rheumatoid arthritis (GCST002318, 76 loci) colocalized with a u-sQTL in no tissue and therefore has no box. Each box summarizes n = 49 GTEx tissues, one observation per tissue; tissues in which the trait had no u-sQTL colocalization contribute a value of zero rather than being omitted. Centre line, median; box bounds, 25th and 75th percentiles; whiskers, most extreme value within 1.5 × IQR of the nearer hinge; points beyond the whiskers are plotted individually. Red dots give the percentage of that trait’s loci colocalizing in any tissue. Traits were tested over 42 to 432 lead-SNP windows each (2,897 loci in total), using cis-QTLs mapped in 73 to 706 donors per tissue; donors are biological replicates with no technical replication. Study accessions, per-trait locus counts, minima, maxima and quartiles are given in Source Data. This panel is descriptive: no statistical test is applied and no control group is defined.</p>
-<div id="cell-15" class="cell" data-execution_count="11">
+<div id="cell-19" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fig4D reporting -- box sample sizes, GWAS accessions and per-trait Source Data.</span></span>
@@ -2681,7 +2705,11 @@ Multiple sclerosis IMSGC2019    Ben
      Schizophrenia   scz2022 Torino</code></pre>
 </div>
 </div>
-<div id="cell-16" class="cell" data-execution_count="12">
+</section>
+<section id="fig.-4e" class="level3">
+<h3 class="anchored" data-anchor-id="fig.-4e">Fig. 4e</h3>
+<p>The <em>ASB16</em> example locus. Normalized unproductive-intron excision (left) and normalized expression (right) in Brain – Cerebellar Hemisphere, grouped by genotype at rs7212573, plus the transcript models for the two isoforms (n = 175 donors).</p>
+<div id="cell-21" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 4e (left) | fig4E_sQTL -- from coloc_plots.ipynb</span></span>
@@ -2710,7 +2738,7 @@ Multiple sclerosis IMSGC2019    Ben
 </div>
 </div>
 </div>
-<div id="cell-17" class="cell" data-execution_count="13">
+<div id="cell-22" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 4e (right) | fig4E_eQTL -- from coloc_plots.ipynb</span></span>
@@ -2738,7 +2766,7 @@ Multiple sclerosis IMSGC2019    Ben
 </div>
 </div>
 </div>
-<div id="cell-18" class="cell" data-execution_count="14">
+<div id="cell-23" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 4e (gene model) | fig4E_ASB16 -- from coloc_plots.ipynb</span></span>
@@ -2762,7 +2790,7 @@ Multiple sclerosis IMSGC2019    Ben
 </div>
 </div>
 <p><strong>Fig. 4e legend</strong> (<code>fig4E_sQTL</code>, <code>fig4E_eQTL</code>, <code>fig4E_ASB16</code>). Normalized <em>ASB16</em> unproductive-intron excision (left) and normalized <em>ASB16</em> expression (right) in GTEx Brain – Cerebellar Hemisphere, grouped by genotype at rs7212573 (chr17:44176913, A&gt;G). n = 175 donors in both panels (A/A, n = 68; A/G, n = 85; G/G, n = 22, also given under each genotype); donors are biological replicates, each contributing one tissue sample, one library and one genotype, with no technical replication, and every donor is plotted as an individual point. Centre line, median; box bounds, 25th and 75th percentiles; whiskers, most extreme value within 1.5 × IQR of the nearer hinge; outliers are not drawn as separate markers because all data points are shown. Effects were estimated with QTLtools under an additive linear model and tested by two-sided <em>t</em> test on the slope; β and <em>P</em> shown on each panel are those of the plotted variant: splicing β = −0.622 ± 0.087 s.e. (95% CI −0.793 to −0.451), <em>t</em>(173) = −7.17, <em>P</em> = 2.05 × 10⁻¹¹; expression β = 0.246 ± 0.044 s.e. (95% CI 0.160 to 0.332), <em>t</em>(173) = 5.65, <em>P</em> = 6.45 × 10⁻⁸. These <em>P</em> values are nominal; correction for the number of variants tested in cis was applied at locus selection, by a permutation pass (1,000 permutations, beta approximation) giving adjusted <em>P</em> = 3.26 × 10⁻⁸ (Storey <em>q</em> = 3.82 × 10⁻⁶) for the intron and adjusted <em>P</em> = 5.45 × 10⁻⁶ (<em>q</em> = 1.87 × 10⁻⁵) for the gene.</p>
-<div id="cell-20" class="cell" data-execution_count="15">
+<div id="cell-25" class="cell" data-execution_count="15">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fig4E panels reporting -- genotype group sizes, box statistics and QTL tests.</span></span>
@@ -2802,7 +2830,11 @@ genotype  n    median        q1       q3  whisker_low  whisker_high      min    
 box definition: centre line, median; box bounds, 25th and 75th percentiles (Q1, Q3); whiskers, most extreme value within 1.5 x IQR of the nearer hinge; outliers are not drawn as separate markers because every donor is overlaid as an individual point (stripplot, showfliers=False).</code></pre>
 </div>
 </div>
-<div id="cell-21" class="cell" data-execution_count="16">
+</section>
+<section id="fig.-4f" class="level3">
+<h3 class="anchored" data-anchor-id="fig.-4f">Fig. 4f</h3>
+<p>LocusCompare plots showing colocalization of the bipolar-disorder GWAS association, the eQTL and the u-sQTL at <em>ASB16</em>, coloured by r² with rs7212573.</p>
+<div id="cell-27" class="cell" data-execution_count="16">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 4f | fig4F -- from Fig4_example.ipynb</span></span>
@@ -2833,8 +2865,12 @@ box definition: centre line, median; box bounds, 25th and 75th percentiles (Q1, 
 </div>
 </div>
 </div>
+</section>
+<section id="not-a-figure-4-panel-fig4_colocs_sc2" class="level3">
+<h3 class="anchored" data-anchor-id="not-a-figure-4-panel-fig4_colocs_sc2">Not a Figure 4 panel — <code>fig4_colocs_sc2</code></h3>
+<p>The same comparison as Fig. 4b, but for the <em>productive</em> introns of GWAS-colocalizing PR,UP clusters. Kept for completeness; not published.</p>
 <p><strong>Not a Figure 4 panel</strong> (<code>fig4_colocs_sc2</code>). Effect of each sQTL on excision of the productive intron (β, <em>x</em> axis) against its effect on host-gene expression (β, <em>y</em> axis), for the productive introns of GWAS-colocalizing PR,UP clusters. Each point is one intron–variant–gene triplet, not a replicate: n = 112 productive introns, from 102 clusters in 33 genes, spanning 34 GTEx tissues and 15 GWAS traits (36 loci). The underlying cis-QTLs were mapped in 129 to 706 donors per tissue (median 370); donors are biological replicates, each contributing one tissue sample, one library and one genotype, with no technical replication. Dashed line, slope = Spearman’s ρ of the full sample with intercept = mean of the <em>y</em> values (not a least-squares fit); shaded band, 10th–90th percentile of ρ over 100 random subsamples of 100 points — a dispersion band at an arbitrary n, not a confidence interval. Association was tested by two-sided Spearman rank correlation, without adjustment for multiple comparisons as the panel is a single test: ρ = 0.362 (95% CI 0.183 to 0.517), <em>t</em>(110) = 4.07, <em>P</em> = 8.81 × 10⁻⁵.</p>
-<div id="cell-23" class="cell" data-execution_count="17">
+<div id="cell-30" class="cell" data-execution_count="17">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># NOT A FIGURE 4 PANEL | fig4_colocs_sc2 -- from hyprcoloc_results.ipynb</span></span>
@@ -2880,7 +2916,7 @@ box definition: centre line, median; box bounds, 25th and 75th percentiles (Q1, 
 </div>
 </div>
 </div>
-<div id="cell-24" class="cell" data-execution_count="18">
+<div id="cell-31" class="cell" data-execution_count="18">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fig4_colocs_sc2 reporting -- the numbers quoted in the legend above.</span></span>
@@ -2908,6 +2944,7 @@ box definition: centre line, median; box bounds, 25th and 75th percentiles (Q1, 
     112 introns, 102 clusters, 33 genes, 34 tissues, 15 GWAS traits, 36 loci</code></pre>
 </div>
 </div>
+</section>
 </section>
 
 </main>
