@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>License</title>
+
+<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">leafcutter2_paper</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">License</h1>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2026-08-26
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong>
+<code>leafcutter2_paper/analysis/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version
+1.6.2). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomcfbuenabadnleafcutter2papertreef7fff144d0155d1ce30543d28c7fc43a82231ab3targetblankf7fff14a">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/cfbuenabadn/leafcutter2_paper/tree/f7fff144d0155d1ce30543d28c7fc43a82231ab3" target="_blank">f7fff14</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomcfbuenabadnleafcutter2papertreef7fff144d0155d1ce30543d28c7fc43a82231ab3targetblankf7fff14a"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/cfbuenabadn/leafcutter2_paper/tree/f7fff144d0155d1ce30543d28c7fc43a82231ab3" target="_blank">f7fff14</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    analysis/.ipynb_checkpoints/
+    Ignored:    analysis/BreastCancer_unproductive_splicing.ipynb
+    Ignored:    analysis/DS_Heatmap-Copy1.ipynb
+    Ignored:    analysis/DS_Heatmap.ipynb
+    Ignored:    analysis/DS_Heatmap2.ipynb
+    Ignored:    analysis/Fig1_Expression_vs_UP.ipynb
+    Ignored:    analysis/Fig2.ipynb
+    Ignored:    analysis/Fig4_example.ipynb
+    Ignored:    analysis/Fig5_R.ipynb
+    Ignored:    analysis/Figure2/__pycache__/
+    Ignored:    analysis/Figure2/plots/
+    Ignored:    analysis/Figure4/__pycache__/
+    Ignored:    analysis/Figure4/plots/
+    Ignored:    analysis/Figure5.ipynb
+    Ignored:    analysis/Figure5/__pycache__/
+    Ignored:    analysis/Figure5/plots/
+    Ignored:    analysis/GTEX_median_counts.tab.gz
+    Ignored:    analysis/GeneExpression_v_UP_pct.tab.gz
+    Ignored:    analysis/GetMedianCounts.ipynb
+    Ignored:    analysis/LD_and_coloc.ipynb
+    Ignored:    analysis/MR_2SLS.Adipose-Subcutaneous_PR.tab.gz
+    Ignored:    analysis/MR_2SLS.Adipose-Subcutaneous_UP.tab.gz
+    Ignored:    analysis/MR_2SLS.Adipose-Visceral_Omentum_PR.tab.gz
+    Ignored:    analysis/MR_2SLS.Adipose-Visceral_Omentum_UP.tab.gz
+    Ignored:    analysis/MR_2SLS.AdrenalGland_PR.tab.gz
+    Ignored:    analysis/MR_2SLS.AdrenalGland_UP.tab.gz
+    Ignored:    analysis/MR_2SLS.Artery-Aorta_PR.tab.gz
+    Ignored:    analysis/MR_2SLS.Artery-Aorta_UP.tab.gz
+    Ignored:    analysis/MR_2SLS.Artery-Coronary_PR.tab.gz
+    Ignored:    analysis/MR_2SLS.Artery-Coronary_UP.tab.gz
+    Ignored:    analysis/MR_2SLS.Artery-Tibial_PR.tab.gz
+    Ignored:    analysis/MR_2SLS.Artery-Tibial_UP.tab.gz
+    Ignored:    analysis/MR_2SLS.Brain-Amygdala_PR.tab.gz
+    Ignored:    analysis/MR_2SLS.Brain-Amygdala_UP.tab.gz
+    Ignored:    analysis/MR_2SLS.Brain-Anteriorcingulatecortex_BA24_PR.tab.gz
+    Ignored:    analysis/MR_2SLS.Brain-Anteriorcingulatecortex_BA24_UP.tab.gz
+    Ignored:    analysis/MR_2SLS.Brain-Caudate_basalganglia_PR.tab.gz
+    Ignored:    analysis/MR_2SLS.Brain-Caudate_basalganglia_UP.tab.gz
+    Ignored:    analysis/MR_2SLS.Brain-CerebellarHemisphere_PR.tab.gz
+    Ignored:    analysis/MR_2SLS.Brain-CerebellarHemisphere_UP.tab.gz
+    Ignored:    analysis/MR_2SLS.Brain-Cerebellum_PR.tab.gz
+    Ignored:    analysis/MR_2SLS.Brain-Cerebellum_UP.tab.gz
+    Ignored:    analysis/MR_2SLS.Brain-Cortex_PR.tab.gz
+    Ignored:    analysis/MR_2SLS.Brain-Cortex_UP.tab.gz
+    Ignored:    analysis/MR_2SLS.Brain-FrontalCortex_BA9_PR.tab.gz
+    Ignored:    analysis/MR_2SLS.Brain-FrontalCortex_BA9_UP.tab.gz
+    Ignored:    analysis/MR_2SLS.MuscleSkeletal_PR.tab.gz
+    Ignored:    analysis/MR_2SLS.MuscleSkeletal_UP.tab.gz
+    Ignored:    analysis/QTL_R.ipynb
+    Ignored:    analysis/QTL_analysis.ipynb
+    Ignored:    analysis/Recursive_introns2.ipynb
+    Ignored:    analysis/Recursive_introns_from_classifications.ipynb
+    Ignored:    analysis/Recursive_introns_long_intron_analysis.ipynb
+    Ignored:    analysis/Rplots.pdf
+    Ignored:    analysis/SupFigures/__pycache__/
+    Ignored:    analysis/SupFigures/figure_data/
+    Ignored:    analysis/SupFigures/plots/
+    Ignored:    analysis/SupFigures/revision_plots/
+    Ignored:    analysis/TCGA.ipynb
+    Ignored:    analysis/UP_clusters.tsv
+    Ignored:    analysis/Untitled.ipynb
+    Ignored:    analysis/Untitled1.ipynb
+    Ignored:    analysis/Untitled2.ipynb
+    Ignored:    analysis/Zhang2018_full_intron_detail.ipynb
+    Ignored:    analysis/__pycache__/
+    Ignored:    analysis/breast_cancer_unproductive_splicing.pdf
+    Ignored:    analysis/breast_cancer_unproductive_splicing.png
+    Ignored:    analysis/breast_cancer_unproductive_splicing.svg
+    Ignored:    analysis/check_fig2b_spearman_invariance.ipynb
+    Ignored:    analysis/check_gtex_t
+    Ignored:    analysis/checklist_plots/
+    Ignored:    analysis/coloc_plots-Copy1.ipynb
+    Ignored:    analysis/coloc_plots.ipynb
+    Ignored:    analysis/create_sashimi_input-Copy1.ipynb
+    Ignored:    analysis/create_sashimi_input.ipynb
+    Ignored:    analysis/ds_df.tsv
+    Ignored:    analysis/ds_v_dge.ipynb
+    Ignored:    analysis/ds_v_dge_R.ipynb
+    Ignored:    analysis/ds_v_dge_sashimi.ipynb
+    Ignored:    analysis/ds_v_dge_scratch.ipynb
+    Ignored:    analysis/exp_X.tab
+    Ignored:    analysis/exp_X.tab.gz
+    Ignored:    analysis/heatmap_output.pdf
+    Ignored:    analysis/hyprcoloc_results.ipynb
+    Ignored:    analysis/hyprcoloc_results_scratch.ipynb
+    Ignored:    analysis/links/
+    Ignored:    analysis/old_figures/
+    Ignored:    analysis/old_pickles/
+    Ignored:    analysis/prerank.rnk
+    Ignored:    analysis/up_X.tab
+    Ignored:    analysis/up_X.tab.gz
+    Ignored:    analysis/wcor_prerank.rnk
+    Ignored:    analysis/wcor_prerank_no_brain_testis.rnk
+    Ignored:    analysis/wcor_prerank_no_testis.rnk
+    Ignored:    code/.claude/
+    Ignored:    code/.ipynb_checkpoints/
+    Ignored:    code/.snakemake/
+    Ignored:    code/AD_QTLs/
+    Ignored:    code/AG_table.ipynb
+    Ignored:    code/Ben_figures/
+    Ignored:    code/Gencode.50nt.gtf
+    Ignored:    code/Gencode.NMD.gtf
+    Ignored:    code/Gencode.protein_coding.gtf
+    Ignored:    code/LRR1.NMD.gtf
+    Ignored:    code/LRR1.protein_coding.gtf
+    Ignored:    code/LeafCutter2_ColocBoost_GTEx/
+    Ignored:    code/Leafcutter2.protein_coding.gtf
+    Ignored:    code/PreRec_LC2.ipynb
+    Ignored:    code/Ru_plots/
+    Ignored:    code/SRP9.gtf
+    Ignored:    code/Supplementary_data_file_1.csv
+    Ignored:    code/Supplementary_data_file_5.csv
+    Ignored:    code/Supplementary_data_file_5.tsv
+    Ignored:    code/TBCE.gtf
+    Ignored:    code/Untitled.ipynb
+    Ignored:    code/Untitled1.ipynb
+    Ignored:    code/Untitled2.ipynb
+    Ignored:    code/Untitled3.ipynb
+    Ignored:    code/Untitled4.ipynb
+    Ignored:    code/__MACOSX/
+    Ignored:    code/analysis_files/
+    Ignored:    code/annotations/
+    Ignored:    code/bug_test.ipynb
+    Ignored:    code/carlos_processed/
+    Ignored:    code/code_report.txt
+    Ignored:    code/colocboost/
+    Ignored:    code/colocboost_test_.ipynb
+    Ignored:    code/config/.ipynb_checkpoints/
+    Ignored:    code/delete.ipynb
+    Ignored:    code/discordant_introns.bed
+    Ignored:    code/hyprcoloc.ipynb
+    Ignored:    code/hyprcoloc/
+    Ignored:    code/hyprcoloc_pairwise.ipynb
+    Ignored:    code/hyprcoloc_test.ipynb
+    Ignored:    code/logs/
+    Ignored:    code/old/
+    Ignored:    code/plot.zip
+    Ignored:    code/plot/
+    Ignored:    code/plots/
+    Ignored:    code/prepare_gwas_traits.ipynb
+    Ignored:    code/process_Ru_data.ipynb
+    Ignored:    code/prueba.bed
+    Ignored:    code/prueba.bw
+    Ignored:    code/resources/ADSP_LD_matrix/
+    Ignored:    code/resources/Annotations/
+    Ignored:    code/resources/GTEx/
+    Ignored:    code/resources/HeLa/
+    Ignored:    code/resources/HeLa_dKD_recursive.bed.gz
+    Ignored:    code/resources/MSigDB/
+    Ignored:    code/resources/TCGA/
+    Ignored:    code/resources/Zhang2018_classification_heatmap.pdf
+    Ignored:    code/resources/Zhang2018_concordance_bars.pdf
+    Ignored:    code/resources/Zhang2018_full_intron_detail.json
+    Ignored:    code/resources/Zhang_2018_PA1_recursive_exons.csv
+    Ignored:    code/resources/Zhang_2018_full_introns.bed
+    Ignored:    code/resources/Zhang_2018_full_introns.sorted.bed.gz
+    Ignored:    code/resources/Zhang_2018_partial_introns.bed
+    Ignored:    code/resources/Zhang_2018_partial_introns.sorted.bed.gz
+    Ignored:    code/resources/gwas/
+    Ignored:    code/resources/leafcutter2_cluster_ratios_sample100.bed
+    Ignored:    code/resources/leafcutter2_junction_classifications.bed
+    Ignored:    code/resources/long_intron_partial_coverage.pdf
+    Ignored:    code/resources/nascent_LCL.classification.bed.gz
+    Ignored:    code/resources/nascent_LCL.classification_recursive.bed.gz
+    Ignored:    code/results/
+    Ignored:    code/revision_plots/
+    Ignored:    code/rules/.ipynb_checkpoints/
+    Ignored:    code/sQTLs_tables/
+    Ignored:    code/scripts/.ipynb_checkpoints/
+    Ignored:    code/scripts/__pycache__/
+    Ignored:    code/smr-1.4.0-linux-x86_64.zip
+    Ignored:    code/smr-1.4.0-linux-x86_64/
+    Ignored:    code/submodules/
+    Ignored:    code/test_algorithm.ipynb
+    Ignored:    code/tmp/
+    Ignored:    code/untitled.txt
+
+Unstaged changes:
+    Modified:   analysis/index.Rmd
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/license.Rmd</code>) and HTML
+(<code>docs/license.html</code>) files. If you’ve configured a remote
+Git repository (see <code>?wflow_git_remote</code>), click on the
+hyperlinks in the table below to view the files as they were in that
+past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/cfbuenabadn/leafcutter2_paper/blob/c7e8ad21fa011cc5858ce149dd49339969d2df9e/analysis/license.Rmd" target="_blank">c7e8ad2</a>
+</td>
+<td>
+cfbuenabadn
+</td>
+<td>
+2025-04-22
+</td>
+<td>
+Initial clean commit
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<p>MIT License</p>
+<p>Copyright (c) 2024 Carlos F Buen Abad Najar</p>
+<p>Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+“Software”), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

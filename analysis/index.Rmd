@@ -14,11 +14,19 @@ params:
 knitr::opts_chunk$set(echo = TRUE, warning = F, message=F)
 ```
 
-Welcome to my research website.
+Code and figures for the LeafCutter2 paper: annotation-free classification of splice
+junctions as productive or unproductive, and what that classification reveals about
+tissue-specific gene regulation, cross-species conservation, and disease risk.
 
-## Full listing of notebooks:
+See the [repository README](https://github.com/cfbuenabadn/leafcutter2_paper) for what
+each figure is built from. Figure 3 and the Supplementary Note 1 benchmark live in
+separate bundles:
+[comparative splicing](https://bfairkun.github.io/20260825_comparativesplicing_paper/ComparativeSplicingFigures.html),
+[simulation benchmark](https://bfairkun.github.io/20260825_leaf2simulation_paper/SimulationBenchmarkFigures.html).
 
-### html notebooks
+## Rendered figure notebooks
+
+Every panel, with the code that made it:
 
 ```{r, results = 'asis', echo = FALSE}
 library(tidyverse)
@@ -30,14 +38,18 @@ for(fn in htmls){
 }
 ```
 
-### jupyter notebooks
+## Source notebooks on GitHub
 
 ```{r,  results = 'asis', echo = FALSE}
-ipynbs <- list.files(path = "../analysis/", pattern="^.+\\.ipynb$") %>%
-  str_replace("^(.+?)\\.ipynb$", "\\1")
+# Only notebooks that are actually tracked -- analysis/ keeps plenty of
+# untracked scratch copies, and linking those would give 404s on GitHub.
+ipynbs <- tryCatch(
+  system("git ls-files '*.ipynb'", intern = TRUE),
+  warning = function(w) character(0), error = function(e) character(0))
+ipynbs <- sort(ipynbs[!grepl("checkpoint", ipynbs)])
 
 for(fn in ipynbs){
-  cat("[", i, "](",params$github, "analysis/",  fn,")\n\n", sep="")
+  cat("[", fn, "](", params$github, "analysis/", fn, ")\n\n", sep="")
 }
 
 ```
