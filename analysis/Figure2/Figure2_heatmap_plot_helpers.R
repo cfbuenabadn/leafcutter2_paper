@@ -157,18 +157,23 @@ save_heatmap_source_data <- function(ht, X, prefix) {
 }
 
 
-write_up_clusters <- function(ht, X, path) {
+write_up_clusters <- function(ht, X, path, group_labels = NULL, group_patterns = NULL) {
   # UP_clusters.tsv -- the input GO_analysis.ipynb reads.
   #
   # One row per unproductive intron, in the matrix's own row order, carrying the
   # z-scored PSI actually plotted plus the k-means group the intron falls in.
   # `ht` must already be drawn: the k-means groups do not exist before draw().
   #
-  # Group numbering follows the groups' top-to-bottom order in the drawn figure,
-  # which is what the archived file used. k-means labels themselves are
-  # arbitrary, so ordering by figure position is what makes the numbering
-  # reproducible rather than incidental -- and it is the numbering the paper
-  # refers to as groups I-VI.
+  # Groups are indexed by their top-to-bottom order in the drawn figure, which
+  # is reproducible; the raw k-means labels are arbitrary and are not used.
+  #
+  # `group_labels`, if given, renames those positions -- element i is the label
+  # for the i-th group from the top. Use it to write the manuscript's group
+  # numbering (I-VI), which is assigned by tissue pattern and so does not follow
+  # figure order. `group_patterns` adds a human-readable `pattern` column
+  # alongside, so the file says what each group is without a lookup elsewhere.
+  # With neither, `Cluster` is simply the figure position, which is what the
+  # archived published file used.
   ro <- ComplexHeatmap::row_order(ht)
   if (!is.list(ro)) ro <- list(`1` = ro)
 
@@ -193,7 +198,16 @@ write_up_clusters <- function(ht, X, path) {
                       check.names = FALSE, stringsAsFactors = FALSE)
   colnames(Zc) <- colnames(Z)
   out <- cbind(out, Zc)
-  out$Cluster <- row_group
+  if (!is.null(group_labels)) {
+    stopifnot(length(group_labels) == length(ro))
+    out$Cluster <- group_labels[row_group]
+  } else {
+    out$Cluster <- row_group
+  }
+  if (!is.null(group_patterns)) {
+    stopifnot(length(group_patterns) == length(ro))
+    out$pattern <- group_patterns[row_group]
+  }
 
   write.table(out, path, sep = '\t', quote = FALSE, row.names = FALSE, na = 'NA')
   invisible(path)
