@@ -2230,7 +2230,10 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
   <ul>
   <li><a href="#figure-2c-unproductive-splicing-events-with-concordant-differential-expression" id="toc-figure-2c-unproductive-splicing-events-with-concordant-differential-expression" class="nav-link active" data-scroll-target="#figure-2c-unproductive-splicing-events-with-concordant-differential-expression">Figure 2c — Unproductive splicing events with concordant differential expression</a>
   <ul class="collapse">
-  <li><a href="#fig.-2c_confounders-the-internally-consistent-version" id="toc-fig.-2c_confounders-the-internally-consistent-version" class="nav-link" data-scroll-target="#fig.-2c_confounders-the-internally-consistent-version">Fig. 2c_confounders — the internally consistent version</a></li>
+  <li><a href="#fig.-2c_confounders-the-internally-consistent-version" id="toc-fig.-2c_confounders-the-internally-consistent-version" class="nav-link" data-scroll-target="#fig.-2c_confounders-the-internally-consistent-version">Fig. 2c_confounders — the internally consistent version</a>
+  <ul class="collapse">
+  <li><a href="#the-two-up_clusters-files-are-numbered-differently" id="toc-the-two-up_clusters-files-are-numbered-differently" class="nav-link" data-scroll-target="#the-two-up_clusters-files-are-numbered-differently">The two <code>UP_clusters</code> files are numbered differently</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -2436,7 +2439,14 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">save_fig2_heatmap</span>(ht_conf, <span class="fu">file.path</span>(PLOTS_DIR, <span class="st">&#39;fig2c_confounders.pdf&#39;</span>))</span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu">save_heatmap_source_data</span>(ht_conf, heatmap_X_introns_confounder,</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>                         <span class="st">&#39;figure_data/fig2c_confounders_source_data&#39;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>                         <span class="st">&#39;figure_data/fig2c_confounders_source_data&#39;</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co"># The confounder-consistent counterpart of UP_clusters.tsv. Fewer rows and one</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co"># fewer tissue than the published version (Bladder is excluded), and the k-means</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co"># grouping is re-derived on this matrix, so the groups are NOT guaranteed to</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co"># correspond one-to-one with the published ones.</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="fu">write_up_clusters</span>(ht_conf, heatmap_X_introns_confounder,</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>                  <span class="st">&#39;figure_data/UP_clusters.confounder.tsv&#39;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>  fig2c_confounders_source_data.tsv          4068 introns x 49 tissues, 6 row groups
@@ -2450,6 +2460,53 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 </div>
 </div>
 </div>
+<section id="the-two-up_clusters-files-are-numbered-differently" class="level3">
+<h3 class="anchored" data-anchor-id="the-two-up_clusters-files-are-numbered-differently">The two <code>UP_clusters</code> files are numbered differently</h3>
+<p><code>figure_data/UP_clusters.tsv</code> (published Fig. 2c) and <code>figure_data/UP_clusters.confounder.tsv</code> recover the <strong>same six tissue patterns</strong>, but k-means is re-run on the confounder matrix, so the group <em>numbers</em> differ. Each published group maps to one confounder group with 73-89% of its introns:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Pattern</th>
+<th>published</th>
+<th>confounder</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>cerebellum</td>
+<td>5</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>other brain</td>
+<td>6</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td>muscle / heart / artery</td>
+<td>1</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td>skin / adipose / breast</td>
+<td>2</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td>liver / spleen / whole blood</td>
+<td>3</td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td>testis</td>
+<td>4</td>
+<td>6</td>
+</tr>
+</tbody>
+</table>
+<p><code>GO_analysis.ipynb</code> hardcodes the published numbering — <code>Cluster == 4</code> for testis, <code>Cluster.isin((5, 6))</code> for brain. Pointing it at the confounder file without remapping would silently select the wrong gene sets: testis would become group 6, brain groups 1 and 2.</p>
+<p>The safe way to identify a group is by its top tissues rather than its number, since the numbering is re-derived from the drawn figure on every run.</p>
+</section>
 </section>
 </section>
 
