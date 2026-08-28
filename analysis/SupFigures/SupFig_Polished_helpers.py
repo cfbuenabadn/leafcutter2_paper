@@ -68,7 +68,7 @@ def make_upf_df():
 def make_scatter_grid_data(upf_df, xvar):
     """Per-tissue points, RLM fit line and Spearman stats for one 7x7 grid."""
     import statsmodels.api as sm
-    from scipy.stats import spearmanr
+    from scipy.stats import spearmanr, pearsonr
 
     out = []
     for tissue, df in upf_df.sort_values('tissue').groupby('tissue'):
@@ -76,14 +76,17 @@ def make_scatter_grid_data(upf_df, xvar):
         res = sm.RLM(df.pct, X).fit()
         slope = res.params.loc[xvar]
         const = res.params.loc['const']
-        rho, pval = spearmanr(df[xvar], df.pct)
+        sr, sp = spearmanr(df[xvar], df.pct)
+        pr, pp = pearsonr(df[xvar], df.pct)
         x = np.linspace(df[xvar].min(), df[xvar].max(), 100)
         out.append({
             'tissue': tissue,
             'color': '#' + gtex_colors[tissue]['tissue_color_hex'],
             'x': np.array(df[xvar]), 'y': np.array(df.pct),
             'fit_x': x, 'fit_y': slope * x + const,
-            'rho': float(rho), 'pvalue': float(pval), 'n': int(df.shape[0]),
+            'pearson': {'rho': float(pr), 'pvalue': float(pp)},
+            'spearman': {'rho': float(sr), 'pvalue': float(sp)},
+            'n': int(df.shape[0]),
         })
     return out
 
@@ -161,7 +164,7 @@ def make_selfsorted_grid_data(tissues=None, median_expression=None):
     ('BA24 itself'), computed for every tissue. Slow: one junction table per
     tissue.
     """
-    from scipy.stats import pearsonr
+    from scipy.stats import pearsonr, spearmanr
     from tqdm import tqdm
 
     if tissues is None:
@@ -173,19 +176,74 @@ def make_selfsorted_grid_data(tissues=None, median_expression=None):
     for tissue in tqdm(tissues, position=0, leave=True):
         up_table = get_UP_table(tissue)
         se = get_splicing_expression(up_table, median_expression, tissue)
-        rho, pval = pearsonr(np.log1p(se.expression), se.logUP)
+        pr, pp = pearsonr(np.log1p(se.expression), se.logUP)
+        sr, sp = spearmanr(se.expression, se.logUP)
         out.append({
             'tissue': tissue,
             'color': '#' + gtex_colors[tissue]['tissue_color_hex'],
             'curves': quintile_curves(se),
-            'rho': float(rho), 'pvalue': float(pval), 'n': int(len(se)),
+            'pearson': {'rho': float(pr), 'pvalue': float(pp)},
+            'spearman': {'rho': float(sr), 'pvalue': float(sp)},
+            'n': int(len(se)),
         })
     return out
 
 
+
+# --------------------------------------------------------------------------- #
+# corr_across_tissues -- 49 x 49 matrix of splicing-vs-expression correlation
 # --------------------------------------------------------------------------- #
 
-PLOT_READY_VARS = ['fig5A_data', 'fig5B_data', 'up_by_expression_data']
+def make_corr_matrix_data(tissues=None, median_expression=None):
+    """rho between %unproductive in tissue1 and median expression in tissue2.
+
+    Row = the tissue whose unproductive splicing is measured; column = the
+    tissue whose expression ranks the genes. The diagonal is the self-sorted
+    case shown in the quintile grid.
+
+    The source notebook called process_tissue_pair() inside both loops, which
+    re-reads tissue1's junction table 49 times. Here each table is read once and
+    reused across the inner loop: 49 reads rather than 2,401.
+    """
+    from scipy.stats import pearsonr, spearmanr
+    from tqdm import tqdm
+
+    if tissues is None:
+        tissues = all_tissues()
+    if median_expression is None:
+        median_expression = load_median_expression()
+
+    pear = np.zeros((len(tissues), len(tissues)))
+    spear = np.zeros((len(tissues), len(tissues)))
+    for a, t1 in enumerate(tqdm(tissues, position=0, leave=True)):
+        up_table = get_UP_table(t1)          # read once, reused below
+        for b, t2 in enumerate(tissues):
+            se = get_splicing_expression(up_table, median_expression, t2)
+            pear[a, b] = pearsonr(np.log1p(se.expression), se.logUP)[0]
+            spear[a, b] = spearmanr(se.expression, se.logUP)[0]
+
+    out = {'tissues': list(tissues),
+           'colors': ['#' + gtex_colors[t]['tissue_color_hex'] for t in tissues]}
+    for name, M in (('pearson', pear), ('spearman', spear)):
+        out[name] = {'matrix': M, 'order': _ward_order(M)}
+    return out
+
+
+def _ward_order(M):
+    """Leaf order of a Ward clustering, as seaborn's clustermap would give.
+
+    The source notebook obtained this by drawing a 30x30 clustermap and reading
+    `dendrogram_col.reordered_ind`; this computes the same ordering without
+    rendering a figure.
+    """
+    from scipy.cluster.hierarchy import linkage, leaves_list
+    from scipy.spatial.distance import pdist
+    return list(leaves_list(linkage(pdist(np.asarray(M).T), method='ward')))
+
+
+# --------------------------------------------------------------------------- #
+
+PLOT_READY_VARS = ['fig5A_data', 'fig5B_data', 'up_by_expression_data', 'corr_matrix_data']
 
 
 def run_all(data_dir='figure_data'):
@@ -195,6 +253,7 @@ def run_all(data_dir='figure_data'):
         'fig5A_data': make_scatter_grid_data(upf_df, 'logUPF3A'),
         'fig5B_data': make_scatter_grid_data(upf_df, 'RIN'),
         'up_by_expression_data': make_selfsorted_grid_data(),
+        'corr_matrix_data': make_corr_matrix_data(),
     }
     for k, v in data.items():
         with open(os.path.join(data_dir, f'{k}.pickle'), 'wb') as fh:
