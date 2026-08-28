@@ -56,15 +56,16 @@ directory and cannot overwrite the published figures:
 
 * **`sup_fig2_heatmap_*` (8 panels)** from `../DS_Heatmap.ipynb`. R, and each is
   a ~1,200-RDS-file rebuild. Excluded by decision.
-* **`sup_hyperthyroid_spleen_splicing`** — no notebook in `analysis/` writes it.
-  Checked literally, as an f-string loop, and for the string "spleen" anywhere
-  across all 42 notebooks. Its source is lost. Its siblings
-  (`_thyroid_splicing`, `_wholeblood_splicing`) are in
-  `SupFig_coloc_examples.ipynb`, so it could be reconstructed by substituting
-  Spleen — but that would be a reconstruction, not a reproduction.
 
 ## Things corrected
 
+* **`sup_hyperthyroid_spleen_splicing`** was an orphan: the published panel
+  existed in `code/plots/` but no notebook wrote it, and the source was lost.
+  It is now rebuilt in `SupFig_coloc_examples.ipynb`, alongside its Thyroid and
+  Whole Blood siblings. The cluster id is per-tissue, so it could not simply be
+  copied: the intron `chr11:614037-614475` sits in `clu_22612` in Thyroid,
+  `clu_19954` in Whole Blood and `clu_20133` in Spleen. The rebuilt panel gives
+  beta = -0.32, P = 4.5e-9, in line with its siblings (-0.32 and -0.31).
 * **`sup_fig_lambda` ignored its `tissue` argument.** In `QTL_analysis.ipynb`,
   `get_var_eqtls(tissue, …)` hard-coded Testis in the nominal-pass path, so the
   grey null was the same Testis distribution in all 49 panels. `get_var_eqtls`
