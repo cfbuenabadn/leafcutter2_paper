@@ -94,9 +94,9 @@ def plot_selfsorted_grid(data, xlabel='Unproductive splicing',
         if j != 0:
             a.set_yticks([])
         a.text(0.03, 0.97, stat_text(d, metric),
-               transform=a.transAxes, ha='left', va='top', fontsize=9)
-        a.set_title(d['tissue'], size=12, pad=3)
-        _panel_axis(a, i, j, xlabel, ylabel, size=12, tick=9)
+               transform=a.transAxes, ha='left', va='top', fontsize=14)
+        a.set_title(d['tissue'], size=16, pad=3)
+        _panel_axis(a, i, j, xlabel, ylabel, size=14, tick=9)
     fig.tight_layout()
     return fig, ax
 
