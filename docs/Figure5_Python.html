@@ -2212,7 +2212,7 @@ vertical-align: -.125em;
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#figure-5-impact-of-unproductive-splicing-on-alzheimers-disease-python-panel" id="toc-figure-5-impact-of-unproductive-splicing-on-alzheimers-disease-python-panel" class="nav-link active" data-scroll-target="#figure-5-impact-of-unproductive-splicing-on-alzheimers-disease-python-panel">Figure 5 | Impact of unproductive splicing on Alzheimer’s disease – Python panel</a>
+  <li><a href="#figure-5d-tspan14-genotype-effect" id="toc-figure-5d-tspan14-genotype-effect" class="nav-link active" data-scroll-target="#figure-5d-tspan14-genotype-effect">Figure 5d — <em>TSPAN14</em> genotype effect</a>
   <ul class="collapse">
   <li><a href="#fig.-5d-right" id="toc-fig.-5d-right" class="nav-link" data-scroll-target="#fig.-5d-right">Fig. 5d (right)</a></li>
   </ul></li>
@@ -2252,33 +2252,27 @@ vertical-align: -.125em;
 </header>
 
 
-<section id="figure-5-impact-of-unproductive-splicing-on-alzheimers-disease-python-panel" class="level1">
-<h1>Figure 5 | Impact of unproductive splicing on Alzheimer’s disease – Python panel</h1>
+<section id="figure-5d-tspan14-genotype-effect" class="level1">
+<h1>Figure 5d — <em>TSPAN14</em> genotype effect</h1>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
+<col style="width: 50%">
+<col style="width: 50%">
 </colgroup>
 <thead>
 <tr class="header">
 <th>Panel</th>
-<th>File</th>
 <th>What it shows</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td><strong>d</strong> (right)</td>
-<td><code>Fig5D-right</code></td>
-<td>TSPAN14 u-sQTL and eQTL boxplots by genotype at chr10:80503927</td>
+<td><em>TSPAN14</em> u-sQTL and eQTL by genotype at chr10:80503927</td>
 </tr>
 </tbody>
 </table>
-<p>Panel <strong>d</strong> pairs this boxplot with a LocusCompare plot (left half), which is not built here. Panels <strong>a</strong> and <strong>b</strong> are R and live in <code>Figure5_R.ipynb</code>; panels <strong>c</strong> and <strong>e</strong> are not built here either.</p>
-<p>Run <strong>cell 3</strong> once to build (and pickle) the plot-ready data, then the plot cell. On later sessions, uncomment <strong>cell 2</strong> and skip cell 3 to re-plot from <code>figure_data/</code> without rpy2. Panels are written to <code>plots/</code>.</p>
-<p>Panel name changed to match the caption: <code>Fig5D_annotated</code> -&gt; <code>Fig5D-right</code>. The original <code>savefig</code> path is kept commented in the plot cell.</p>
-<p>beta and P are nominal, regressed on C-allele dosage across the 116 plotted donors, matching <code>analysis/Figure5.ipynb</code>.</p>
+<p>The C allele raises unproductive splicing of <em>TSPAN14</em> and lowers its expression — opposite effects on the two phenotypes, as expected if the unproductive isoform is degraded. Effect sizes and P values are nominal, regressed on C-allele dosage across the 116 donors plotted.</p>
 <div id="cell-2" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
@@ -2328,7 +2322,7 @@ vertical-align: -.125em;
 <div id="cell-6" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 5d (right) | Fig5D-right -- from Figure5.ipynb  (was named Fig5D_annotated)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 5d (right) | Fig5D-right</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Opposite genetic effect on unproductive splicing (u-sQTL) and TSPAN14</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># expression (eQTL) in ROSMAP DLPFC, grouped by genotype at the lead SNP</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># chr10:80503927 (G&gt;C). n = 116 donors with matched data across all contexts</span></span>
@@ -2347,13 +2341,11 @@ vertical-align: -.125em;
 <span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="ss">f&#39;</span><span class="sc">{</span>PLOTS_DIR<span class="sc">}</span><span class="ss">/Fig5D-right.pdf&#39;</span>, dpi<span class="op">=</span><span class="dv">500</span>, bbox_inches<span class="op">=</span><span class="st">&#39;tight&#39;</span>)</span>
 <span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="ss">f&#39;</span><span class="sc">{</span>PLOTS_DIR<span class="sc">}</span><span class="ss">/Fig5D-right.svg&#39;</span>, dpi<span class="op">=</span><span class="dv">500</span>, bbox_inches<span class="op">=</span><span class="st">&#39;tight&#39;</span>)</span>
 <span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Original destination and name in Figure5.ipynb:</span></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.savefig(&#39;../code/plots/Fig5/Fig5D_annotated.png&#39;, dpi=500, bbox_inches=&#39;tight&#39;)</span></span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> v, s <span class="kw">in</span> Fig5D_right_data[<span class="st">&#39;stats_by_panel&#39;</span>].items():</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f&quot;</span><span class="sc">{</span>v<span class="sc">:8}</span><span class="ss"> beta=</span><span class="sc">{</span>s[<span class="st">&#39;beta&#39;</span>]<span class="sc">:+.4f}</span><span class="ss">  se=</span><span class="sc">{</span>s[<span class="st">&#39;se&#39;</span>]<span class="sc">:.4f}</span><span class="ss">  t=</span><span class="sc">{</span>s[<span class="st">&#39;t&#39;</span>]<span class="sc">:+.3f}</span><span class="ss">  &quot;</span></span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>          <span class="ss">f&quot;dof=</span><span class="sc">{</span>s[<span class="st">&#39;dof&#39;</span>]<span class="sc">}</span><span class="ss">  P=</span><span class="sc">{</span>s[<span class="st">&#39;pval&#39;</span>]<span class="sc">:.4g}</span><span class="ss">  n=</span><span class="sc">{</span>s[<span class="st">&#39;n&#39;</span>]<span class="sc">}</span><span class="ss">&quot;</span>)</span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(Fig5D_right_data[<span class="st">&#39;counts&#39;</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> v, s <span class="kw">in</span> Fig5D_right_data[<span class="st">&#39;stats_by_panel&#39;</span>].items():</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f&quot;</span><span class="sc">{</span>v<span class="sc">:8}</span><span class="ss"> beta=</span><span class="sc">{</span>s[<span class="st">&#39;beta&#39;</span>]<span class="sc">:+.4f}</span><span class="ss">  se=</span><span class="sc">{</span>s[<span class="st">&#39;se&#39;</span>]<span class="sc">:.4f}</span><span class="ss">  t=</span><span class="sc">{</span>s[<span class="st">&#39;t&#39;</span>]<span class="sc">:+.3f}</span><span class="ss">  &quot;</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>          <span class="ss">f&quot;dof=</span><span class="sc">{</span>s[<span class="st">&#39;dof&#39;</span>]<span class="sc">}</span><span class="ss">  P=</span><span class="sc">{</span>s[<span class="st">&#39;pval&#39;</span>]<span class="sc">:.4g}</span><span class="ss">  n=</span><span class="sc">{</span>s[<span class="st">&#39;n&#39;</span>]<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(Fig5D_right_data[<span class="st">&#39;counts&#39;</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>eQTL     beta=+0.2423  se=0.1078  t=+2.248  dof=114  P=0.02648  n=116

@@ -2212,7 +2212,7 @@ vertical-align: -.125em;
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#figure-5-impact-of-unproductive-splicing-on-alzheimers-disease-r-panels" id="toc-figure-5-impact-of-unproductive-splicing-on-alzheimers-disease-r-panels" class="nav-link active" data-scroll-target="#figure-5-impact-of-unproductive-splicing-on-alzheimers-disease-r-panels">Figure 5 | Impact of unproductive splicing on Alzheimer’s disease – R panels</a>
+  <li><a href="#figure-5-unproductive-splicing-in-alzheimers-disease" id="toc-figure-5-unproductive-splicing-in-alzheimers-disease" class="nav-link active" data-scroll-target="#figure-5-unproductive-splicing-in-alzheimers-disease">Figure 5 — Unproductive splicing in Alzheimer’s disease</a>
   <ul class="collapse">
   <li><a href="#fig.-5a" id="toc-fig.-5a" class="nav-link" data-scroll-target="#fig.-5a">Fig. 5a</a></li>
   <li><a href="#fig.-5b" id="toc-fig.-5b" class="nav-link" data-scroll-target="#fig.-5b">Fig. 5b</a></li>
@@ -2253,44 +2253,36 @@ vertical-align: -.125em;
 </header>
 
 
-<section id="figure-5-impact-of-unproductive-splicing-on-alzheimers-disease-r-panels" class="level1">
-<h1>Figure 5 | Impact of unproductive splicing on Alzheimer’s disease – R panels</h1>
-<p>R panels for <strong>Figure 5</strong>, matching the manuscript caption lettering.</p>
+<section id="figure-5-unproductive-splicing-in-alzheimers-disease" class="level1">
+<h1>Figure 5 — Unproductive splicing in Alzheimer’s disease</h1>
+<p>u-sQTLs mapped in ROSMAP brain are enriched for expression and protein QTL signal relative to p-sQTLs, and several converge with Alzheimer’s disease GWAS associations.</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
+<col style="width: 50%">
+<col style="width: 50%">
 </colgroup>
 <thead>
 <tr class="header">
 <th>Panel</th>
-<th>File</th>
 <th>What it shows</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td><strong>a</strong> (left)</td>
-<td><code>Fig5A-left</code></td>
-<td>QQ plot of DLPFC <strong>eQTL</strong> signal among u-sQTLs vs p-sQTLs</td>
+<td>QQ plot of DLPFC eQTL signal among u-sQTLs versus p-sQTLs</td>
 </tr>
 <tr class="even">
 <td><strong>a</strong> (right)</td>
-<td><code>Fig5A-right</code></td>
-<td>QQ plot of <strong>pQTL</strong> signal among u-sQTLs vs p-sQTLs</td>
+<td>The same against protein QTL signal</td>
 </tr>
 <tr class="odd">
 <td><strong>b</strong></td>
-<td><code>Fig5B</code></td>
-<td>PTWAS + colocalization of u-sQTL effects with AD GWAS</td>
+<td>PTWAS and colocalization of u-sQTL effects with AD GWAS</td>
 </tr>
 </tbody>
 </table>
-<p>Panel <strong>d</strong> (right) is Python and lives in <code>Figure5_Python.ipynb</code>. Panels <strong>c</strong> and <strong>e</strong>, and the LocusCompare half of <strong>d</strong>, are not built here.</p>
-<p>Run <strong>cell 3</strong> once to load (and cache) the plot-ready data, then the plot cells. On later sessions, uncomment <strong>cell 2</strong> and skip cell 3 to re-plot from <code>figure_data/</code>. Panels are written to <code>plots/</code>.</p>
-<p><code>multiqq</code> draws its expected quantiles from <code>runif</code>, so the QQ panels are stochastic. The seeds from <code>Fig5_R.ipynb</code> are kept: <code>set.seed(0)</code> for <code>Fig5A-left</code>, <code>set.seed(3)</code> for <code>Fig5A-right</code>. Do not drop them.</p>
-<p>Panel name changed to match the caption: <code>Fig5C_wide</code> -&gt; <code>Fig5B</code>. The original <code>ggsave</code> path is kept commented in each cell.</p>
+<p><code>multiqq</code> draws its expected quantiles from <code>runif</code>, so the QQ panels are stochastic; the seeds are fixed in the plot cells and should not be removed.</p>
 <div id="cell-2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;vscode&quot;,&quot;value&quot;:{&quot;languageId&quot;:&quot;r&quot;}}" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
@@ -2333,7 +2325,7 @@ vertical-align: -.125em;
 <div id="cell-6" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;vscode&quot;,&quot;value&quot;:{&quot;languageId&quot;:&quot;r&quot;}}" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 5a (left) | Fig5A-left -- from Fig5_R.ipynb</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 5a (left) | Fig5A-left</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># QQ plot of DLPFC eQTL signal among u-sQTLs and p-sQTLs. u-sQTLs show stronger</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># enrichment among eQTLs than their productive counterparts. Raw P values are</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># from TensorQTL&#39;s nominal pass.</span></span>
@@ -2343,10 +2335,7 @@ vertical-align: -.125em;
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>qq_plot <span class="ot">&lt;-</span> <span class="fu">plot_qq_panel</span>(Fig5A_left, UP_PALETTE)</span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>qq_plot</span>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">save_panel</span>(qq_plot, <span class="st">&quot;Fig5A-left&quot;</span>, <span class="at">width =</span> <span class="dv">3</span>, <span class="at">height =</span> <span class="dv">3</span>)</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Original destination in Fig5_R.ipynb:</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co"># ggsave(&quot;../code/plots/Fig5/Fig5A-left.svg&quot;, qq_plot, width = 3, height = 3, units = &quot;in&quot;, dpi = 300)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">save_panel</span>(qq_plot, <span class="st">&quot;Fig5A-left&quot;</span>, <span class="at">width =</span> <span class="dv">3</span>, <span class="at">height =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -2359,7 +2348,7 @@ vertical-align: -.125em;
 <div id="cell-7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;vscode&quot;,&quot;value&quot;:{&quot;languageId&quot;:&quot;r&quot;}}" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 5a (right) | Fig5A-right -- from Fig5_R.ipynb</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 5a (right) | Fig5A-right</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># The same comparison against protein expression QTLs (pQTL). u-sQTLs are again</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># more enriched than p-sQTLs. Raw P values from TensorQTL&#39;s nominal pass.</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Stochastic: set.seed(3) reproduces the published panel.</span></span>
@@ -2368,10 +2357,7 @@ vertical-align: -.125em;
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>qq_plot <span class="ot">&lt;-</span> <span class="fu">plot_qq_panel</span>(Fig5A_right, UP_PALETTE)</span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>qq_plot</span>
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="fu">save_panel</span>(qq_plot, <span class="st">&quot;Fig5A-right&quot;</span>, <span class="at">width =</span> <span class="dv">3</span>, <span class="at">height =</span> <span class="dv">3</span>)</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Original destination in Fig5_R.ipynb:</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co"># ggsave(&quot;../code/plots/Fig5/Fig5A-right.svg&quot;, qq_plot, width = 3, height = 3, units = &quot;in&quot;, dpi = 300)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="fu">save_panel</span>(qq_plot, <span class="st">&quot;Fig5A-right&quot;</span>, <span class="at">width =</span> <span class="dv">3</span>, <span class="at">height =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -2388,7 +2374,7 @@ vertical-align: -.125em;
 <div id="cell-9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;vscode&quot;,&quot;value&quot;:{&quot;languageId&quot;:&quot;r&quot;}}" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 5b | Fig5B -- from Fig5_R.ipynb  (was named Fig5C_wide)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 5b | Fig5B</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Integration of u-sQTL effects with AD GWAS through two-sided PTWAS (y axis)</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># and colocalization (colour). Several signals were identified using u-sQTLs</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># from multiple brain regions. Grey dashed line, P = 0.05; blue dashed line,</span></span>
@@ -2398,10 +2384,7 @@ vertical-align: -.125em;
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>Fig5B_plot <span class="ot">&lt;-</span> <span class="fu">plot_Fig5B</span>(Fig5B, FIG5B_PALETTE)</span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(Fig5B_plot)</span>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="fu">save_panel</span>(Fig5B_plot, <span class="st">&quot;Fig5B&quot;</span>, <span class="at">width =</span> <span class="dv">14</span>, <span class="at">height =</span> <span class="dv">9</span>)</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Original destination in Fig5_R.ipynb:</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co"># ggsave(&quot;../code/plots/Fig5/Fig5B.svg&quot;, Fig5B_plot, width = 14, height = 9, units = &quot;in&quot;, dpi = 300)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="fu">save_panel</span>(Fig5B_plot, <span class="st">&quot;Fig5B&quot;</span>, <span class="at">width =</span> <span class="dv">14</span>, <span class="at">height =</span> <span class="dv">9</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>

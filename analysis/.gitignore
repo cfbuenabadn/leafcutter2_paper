@@ -67,6 +67,12 @@ Figure5/**/*.svg
 # comparative-splicing and simulation bundles publish theirs.
 !render_notebooks.py
 
+# --- Provenance notes -------------------------------------------------------
+# Where each panel came from, what was renamed, how to run the notebook. Kept
+# out of the repository on purpose: the notebooks and the HTML rendered from
+# them describe the data and the results, not the cleanup.
+**/*_provenance.txt
+
 # --- Source Data ------------------------------------------------------------
 # One CSV per published panel, written to <Figure>/source_data/ from the
 # pickles in <Figure>/figure_data/. The tables themselves are NOT tracked --

@@ -2228,7 +2228,7 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#figure-2c-unproductive-splicing-events-with-concordant-differential-expression" id="toc-figure-2c-unproductive-splicing-events-with-concordant-differential-expression" class="nav-link active" data-scroll-target="#figure-2c-unproductive-splicing-events-with-concordant-differential-expression">Figure 2c — Unproductive splicing events with concordant differential expression</a>
+  <li><a href="#figure-2c-unproductive-splicing-with-concordant-differential-expression" id="toc-figure-2c-unproductive-splicing-with-concordant-differential-expression" class="nav-link active" data-scroll-target="#figure-2c-unproductive-splicing-with-concordant-differential-expression">Figure 2c — Unproductive splicing with concordant differential expression</a>
   <ul class="collapse">
   <li><a href="#fig.-2c_confounders-the-internally-consistent-version" id="toc-fig.-2c_confounders-the-internally-consistent-version" class="nav-link" data-scroll-target="#fig.-2c_confounders-the-internally-consistent-version">Fig. 2c_confounders — the internally consistent version</a>
   <ul class="collapse">
@@ -2271,45 +2271,33 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 </header>
 
 
-<section id="figure-2c-unproductive-splicing-events-with-concordant-differential-expression" class="level1">
-<h1>Figure 2c — Unproductive splicing events with concordant differential expression</h1>
-<p>Heatmap showing significant differential usage of unproductive splicing events for genes that also show differential gene expression. Rows are unproductive introns, z-scored across tissues and clustered into six row groups; columns are the 50 GTEx tissues, clustered into three groups and colour-coded along the bottom.</p>
-<p>R kernel (<code>ir</code>). Sources: <code>../DS_Heatmap2.ipynb</code> and <code>../DS_Heatmap.ipynb</code>, whose plotting cells are byte-identical; the duplicate was collapsed. The panel was unnamed in those notebooks beyond a commented-out <code>fig2_heatmap.pdf</code>, and is panel <strong>c</strong> of the published Figure 2.</p>
-<p>Two versions are built, from the two fitted-PSI tables that <code>../GetGTExTables.ipynb</code> writes:</p>
+<section id="figure-2c-unproductive-splicing-with-concordant-differential-expression" class="level1">
+<h1>Figure 2c — Unproductive splicing with concordant differential expression</h1>
+<p>Heatmap of unproductive splicing events that are differentially used between tissues <strong>and</strong> whose host gene is differentially expressed between the same tissues. Rows are unproductive introns, z-scored across tissues and partitioned into six groups; columns are GTEx tissues, partitioned into three groups and colour-coded along the bottom. The six row groups correspond to the manuscript’s groups I-VI.</p>
+<p>Two versions are built from the two fitted-PSI tables:</p>
 <table class="caption-top table">
-<colgroup>
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-</colgroup>
 <thead>
 <tr class="header">
 <th>Panel</th>
 <th>PSI table</th>
 <th>Tissues</th>
-<th>Saved as</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td><strong>Fig. 2c</strong></td>
-<td><code>GTEx.psi.tsv.gz</code> (pre-confounder)</td>
+<td>pre-confounder</td>
 <td>50</td>
-<td><code>plots/fig2c.*</code></td>
 </tr>
 <tr class="even">
 <td><strong>Fig. 2c_confounders</strong></td>
-<td><code>GTEx.psi.confounder.tsv.gz</code></td>
+<td>confounder-corrected</td>
 <td>49 (no Bladder)</td>
-<td><code>plots/fig2c_confounders.*</code></td>
 </tr>
 </tbody>
 </table>
-<p><code>fig2c</code> reproduces the published panel exactly (4,073 introns x 50 tissues). <code>fig2c_confounders</code> is the internally consistent version: the fitted PSI comes from the same confounder run as the row selection, and Bladder — which is excluded from the 1,176 pairwise comparisons that pick the rows — is dropped from the columns too. Same 4,073 rows either way.</p>
-<p>The PSI in these tables is fitted by <code>leafcutter_ds</code>, not counted raw, so adding the confounder covariate shifts it slightly (median |Δ| = 0.002, correlation 0.9997) — hence two panels rather than one. Both write into <code>plots/</code>, the same directory the Python notebooks in this folder use.</p>
-<p>Run <strong>cell 3</strong> (and <strong>cell 5</strong> for the confounder version) once to build and cache the matrices, then the plot cells. On later sessions, uncomment <strong>cell 2</strong> and skip the build cells to re-plot from <code>figure_data/</code>.</p>
-<p>The source cell also carried a commented-out <code>fig2_heatmap_aver.pdf</code>, built from a gene-averaged matrix rather than a per-intron one. It gives the same figure, so only the per-intron matrix is built here.</p>
+<p><code>fig2c</code> is the published panel, 4,073 introns x 50 tissues. <code>fig2c_confounders</code> is the internally consistent version: the fitted PSI comes from the same confounder run that selected the rows, and Bladder — excluded from the pairwise comparisons that pick the rows — is dropped from the columns too.</p>
+<p>PSI here is fitted by <code>leafcutter_ds</code> rather than counted raw, so adding the confounder covariate shifts it slightly (median |Δ| = 0.002, correlation 0.9997), which is why both versions are kept.</p>
 <div id="dc8fc7ba" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;vscode&quot;,&quot;value&quot;:{&quot;languageId&quot;:&quot;r&quot;}}" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
@@ -2357,30 +2345,29 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 <div id="aac970ad" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;vscode&quot;,&quot;value&quot;:{&quot;languageId&quot;:&quot;r&quot;}}" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 2c -- from DS_Heatmap.ipynb (the published thresholds: |dPSI| &gt;= 0.1,</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 2c -- published thresholds: |dPSI| &gt;= 0.1,</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># FDR &lt;= 10%, |log2FC| &gt;= 1). One row per unproductive intron; 4,073 x 50.</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># DS_Heatmap2.ipynb shares the plotting cell but uses stricter filters.</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">repr.plot.width =</span> <span class="dv">12</span>, <span class="at">repr.plot.height =</span> <span class="dv">15</span>)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>ht <span class="ot">&lt;-</span> <span class="fu">plot_fig2_heatmap</span>(heatmap_X_introns, gtex_colors, <span class="at">seed =</span> <span class="dv">2</span>)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">save_fig2_heatmap</span>(ht, <span class="fu">file.path</span>(PLOTS_DIR, <span class="st">&#39;fig2c.pdf&#39;</span>))</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Source data: gene, k-means row group, drawn position and the z-scored PSI</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># actually plotted. The groups only exist once the heatmap is drawn.</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="fu">save_heatmap_source_data</span>(ht, heatmap_X_introns, <span class="st">&#39;figure_data/fig2c_source_data&#39;</span>)</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co"># UP_clusters.tsv -- the input analysis/GO_analysis.ipynb reads. Same rows and</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co"># z-scores as the source data above, plus itype/ctype and the k-means group</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co"># numbered by top-to-bottom position in the drawn figure (the paper&#39;s groups</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co"># I-VI). Verified to reproduce code/analysis_files/UP_clusters.tsv: identical</span></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co"># rows, order and Cluster column, and all 203,650 values bit-identical.</span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="fu">write_up_clusters</span>(ht, heatmap_X_introns, <span class="st">&#39;figure_data/UP_clusters.tsv&#39;</span>)</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="co"># The source notebook wrote this as fig2_heatmap.pdf:</span></span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="co"># pdf(&quot;../code/plots/fig2_heatmap.pdf&quot;,  width = 12, height = 15)</span></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="co"># draw(ht, raster_quality = 2)</span></span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="co"># dev.off()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">repr.plot.width =</span> <span class="dv">12</span>, <span class="at">repr.plot.height =</span> <span class="dv">15</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>ht <span class="ot">&lt;-</span> <span class="fu">plot_fig2_heatmap</span>(heatmap_X_introns, gtex_colors, <span class="at">seed =</span> <span class="dv">2</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">save_fig2_heatmap</span>(ht, <span class="fu">file.path</span>(PLOTS_DIR, <span class="st">&#39;fig2c.pdf&#39;</span>))</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Source data: gene, k-means row group, drawn position and the z-scored PSI</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># actually plotted. The groups only exist once the heatmap is drawn.</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">save_heatmap_source_data</span>(ht, heatmap_X_introns, <span class="st">&#39;figure_data/fig2c_source_data&#39;</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co"># UP_clusters.tsv -- per-intron table of the drawn z-scores. Same rows and</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co"># z-scores as the source data above, plus itype/ctype and the k-means group</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co"># numbered by top-to-bottom position in the drawn figure (the paper&#39;s groups</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co"># I-VI). Verified to reproduce code/analysis_files/UP_clusters.tsv: identical</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co"># rows, order and Cluster column, and all 203,650 values bit-identical.</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="fu">write_up_clusters</span>(ht, heatmap_X_introns, <span class="st">&#39;figure_data/UP_clusters.tsv&#39;</span>)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="co"># The source notebook wrote this as fig2_heatmap.pdf:</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="co"># pdf(&quot;../code/plots/fig2_heatmap.pdf&quot;,  width = 12, height = 15)</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="co"># draw(ht, raster_quality = 2)</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="co"># dev.off()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>  fig2c_source_data.tsv          4073 introns x 50 tissues, 6 row groups
@@ -2481,7 +2468,7 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 </div>
 <section id="the-two-up_clusters-files-number-their-groups-differently" class="level3">
 <h3 class="anchored" data-anchor-id="the-two-up_clusters-files-number-their-groups-differently">The two <code>UP_clusters</code> files number their groups differently</h3>
-<p>Both recover the same six tissue patterns, but they use <strong>different conventions in the <code>Cluster</code> column</strong>, so the numbers are not interchangeable.</p>
+<p>Both recover the same six tissue patterns, but the group <strong>numbers</strong> in the <code>Cluster</code> column are not interchangeable between them.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
@@ -2491,39 +2478,34 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 <thead>
 <tr class="header">
 <th></th>
-<th><code>UP_clusters.tsv</code></th>
-<th><code>UP_clusters.confounder.tsv</code></th>
+<th>published Fig. 2c</th>
+<th>confounder-consistent</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>panel</td>
-<td>published Fig. 2c</td>
-<td>confounder-consistent</td>
-</tr>
-<tr class="even">
 <td>seed</td>
 <td>2</td>
 <td>1</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>rows x tissues</td>
 <td>4,073 x 50</td>
 <td>4,068 x 49</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>Cluster</code> means</td>
 <td>position in the figure, top to bottom</td>
 <td>the manuscript’s group I-VI</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>pattern</code> column</td>
 <td>no</td>
 <td>yes</td>
 </tr>
 </tbody>
 </table>
-<p>The correspondence, which happens to be the same in both panels:</p>
+<p>The correspondence, the same in both panels:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -2565,8 +2547,7 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 </tr>
 </tbody>
 </table>
-<p>So testis is <code>Cluster == 4</code> in the published file but <code>Cluster == 6</code> in the confounder file, and the brain groups are <code>(5, 6)</code> versus <code>(1, 2)</code>. <code>GO_analysis.ipynb</code> hardcodes the published numbering; pointing it at the confounder file without remapping would silently select the wrong gene sets.</p>
-<p>The confounder file’s <code>pattern</code> column names each group directly, which is the safe thing to filter on: the figure order depends on the seed, so any numbering derived from it has to be re-checked whenever the seed changes.</p>
+<p>So testis is <code>Cluster == 4</code> in the published file but <code>Cluster == 6</code> in the confounder one, and the brain groups are <code>(5, 6)</code> versus <code>(1, 2)</code>. Anything that filters on the number rather than the pattern has to know which file it is reading. The confounder file’s <code>pattern</code> column names each group directly, which is the safe thing to filter on: figure position depends on the seed, so any numbering derived from it must be re-checked whenever the seed changes.</p>
 </section>
 </section>
 </section>

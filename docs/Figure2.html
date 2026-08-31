@@ -2256,51 +2256,34 @@ vertical-align: -.125em;
 
 <section id="figure-2-differential-unproductive-splicing-across-human-tissues" class="level1">
 <h1>Figure 2 — Differential unproductive splicing across human tissues</h1>
-<p>Panels <strong>a</strong>, <strong>b</strong> and <strong>e</strong>, drawn as fully vector PDF/SVG with editable text. The remaining panels of Figure 2 live in sibling notebooks in this directory:</p>
+<p>Unproductive splicing is not uniform across the body: its overall level varies several-fold between tissues, it tracks the expression of the NMD factor <em>UPF3A</em>, and where an unproductive junction is used more, the host gene is expressed less.</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
+<col style="width: 50%">
+<col style="width: 50%">
 </colgroup>
 <thead>
 <tr class="header">
 <th>Panel</th>
-<th>Content</th>
-<th>Notebook</th>
+<th>What it shows</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td><strong>a</strong></td>
-<td>Unproductive junction-read percentage per sample, by tissue</td>
-<td>this notebook</td>
+<td>Percentage of junction reads that are unproductive, per sample, by tissue</td>
 </tr>
 <tr class="even">
 <td><strong>b</strong></td>
-<td>Splicing-vs-expression correlation per tissue pair</td>
-<td>this notebook</td>
-</tr>
-<tr class="odd">
-<td><strong>c</strong></td>
-<td>Heatmap of differentially used unproductive events</td>
-<td><code>Figure2_heatmap.ipynb</code> (R)</td>
-</tr>
-<tr class="even">
-<td><strong>d</strong></td>
-<td><em>GABBR1</em> sashimi plot</td>
-<td><code>Figure2_prepare_sashimi.ipynb</code></td>
+<td>Splicing-vs-expression correlation for every pair of tissues</td>
 </tr>
 <tr class="odd">
 <td><strong>e</strong></td>
-<td><em>GABBR1</em> expression across tissues</td>
-<td>this notebook</td>
+<td><em>GABBR1</em> expression across tissues, high in brain where the unproductive junction is least used</td>
 </tr>
 </tbody>
 </table>
-<p>Cell 3 builds and pickles all plot-ready data; cell 2 reloads it from <code>figure_data/</code> without recomputing. Panels are written to <code>plots/</code> as <code>fig2a</code>, <code>fig2b</code>, <code>fig2e</code>.</p>
-<p><em>Naming note:</em> these panels were <code>fig2A</code>, <code>fig2C</code> and <code>fig2_boxplots</code> in the original <code>../Fig2.ipynb</code>. Function names, pickle keys and output files now all follow the caption letters; pickles written under the old names were moved to <code>../old_pickles/</code>, and figures written under the old names to <code>../old_figures/</code>.</p>
-<div id="cell-2" class="cell" data-execution_count="1">
+<div id="32a23966" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
@@ -2358,7 +2341,7 @@ vertical-align: -.125em;
 <pre><code>panels will be written to plots</code></pre>
 </div>
 </div>
-<div id="cell-3" class="cell" data-execution_count="2">
+<div id="be8af330" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fast path: re-plot straight from the pickles written by run_all().</span></span>
@@ -2374,7 +2357,7 @@ vertical-align: -.125em;
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># fig2e_boxplot_stats = data[&#39;fig2e_boxplot_stats&#39;]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="cell-4" class="cell" data-execution_count="3">
+<div id="73dcde6d" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Full data pipeline: reads the GTEx leafcutter2 noise tables, the GTEx TPM</span></span>
@@ -2397,10 +2380,10 @@ vertical-align: -.125em;
 <section id="fig.-2a" class="level3">
 <h3 class="anchored" data-anchor-id="fig.-2a">Fig. 2a</h3>
 <p>Percent of junction reads that are classified as unproductive for each sample, grouped according to GTEx tissue type.</p>
-<div id="cell-6" class="cell" data-execution_count="4">
+<div id="f47be5ba" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 2a -- was `fig2A` in ../Fig2.ipynb</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 2a</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>plot_fig2a(fig2a_panels, fig2a_tissue_names)</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>save_panel(<span class="st">&#39;fig2a&#39;</span>, dpi<span class="op">=</span><span class="dv">300</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -2421,10 +2404,10 @@ vertical-align: -.125em;
 <h3 class="anchored" data-anchor-id="fig.-2b">Fig. 2b</h3>
 <p>Scatter plot showing the two-sided Spearman’s correlation between delta PSI and differential gene expression Z-scores for tissue pairs (x-axis) and the significance of the correlation (y-axis). Correlations are tested over the set of genes common between each pair, which varies for each tissue pair. Pairs with n &lt; 50 are not shown (exact n and test statistics for each pair are shown in Supplementary Table 3). The dashed line marks unadjusted P = 0.01 and colored points have an FDR ≤ 10% (Benjamini–Hochberg).</p>
 <p>Supplementary Table 3 is written by <code>run_all</code> as <code>figure_data/fig2b_source_data.tsv</code>.</p>
-<div id="cell-8" class="cell" data-execution_count="5">
+<div id="0066e2cb" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 2b -- was `fig2C` in ../Fig2.ipynb</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 2b</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># print(fig2b_legend(fig2b_source_data)) for the generated legend text.</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>plot_fig2b(fig2b_series)</span>
@@ -2446,10 +2429,10 @@ vertical-align: -.125em;
 <h3 class="anchored" data-anchor-id="fig.-2e">Fig. 2e</h3>
 <p>Boxplots of <em>GABBR1</em> expression level across GTEx tissues. High expression of <em>GABBR1</em> in brain tissue is associated with high exon inclusion. Each point is one sample from a distinct GTEx donor, with n given below each box. Boxes depict the median (red line) and interquartile range (IQR), with whiskers extending to the most extreme value no greater than 1.5× IQR from the hinge, with all points overlaid. P values shown are from a two-sided Wilcoxon signed-rank test on per-donor medians of brain and non-brain tissues.</p>
 <p>The caption quotes n = 340 paired donors — confirm against <code>fig2e_boxplot_stats[&#39;wilcoxon&#39;][&#39;n_pairs&#39;]</code> after running cell 3.</p>
-<div id="cell-10" class="cell" data-execution_count="6">
+<div id="2569fb5a" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 2e -- was `fig2_boxplots` in ../Fig2.ipynb</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 2e</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># print(boxplot_legend(fig2e_boxplot_stats)) for the generated legend text.</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># fig2e_boxplot_stats[&#39;wilcoxon&#39;][&#39;n_pairs&#39;] is the paired-donor n in the caption.</span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>

@@ -2212,7 +2212,7 @@ vertical-align: -.125em;
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#figure-4-genetic-basis-of-variation-in-unproductive-splicing" id="toc-figure-4-genetic-basis-of-variation-in-unproductive-splicing" class="nav-link active" data-scroll-target="#figure-4-genetic-basis-of-variation-in-unproductive-splicing">Figure 4 | Genetic basis of variation in unproductive splicing</a>
+  <li><a href="#figure-4-genetic-basis-of-variation-in-unproductive-splicing" id="toc-figure-4-genetic-basis-of-variation-in-unproductive-splicing" class="nav-link active" data-scroll-target="#figure-4-genetic-basis-of-variation-in-unproductive-splicing">Figure 4 — Genetic basis of variation in unproductive splicing</a>
   <ul class="collapse">
   <li><a href="#fig.-4a" id="toc-fig.-4a" class="nav-link" data-scroll-target="#fig.-4a">Fig. 4a</a></li>
   <li><a href="#fig.-4b" id="toc-fig.-4b" class="nav-link" data-scroll-target="#fig.-4b">Fig. 4b</a></li>
@@ -2259,58 +2259,47 @@ vertical-align: -.125em;
 
 
 <section id="figure-4-genetic-basis-of-variation-in-unproductive-splicing" class="level1">
-<h1>Figure 4 | Genetic basis of variation in unproductive splicing</h1>
-<p>Panels for <strong>Figure 4</strong>, matching the manuscript caption lettering.</p>
+<h1>Figure 4 — Genetic basis of variation in unproductive splicing</h1>
+<p>Genetic variants that change unproductive splicing change how much of the host gene survives. Variants affecting unproductive junctions (u-sQTLs) have effects on gene expression that mirror their effect on splicing; variants affecting productive junctions (p-sQTLs) do not. These u-sQTLs colocalize with GWAS loci, placing unproductive splicing on the path from genotype to trait.</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
+<col style="width: 50%">
+<col style="width: 50%">
 </colgroup>
 <thead>
 <tr class="header">
 <th>Panel</th>
-<th>File</th>
 <th>What it shows</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td><strong>a</strong></td>
-<td><code>fig4A</code></td>
-<td>p-sQTL and u-sQTL counts across GTEx tissues at 10% FDR</td>
+<td>p-sQTL and u-sQTL counts across GTEx tissues, 10% FDR</td>
 </tr>
 <tr class="even">
 <td><strong>b</strong></td>
-<td><code>fig4B_usQTL</code>, <code>fig4B_psQTL</code></td>
-<td>eQTL vs sQTL effect size in cultured fibroblasts (483 donors)</td>
+<td>sQTL vs eQTL effect size in cultured fibroblasts, 483 donors</td>
 </tr>
 <tr class="odd">
 <td><strong>c</strong></td>
-<td><code>fig4C</code></td>
-<td>The same comparison summarized across all 49 GTEx tissues</td>
+<td>The same comparison summarised across all 49 tissues</td>
 </tr>
 <tr class="even">
 <td><strong>d</strong></td>
-<td><code>fig4D</code></td>
 <td>Percentage of GWAS loci colocalizing with a u-sQTL, 19 traits</td>
 </tr>
 <tr class="odd">
 <td><strong>e</strong></td>
-<td><code>fig4E_sQTL</code>, <code>fig4E_eQTL</code>, <code>fig4E_ASB16</code></td>
-<td>ASB16 u-sQTL colocalizing with bipolar disorder (rs7212573)</td>
+<td><em>ASB16</em>: a u-sQTL colocalizing with bipolar disorder at rs7212573</td>
 </tr>
 <tr class="even">
 <td><strong>f</strong></td>
-<td><code>fig4F</code></td>
-<td>LocusCompare plots for GWAS, eQTL and u-sQTL at ASB16</td>
+<td>LocusCompare of GWAS, eQTL and u-sQTL signal at <em>ASB16</em></td>
 </tr>
 </tbody>
 </table>
-<p><code>fig4_colocs_sc2</code> is also produced but is <strong>not</strong> a Figure 4 panel.</p>
-<p>Run <strong>cell 3</strong> once to build (and pickle) all plot-ready data, then the plot cells. On later sessions, uncomment <strong>cell 2</strong> and skip cell 3 to re-plot from <code>figure_data/</code> without recomputing anything.</p>
-<p>Markdown cells carry the <strong>final figure legends</strong> for the panels that report statistics; the code cell after each prints the numbers those legends quote. <code>run_all</code> also writes <code>figure_data/fig4C_source_data.tsv</code> (Supplementary Table 9) and <code>figure_data/fig4D_source_data.tsv</code> (Supplementary Table 10).</p>
-<p>Panel names changed to match the caption: <code>fig4B</code> -&gt; <code>fig4C</code>, <code>fig4B1</code> -&gt; <code>fig4B_usQTL</code>, <code>fig4B2</code> -&gt; <code>fig4B_psQTL</code>, <code>fig4D2_coloc</code> -&gt; <code>fig4D</code>, <code>fig4_coloc_example_*_colored</code> -&gt; <code>fig4E_*</code>, <code>fig4_ASB16</code> -&gt; <code>fig4E_ASB16</code>. The original <code>savefig</code> paths are kept commented in each cell.</p>
+<p>Markdown cells carry the final figure legends for panels that report statistics; the code cell after each prints the numbers those legends quote.</p>
 <div id="cell-2" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
@@ -2434,7 +2423,7 @@ vertical-align: -.125em;
 <div id="cell-6" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 4a | fig4A -- from QTL_analysis.ipynb</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 4a | fig4A</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of productive (p-sQTL) and unproductive (u-sQTL) sQTLs identified</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># across GTEx tissues at 10% FDR, with per-tissue donor counts beneath.</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -2460,7 +2449,7 @@ vertical-align: -.125em;
 <div id="cell-8" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 4b (left) | fig4B_usQTL -- from QTL_analysis.ipynb  (was named fig4B1)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 4b (left) | fig4B_usQTL</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># eQTL vs u-sQTL effect size in cultured fibroblasts from 483 donors,</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># n = 1,391 unproductive introns. Alleles that increase unproductive splicing</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># tend to decrease expression of the host gene. Dashed line, least-squares</span></span>
@@ -2498,7 +2487,7 @@ vertical-align: -.125em;
 <div id="cell-9" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 4b (right) | fig4B_psQTL -- from QTL_analysis.ipynb  (was named fig4B2)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 4b (right) | fig4B_psQTL</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># The p-sQTL half of panel b: same 483 donors, n = 6,032 productive introns.</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Productive splicing shows no comparable coupling to host-gene expression,</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># which is what makes the u-sQTL panel interpretable.</span></span>
@@ -2563,7 +2552,7 @@ fig4B2 (p-sQTLs): n = 6032 triplets, 483 donors | rho = -0.015 (95% CI -0.040 to
 <div id="cell-13" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 4c | fig4C -- from QTL_analysis.ipynb  (was named fig4B)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 4c | fig4C</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary of eQTL vs sQTL effect-size comparisons across all GTEx tissues,</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># separating u-sQTLs and p-sQTLs as classified by LeafCutter2. Two-sided</span></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Spearman correlation computed separately in each of 49 tissues. Exact</span></span>
@@ -2620,7 +2609,7 @@ rows: 98 | tissues: 49 | donors per tissue: 73 - 706 (median 233 )
 <div id="cell-17" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 4d | fig4D -- from hyprcoloc_results.ipynb  (was named fig4D2_coloc)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 4d | fig4D</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Percentage of GWAS loci colocalizing with a u-sQTL, for 19 complex traits.</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Each box summarizes n = 49 GTEx tissues, one observation per tissue. Red</span></span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># dots give the percentage of that trait&#39;s loci colocalizing in any tissue.</span></span>
@@ -2712,7 +2701,7 @@ Multiple sclerosis IMSGC2019    Ben
 <div id="cell-21" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 4e (left) | fig4E_sQTL -- from coloc_plots.ipynb</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 4e (left) | fig4E_sQTL</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Example u-sQTL colocalizing with bipolar disorder (rs7212573). The risk</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># allele increases unproductive splicing of ASB16 in Brain - Cerebellar</span></span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Hemisphere. n = 175 donors. Effect size and P from the QTLtools nominal</span></span>
@@ -2741,7 +2730,7 @@ Multiple sclerosis IMSGC2019    Ben
 <div id="cell-22" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 4e (right) | fig4E_eQTL -- from coloc_plots.ipynb</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 4e (right) | fig4E_eQTL</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># The same rs7212573 allele decreases ASB16 expression in the same 175</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># donors -- the opposite direction to the splicing panel, as expected if the</span></span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># unproductive isoform is degraded.</span></span>
@@ -2769,7 +2758,7 @@ Multiple sclerosis IMSGC2019    Ben
 <div id="cell-23" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 4e (gene model) | fig4E_ASB16 -- from coloc_plots.ipynb</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 4e (gene model) | fig4E_ASB16</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ASB16 transcript models for the two isoforms underlying panel e.</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>plot_isoform_annotations(fig4E_ASB16_annot, ASB16_GENE,</span>
@@ -2837,25 +2826,22 @@ box definition: centre line, median; box bounds, 25th and 75th percentiles (Q1, 
 <div id="cell-27" class="cell" data-execution_count="16">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 4f | fig4F -- from Fig4_example.ipynb</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fig. 4f | fig4F</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co"># LocusCompare plots showing colocalization of the GWAS association, eQTL and</span></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># u-sQTL at ASB16. QTL P values are from the QTLtools nominal pass; GWAS P</span></span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># values are uncorrected, from public summary statistics. Points are coloured</span></span>
 <span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co"># by r^2 with rs7212573, which is ringed in black.</span></span>
 <span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: Fig4_example.ipynb intersects only the four tables plotted here, while</span></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="co"># coloc_plots.ipynb builds the same panel intersecting several further tissues,</span></span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="co"># which yields a smaller SNP set. This follows Fig4_example.ipynb.</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: this panel intersects only the four tables plotted here. Intersecting</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="co"># several further tissues as well, as an earlier version did, yields a smaller</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="co"># SNP set; the four-table intersection is what the published panel shows.</span></span>
 <span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>plot_fig4F_locuscompare(fig4F_data)</span>
 <span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>unrasterize()</span>
 <span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="ss">f&#39;</span><span class="sc">{</span>PLOTS_DIR<span class="sc">}</span><span class="ss">/fig4F.png&#39;</span>, dpi<span class="op">=</span><span class="dv">300</span>, bbox_inches<span class="op">=</span><span class="st">&#39;tight&#39;</span>)</span>
 <span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="ss">f&#39;</span><span class="sc">{</span>PLOTS_DIR<span class="sc">}</span><span class="ss">/fig4F.pdf&#39;</span>, dpi<span class="op">=</span><span class="dv">300</span>, bbox_inches<span class="op">=</span><span class="st">&#39;tight&#39;</span>)</span>
-<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="ss">f&#39;</span><span class="sc">{</span>PLOTS_DIR<span class="sc">}</span><span class="ss">/fig4F.svg&#39;</span>, dpi<span class="op">=</span><span class="dv">300</span>, bbox_inches<span class="op">=</span><span class="st">&#39;tight&#39;</span>)</span>
-<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Original destination in Fig4_example.ipynb (commented out there):</span></span>
-<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.savefig(&#39;../code/plots/fig4_coloc_example.png&#39;, dpi=300, bbox_inches=&#39;tight&#39;)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="ss">f&#39;</span><span class="sc">{</span>PLOTS_DIR<span class="sc">}</span><span class="ss">/fig4F.svg&#39;</span>, dpi<span class="op">=</span><span class="dv">300</span>, bbox_inches<span class="op">=</span><span class="st">&#39;tight&#39;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -2873,8 +2859,8 @@ box definition: centre line, median; box bounds, 25th and 75th percentiles (Q1, 
 <div id="cell-30" class="cell" data-execution_count="17">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># NOT A FIGURE 4 PANEL | fig4_colocs_sc2 -- from hyprcoloc_results.ipynb</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># PR introns of GWAS-colocalizing PR,UP clusters. hyprcoloc_results.ipynb carries</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># NOT A FIGURE 4 PANEL | fig4_colocs_sc2</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># PR introns of GWAS-colocalizing PR,UP clusters. An earlier version carried</span></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co"># a commented-out fig4B1 savefig on this plot and writes it as fig4_colocs_sc2;</span></span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co"># kept here for completeness but not part of the published Figure 4.</span></span>
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Figure4_helpers <span class="im">import</span> make_rho_stats</span>
@@ -2896,7 +2882,7 @@ box definition: centre line, median; box bounds, 25th and 75th percentiles (Q1, 
 <span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>    x_fit<span class="op">=</span>(<span class="op">-</span><span class="dv">2</span>, <span class="dv">2</span>),</span>
 <span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: in hyprcoloc_results.ipynb this panel also carried a commented-out</span></span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: an earlier version of this panel also carried a commented-out</span></span>
 <span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a><span class="co"># fig4B1 savefig. It is deliberately NOT enabled here -- it would overwrite</span></span>
 <span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a><span class="co"># the fig4B1 written by the cell above. This panel saves as fig4_colocs_sc2.</span></span>
 <span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.savefig(f&#39;{PLOTS_DIR}/fig4B_usQTL.png&#39;, dpi=300, bbox_inches=&#39;tight&#39;)</span></span>
