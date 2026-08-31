@@ -96,9 +96,12 @@ def make_fig1c_tracks(gene='SRSF4'):
 # --------------------------------------------------------------------------- #
 
 def make_fig1d_data():
-    """Counts and percentages of each LeafCutter2 class, per usage quartile."""
+    """Counts and percentages of each LeafCutter2 class, per usage quartile.
+
+    ALL is included as its own bar, as in the published panel, and comes first.
+    """
     rows = []
-    for q in QUARTILES + ['ALL']:
+    for q in ['ALL'] + QUARTILES:
         t = junctions_table(q)
         n = len(t)
         for cat in CATEGORIES:
@@ -112,14 +115,31 @@ def make_fig1d_data():
 
 
 def make_fig1e_data():
-    """GENCODE v46 transcript-type composition of each LeafCutter2 class."""
-    t = junctions_table('ALL')
-    g = (t.groupby(['leafcutter2_category', 'gencode_annotation']).size()
-           .rename('n_junctions').reset_index())
-    tot = g.groupby('leafcutter2_category').n_junctions.transform('sum')
-    g['pct_of_class'] = 100 * g.n_junctions / tot
-    g['category_label'] = g.leafcutter2_category.map(CATEGORY_LABELS)
-    return g.sort_values(['leafcutter2_category', 'n_junctions'], ascending=[True, False])
+    """GENCODE v46 transcript-type composition of each class, per usage quartile.
+
+    Restricted to junctions GENCODE v46 annotates: `not_in_gencode` is 94% of
+    the unproductive class and would swamp the comparison, and the panel asks
+    what GENCODE calls the junctions it does annotate. One row per (quartile,
+    LeafCutter2 class, GENCODE type); `pct_of_class` is within that quartile and
+    class, so the stacked bars sum to 100.
+    """
+    rows = []
+    for q in ['ALL'] + QUARTILES:
+        t = junctions_table(q)
+        t = t.loc[t.gencode_annotation != 'not_in_gencode']
+        g = (t.groupby(['leafcutter2_category', 'gencode_annotation']).size()
+               .rename('n_junctions').reset_index())
+        g['pct_of_class'] = 100 * g.n_junctions / g.groupby(
+            'leafcutter2_category').n_junctions.transform('sum')
+        g.insert(0, 'quartile', q)
+        rows.append(g)
+    out = pd.concat(rows, ignore_index=True)
+    out['category_label'] = out.leafcutter2_category.map(CATEGORY_LABELS)
+    # stack order: most abundant GENCODE type at the bottom, pooled over ALL
+    order = (out.loc[out.quartile == 'ALL'].groupby('gencode_annotation')
+                .n_junctions.sum().sort_values(ascending=False).index.tolist())
+    out['stack_order'] = out.gencode_annotation.map({g: i for i, g in enumerate(order)})
+    return out.sort_values(['quartile', 'leafcutter2_category', 'stack_order'])
 
 
 # --------------------------------------------------------------------------- #

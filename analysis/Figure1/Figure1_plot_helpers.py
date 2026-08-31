@@ -17,21 +17,29 @@ def fmt_p(p):
     return f'P = {p:.3g}'
 
 
-def plot_fig1d(d, quartiles=None, ax=None):
-    """Stacked bars: LeafCutter2 class composition by usage quartile."""
-    quartiles = quartiles or QUARTILES
+def plot_fig1d(d, quartiles=None, ax=None, label_min_pct=3.0):
+    """Stacked bars: LeafCutter2 class composition, ALL plus each usage quartile.
+
+    Segments above `label_min_pct` carry their percentage and count, as in the
+    published panel.
+    """
+    quartiles = quartiles or ['ALL'] + QUARTILES
     if ax is None:
-        _, ax = plt.subplots(figsize=(3.2, 3), dpi=300)
+        _, ax = plt.subplots(figsize=(5.2, 3.4), dpi=300)
+    t = d.set_index(['quartile', 'category'])
     bottom = np.zeros(len(quartiles))
     for cat in CATEGORIES:
-        sub = d.set_index(['quartile', 'category']).loc[
-            [(q, cat) for q in quartiles], 'pct_junctions'].to_numpy()
-        ax.bar(range(len(quartiles)), sub, bottom=bottom, width=0.75,
+        vals = t.loc[[(q, cat) for q in quartiles], 'pct_junctions'].to_numpy()
+        cnts = t.loc[[(q, cat) for q in quartiles], 'n_junctions'].to_numpy()
+        ax.bar(range(len(quartiles)), vals, bottom=bottom, width=0.72,
                color=CATEGORY_COLORS[cat], label=CATEGORY_LABELS[cat],
                edgecolor='white', linewidth=0.5)
-        bottom += sub
-    n = d.set_index(['quartile', 'category']).loc[
-        [(q, CATEGORIES[0]) for q in quartiles], 'n_in_quartile'].to_numpy()
+        for i, (v, c) in enumerate(zip(vals, cnts)):
+            if v >= label_min_pct:
+                ax.text(i, bottom[i] + v / 2, f'{v:.1f}%\n(n={c:,})', ha='center',
+                        va='center', fontsize=6, color='white', fontweight='bold')
+        bottom += vals
+    n = t.loc[[(q, CATEGORIES[0]) for q in quartiles], 'n_in_quartile'].to_numpy()
     ax.set_xticks(range(len(quartiles)),
                   [f'{q}\nn = {v:,}' for q, v in zip(quartiles, n)], size=7)
     ax.set_ylim(0, 100)
@@ -39,8 +47,54 @@ def plot_fig1d(d, quartiles=None, ax=None):
     ax.set_xlabel('Junction usage quartile')
     ax.spines[['top', 'right']].set_visible(False)
     ax.legend(frameon=False, fontsize=7, loc='upper center',
-              bbox_to_anchor=(0.5, 1.22), ncol=3)
+              bbox_to_anchor=(0.5, 1.18), ncol=3)
     return ax
+
+
+def plot_fig1e(d, quartiles=None, label_min_pct=3.0, palette=None):
+    """Stacked bars: GENCODE composition of each class, one panel per class.
+
+    Mirrors the published layout -- x is the usage quartile, the stack is the
+    GENCODE v46 transcript type, and one subplot per LeafCutter2 class.
+    """
+    quartiles = quartiles or ['ALL'] + QUARTILES
+    classes = [c for c in CATEGORIES if c in set(d.leafcutter2_category)]
+    gencode = list(dict.fromkeys(d.sort_values('stack_order').gencode_annotation))
+    if palette is None:
+        base = ['#1b9e77', '#d95f02', '#7570b3', '#e7298a', '#66a61e',
+                '#e6ab02', '#a6761d', '#666666']
+        palette = {g: base[i % len(base)] for i, g in enumerate(gencode)}
+
+    fig, axes = plt.subplots(1, len(classes), figsize=(3.6 * len(classes), 3.6),
+                             dpi=300, squeeze=False)
+    for ax, cls in zip(axes[0], classes):
+        sub = d[d.leafcutter2_category == cls].set_index(['quartile', 'gencode_annotation'])
+        bottom = np.zeros(len(quartiles))
+        for g in gencode:
+            vals = np.array([sub['pct_of_class'].get((q, g), 0.0) for q in quartiles])
+            cnts = np.array([sub['n_junctions'].get((q, g), 0) for q in quartiles])
+            if not vals.any():
+                continue
+            ax.bar(range(len(quartiles)), vals, bottom=bottom, width=0.72,
+                   color=palette[g], label=g, edgecolor='white', linewidth=0.4)
+            for i, (v, c) in enumerate(zip(vals, cnts)):
+                if v >= label_min_pct:
+                    ax.text(i, bottom[i] + v / 2, f'{v:.1f}%\n(n={c:,})', ha='center',
+                            va='center', fontsize=5.5, color='white', fontweight='bold')
+            bottom += vals
+        ax.set_xticks(range(len(quartiles)), quartiles, size=7)
+        ax.set_ylim(0, 100)
+        ax.set_title(CATEGORY_LABELS.get(cls, cls), size=9)
+        ax.set_xlabel('Usage quartile', size=8)
+        ax.spines[['top', 'right']].set_visible(False)
+    axes[0][0].set_ylabel('% of junctions in class')
+    for ax in axes[0][1:]:
+        ax.set_yticklabels([])
+    axes[0][-1].legend(frameon=False, fontsize=6, loc='center left',
+                       bbox_to_anchor=(1.02, 0.5), title='GENCODE v46',
+                       title_fontsize=6)
+    fig.tight_layout()
+    return fig, axes[0]
 
 
 def plot_fig1g(series, comparisons=None, ncols=2, categories=('productive', 'unproductive')):
