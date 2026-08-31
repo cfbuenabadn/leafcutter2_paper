@@ -35,17 +35,23 @@ SupFigures/**/*.svg
 # --- Figure build directories ----------------------------------------------
 # Un-exclude the directory first, then its contents; git will not descend into
 # a directory that is still excluded, so the order matters.
+!Figure1/
 !Figure2/
 !Figure4/
 !Figure5/
+!Figure1/**
 !Figure2/**
 !Figure4/**
 !Figure5/**
 
 # ...but never the rendered panels themselves.
+Figure1/plots/
 Figure2/plots/
 Figure4/plots/
 Figure5/plots/
+Figure1/**/*.png
+Figure1/**/*.pdf
+Figure1/**/*.svg
 Figure2/**/*.png
 Figure2/**/*.pdf
 Figure2/**/*.svg

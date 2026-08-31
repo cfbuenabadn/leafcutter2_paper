@@ -304,10 +304,57 @@ def supfigures():
     print(f'   {"panel_statistics.csv":<44} {len(stats):>6} rows')
 
 
+
+# --------------------------------------------------------------------------- #
+# Figure 1
+# --------------------------------------------------------------------------- #
+
+def figure1():
+    print('Figure1')
+    # 1c: the BED12 junction tracks behind the browser screenshot, one row per
+    # junction drawn, with the class the track is coloured by
+    tracks = _load('Figure1', 'fig1c_tracks')
+    rows = []
+    for q, df in tracks.items():
+        d = df.copy()
+        d.insert(0, 'usage_quartile', q)
+        rows.append(d)
+    _write(pd.concat(rows, ignore_index=True), 'Figure1', 'fig1c_bed12_tracks')
+
+    _write(_load('Figure1', 'fig1d_data'), 'Figure1', 'fig1d')
+    _write(_load('Figure1', 'fig1e_data'), 'Figure1', 'fig1e')
+
+    # 1g: the drawn ECDF, plus the per-junction log2FCs behind it
+    g = _load('Figure1', 'fig1g_data')
+    _write(pd.concat([pd.DataFrame({
+        'comparison': s['comparison_label'], 'category': s['category_label'],
+        'color': s['color'], 'log2fc_x': s['ecdf_x'], 'cumulative_fraction': s['ecdf_y'],
+    }) for s in g], ignore_index=True), 'Figure1', 'fig1g')
+    _write(pd.concat([pd.DataFrame({
+        'comparison': s['comparison_label'], 'category': s['category_label'],
+        'log2fc': s['log2fc'],
+    }) for s in g], ignore_index=True), 'Figure1', 'fig1g_log2fc_values')
+
+    _write(_load('Figure1', 'fig1h_data'), 'Figure1', 'fig1h')
+
+    stats = [{'panel': 'fig1g', 'comparison': s['comparison_label'],
+              'category': s['category_label'], 'n': s['n'],
+              'median_log2fc': s['median_log2fc']} for s in g]
+    h = _load('Figure1', 'fig1h_data')
+    for _, r in h.iterrows():
+        stats.append({'panel': 'fig1h', 'comparison': r['rule'], 'category': r['class'],
+                      'n': (r['n_low'] + r['n_high']) if pd.notna(r['n_low']) else None,
+                      'test': 'Mann-Whitney U, one-sided',
+                      'statistic': r.get('U'), 'p_value': r['p_value'],
+                      'delta_log2fd': r['delta_log2fd']})
+    pd.DataFrame(stats).to_csv(os.path.join(_out('Figure1'), 'panel_statistics.csv'), index=False)
+    print(f'   {"panel_statistics.csv":<44} {len(stats):>6} rows')
+
+
 def main(argv):
-    todo = argv or ['Figure2', 'Figure4', 'Figure5', 'SupFigures']
-    fns = {'Figure2': figure2, 'Figure4': figure4, 'Figure5': figure5,
-           'SupFigures': supfigures}
+    todo = argv or ['Figure1', 'Figure2', 'Figure4', 'Figure5', 'SupFigures']
+    fns = {'Figure1': figure1, 'Figure2': figure2, 'Figure4': figure4,
+           'Figure5': figure5, 'SupFigures': supfigures}
     for f in todo:
         fns[f]()
     r = os.path.join(BASE, 'make_source_data.R')
