@@ -26,6 +26,8 @@ DATE = "2026-08-26"
 # The sashimi notebook prepares inputs for an external tool and draws nothing,
 # so the "no figures means you forgot to save" check must not apply to it.
 NOTEBOOKS = [
+    ("Figure1/Figure1.ipynb",
+     "Figure 1: classification of unproductive splice junctions", True),
     ("Figure2/Figure2.ipynb",
      "Figure 2: differential unproductive splicing across human tissues", True),
     ("Figure2/Figure2_heatmap.ipynb",

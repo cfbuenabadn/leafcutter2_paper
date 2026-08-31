@@ -57,6 +57,7 @@ nothing to install:
 
 | | |
 |---|---|
+| [Figure 1](https://cfbuenabadn.github.io/leafcutter2_paper/Figure1.html) | junction classification, usage quartiles, NMD perturbations and efficiency rules |
 | [Figure 2](https://cfbuenabadn.github.io/leafcutter2_paper/Figure2.html) | unproductive splicing across GTEx tissues; UPF3A; splicing vs expression |
 | [Figure 2c](https://cfbuenabadn.github.io/leafcutter2_paper/Figure2_heatmap.html) | the tissue-pattern heatmap |
 | [Figure 2d](https://cfbuenabadn.github.io/leafcutter2_paper/Figure2_prepare_sashimi.html) | inputs for the *GABBR1* sashimi panel |
