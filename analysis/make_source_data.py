@@ -337,9 +337,20 @@ def figure1():
 
     _write(_load('Figure1', 'fig1h_data'), 'Figure1', 'fig1h')
 
+    # 1i: the drawn ECDF, one row per plotted step
+    i = _load('Figure1', 'fig1i_data')
+    _write(pd.concat([pd.DataFrame({
+        'panel': p['panel'], 'group': s['group'],
+        'unproductive_fraction': s['x'], 'cumulative_distribution': s['y'],
+    }) for p in i for s in p['series']], ignore_index=True), 'Figure1', 'fig1i')
+
     stats = [{'panel': 'fig1g', 'comparison': s['comparison_label'],
               'category': s['category_label'], 'n': s['n'],
               'median_log2fc': s['median_log2fc']} for s in g]
+    for p in i:
+        stats.append({'panel': 'fig1i', 'comparison': p['panel'],
+                      'test': 'Spearman', 'statistic': p['rho'],
+                      'p_value': p['pvalue'], 'n': p['n']})
     h = _load('Figure1', 'fig1h_data')
     for _, r in h.iterrows():
         stats.append({'panel': 'fig1h', 'comparison': r['rule'], 'category': r['class'],

@@ -275,9 +275,57 @@ def make_fig1h_data(comparison=('naRNA', 'SteadyState')):
     return pd.DataFrame(rows)
 
 
+
+# --------------------------------------------------------------------------- #
+# 1i -- unproductive splicing vs intron length and vs gene expression
 # --------------------------------------------------------------------------- #
 
-PLOT_READY_VARS = ['fig1c_tracks', 'fig1d_data', 'fig1e_data', 'fig1g_data', 'fig1h_data']
+# Bin order as drawn, palest to darkest
+LENGTH_BINS = ['<1kb', '1-5kb', '5-20kb', '20-50kb', '>50kb']
+RPKM_BINS = ['Q1 - lowly expressed', 'Q2', 'Q3', 'Q4', 'Q5 - highly expressed']
+
+# Zeros cannot go on a log axis; the source notebook floors them here.
+ZERO_FLOOR = 0.0005
+
+
+def make_fig1i_data(data_dir='figure_data'):
+    """ECDF of unproductive splicing, split by intron length and by expression.
+
+    Reads the two tables written by Figure1_fig1i.R, which ports the
+    computation out of the Geuvadis EUR analysis: 373 lymphoblastoid cell
+    lines, one row per cluster (length panel) or per gene (expression panel),
+    not per sample.
+    """
+    from scipy.stats import spearmanr
+
+    panels = []
+    for name, fname, value_col, group_col, bins, xlab in (
+        ('intron length', 'fig1i_intron_length.tsv', 'meanUnprod',
+         'intron_length_bin', LENGTH_BINS, 'intron length'),
+        ('gene expression', 'fig1i_expression.tsv', 'medUPratio',
+         'rpkm_bin', RPKM_BINS, 'gene RPKM quintile'),
+    ):
+        t = pd.read_csv(os.path.join(data_dir, fname), sep='\t')
+        covar = 'intron_length' if 'intron_length' in t.columns else 'meanrpkm'
+        rho, p = spearmanr(t[value_col], t[covar])
+        series = []
+        for b in bins:
+            v = t.loc[t[group_col] == b, value_col].to_numpy(dtype=float)
+            if v.size == 0:
+                continue
+            v = np.where(v == 0, ZERO_FLOOR, v)
+            x = np.sort(v)
+            series.append({'group': b, 'n': int(x.size), 'x': x,
+                           'y': np.arange(1, x.size + 1) / x.size})
+        panels.append({'panel': name, 'legend_title': xlab, 'series': series,
+                       'rho': float(rho), 'pvalue': float(p), 'n': int(len(t))})
+    return panels
+
+
+# --------------------------------------------------------------------------- #
+
+PLOT_READY_VARS = ['fig1c_tracks', 'fig1d_data', 'fig1e_data', 'fig1g_data',
+                   'fig1h_data', 'fig1i_data']
 
 
 def run_all(data_dir='figure_data', gene='SRSF4'):
@@ -288,6 +336,7 @@ def run_all(data_dir='figure_data', gene='SRSF4'):
         'fig1e_data': make_fig1e_data(),
         'fig1g_data': make_fig1g_data(),
         'fig1h_data': make_fig1h_data(),
+        'fig1i_data': make_fig1i_data(data_dir),
     }
     for k, v in data.items():
         with open(os.path.join(data_dir, f'{k}.pickle'), 'wb') as fh:
