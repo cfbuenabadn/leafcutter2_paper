@@ -12,8 +12,10 @@ notebook whose outputs live only in an unsaved editor renders with no figures.
 This script refuses to render such a notebook rather than emit a silently empty
 page. Save the notebook in Jupyter/VSCode first.
 
-    python3 analysis/render_notebooks.py            # render all
-    python3 analysis/render_notebooks.py Figure4    # render one
+    python3 analysis/render_notebooks.py                  # render all
+    python3 analysis/render_notebooks.py Figure4          # render one
+    python3 analysis/render_notebooks.py --check          # report only, render nothing
+    python3 analysis/render_notebooks.py --sync-external  # re-copy drifted external pages
 """
 import json, os, shutil, subprocess, sys, tempfile
 
@@ -43,6 +45,19 @@ NOTEBOOKS = [
     ("Figure5/Figure5_R.ipynb",
      "Figure 5: unproductive splicing in Alzheimer's disease (R panels)", True),
 ]
+
+# Pages copied in from the companion repositories. They are rendered there, not
+# here, so the only check available is whether our copy still matches theirs.
+_BF = '/project/yangili1/cfbuenabadn'
+EXTERNAL = {
+    'ComparativeSplicingFigures.html':
+        f'{_BF}/20260825_comparativesplicing_paper/docs/ComparativeSplicingFigures.html',
+    'NMD_GroupingDiscrepancy.html':
+        f'{_BF}/20260825_comparativesplicing_paper/docs/NMD_GroupingDiscrepancy.html',
+    'SimulationBenchmarkFigures.html':
+        f'{_BF}/20260825_leaf2simulation_paper/docs/SimulationBenchmarkFigures.html',
+}
+
 
 FRONT_MATTER = """---
 title: "{title}"
@@ -121,7 +136,77 @@ def output_census(path):
     return len(code), any_out, imgs
 
 
+
+def stale_pages():
+    """Notebooks whose rendered page is older than the notebook itself.
+
+    Nothing forces docs/ to agree with the notebooks -- rendering is manual --
+    so a page can sit wrong indefinitely. This is the check that catches it.
+    """
+    out = []
+    for nbpath, _, _ in NOTEBOOKS:
+        src = os.path.join(BASE, nbpath)
+        html = os.path.join(OUT, os.path.basename(nbpath).replace('.ipynb', '.html'))
+        if not os.path.exists(src):
+            continue
+        if not os.path.exists(html):
+            out.append((nbpath, 'never rendered'))
+        elif os.path.getmtime(src) > os.path.getmtime(html) + 5:
+            out.append((nbpath, 'notebook is newer than its page'))
+    return out
+
+
+def diverged_external():
+    """Copied-in pages that no longer match the repository they came from.
+
+    Skipped silently when the source repository is not on this machine, since
+    the copy is still perfectly serviceable without it.
+    """
+    out = []
+    for name, origin in EXTERNAL.items():
+        ours = os.path.join(OUT, name)
+        if not os.path.exists(ours):
+            out.append((name, 'missing from docs/'))
+        elif not os.path.exists(origin):
+            out.append((name, 'source repository not on this machine, cannot check'))
+        elif open(ours, 'rb').read() != open(origin, 'rb').read():
+            out.append((name, 'differs from the source repository'))
+    return out
+
+
+def report(sync=False):
+    """Print both checks. With sync=True, re-copy any external page that drifted."""
+    stale = stale_pages()
+    print('\nrendered pages vs their notebooks:')
+    if stale:
+        for nb, why in stale:
+            print(f'   STALE  {nb:<38} {why}')
+        print('   fix: python3 analysis/render_notebooks.py')
+    else:
+        print(f'   all {len(NOTEBOOKS)} in sync')
+
+    ext = diverged_external()
+    print('copied-in pages vs their source repositories:')
+    actionable = [(n, w) for n, w in ext if 'cannot check' not in w]
+    if not ext:
+        print(f'   all {len(EXTERNAL)} identical')
+    for name, why in ext:
+        tag = 'note ' if 'cannot check' in why else 'DIFF '
+        print(f'   {tag} {name:<38} {why}')
+        if sync and 'differs' in why:
+            shutil.copy2(EXTERNAL[name], os.path.join(OUT, name))
+            print(f'          re-copied from {EXTERNAL[name]}')
+    if not actionable and ext:
+        print('   (nothing actionable)')
+    return len(stale) + len(actionable)
+
+
 def main(argv):
+    sync = '--sync-external' in argv
+    if '--check' in argv:
+        return 1 if report(sync=sync) else 0
+    argv = [a for a in argv if not a.startswith('--')]
+
     quarto = shutil.which('quarto') or os.path.expanduser('~/.local/bin/quarto')
     if not os.path.exists(quarto):
         sys.exit("quarto not found; install it or put it on PATH")
@@ -170,6 +255,7 @@ def main(argv):
             html = tmp[:-len('.ipynb')] + '.html'
             shutil.copy2(html, os.path.join(OUT, os.path.basename(html)))
 
+    report(sync=sync)
     print("\nrendered into", OUT)
     for f in sorted(os.listdir(OUT)):
         if f.endswith('.html'):

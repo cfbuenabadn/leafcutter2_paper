@@ -84,6 +84,18 @@ Quarto renders the outputs stored in the notebook rather than re-executing it, s
 takes seconds and the heavy cells stay run once. The script refuses to render a notebook
 whose figures are not saved to disk, rather than emit a page with no plots.
 
+Rendering is manual, so a page can quietly fall behind its notebook. To check without
+rendering anything:
+
+```bash
+python3 analysis/render_notebooks.py --check
+```
+
+It reports any page older than its notebook, and any of the three pages copied in from
+the companion repositories that no longer matches its source. `--sync-external` re-copies
+those. It exits non-zero when something needs attention, so it can be used as a
+pre-publication gate.
+
 ## Reproducing the figures
 
 Each figure directory follows the same three-file layout: a `*_helpers.py` (or `.R`) that
