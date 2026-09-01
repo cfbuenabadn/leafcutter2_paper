@@ -81,6 +81,13 @@ Figure5/**/*.svg
 !make_source_data.py
 !make_source_data.R
 
+# --- Figure notebooks from the companion repositories -----------------------
+# Figure 3 and the Supplementary Note 1 benchmark are Ben's. The .qmd sources
+# are kept so every figure can be read here; they are not runnable from this
+# repository. Rendered versions live in docs/.
+!external_figures/
+!external_figures/**
+
 # --- Standalone analysis notebooks kept in the repository -------------------
 !2SLS.ipynb
 !GO_analysis.ipynb

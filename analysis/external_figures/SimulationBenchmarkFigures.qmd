@@ -1,0 +1,650 @@
+---
+title: "Benchmarking short-read splicing classification against long-read ground truth"
+author: "Benjamin Fair"
+date: "2026-08-25"
+jupyter: python3
+format:
+  html:
+    code-fold: true
+    toc: true
+    toc-depth: 3
+    # inline the CSS/JS and base64 the figures so the .html is a single portable file
+    embed-resources: true
+execute:
+  echo: true
+  warning: false
+---
+
+## What this notebook does
+
+It rebuilds the key figures of the simulation benchmark, reading **only** the small
+plot-ready files in `output/` — so it runs in seconds and needs none of the pipeline's
+intermediates.
+
+Almost everything here descends from one table, `output/master_confusion_table.tsv.gz`
+(78 KB), which the Snakemake workflow reduces from roughly 350 GB of alignments and
+clustering output. That table is shipped with the project, so the figures reproduce without
+running anything.
+
+::: {.callout-note}
+The workflow reproduces the shipped table *closely but not exactly*, because it calls a newer
+leafcutter2 than the one that produced the published classifications. The differences are
+measured in [FOOTNOTES.md](../FOOTNOTES.md); every metric's median change is zero.
+:::
+
+## The benchmark, for a new reader
+
+**The problem.** A splicing classifier has to decide, for each splice junction seen in
+short-read RNA-seq, whether it belongs to a productive transcript or an unproductive one
+(destined for nonsense-mediated decay). This is easy when the junction is annotated and hard
+when it isn't — and unannotated junctions are exactly where unproductive splicing hides. So a
+benchmark needs ground truth for junctions that no annotation contains, which an
+annotation-derived truth set cannot provide.
+
+**The trick.** Simulate the short reads from **real full-length long-read cDNAs**. Each of the
+334,430 long reads was translated and classified productive/unproductive by NMDFinderB *from
+the full-length molecule*, independent of any annotation. Short reads are then simulated from
+those same molecules. So every junction — annotated or not — carries a truth label, and the
+classifier's job is to recover it from fragments.
+
+**What is varied.** Four axes, crossed:
+
+| Axis | Levels |
+|---|---|
+| Sequencing depth | 7, from 20 GB (~100 M read pairs) down to 1/64 of that |
+| 3' coverage bias | 5 `Beta(alpha, 1)` fragment-bias conditions, uniform → extreme (a proxy for degraded RNA / low RIN) |
+| Annotation given to the classifier | comprehensive Gencode; minimal (MANE); minimal but with complete ORF ends (MinOrfEnds) |
+| Classification method | 4, below |
+
+**The four methods.** Two annotation baselines and two readings of leafcutter2:
+
+| Method | Rule |
+|---|---|
+| `Annotations` | believe the GTF; **decline to call** anything unannotated |
+| `Assume unannotated is UP` | believe the GTF; call anything unannotated unproductive |
+| `Leaf2 junction_classifier` | leafcutter2's raw `Coding` flag alone — an intermediate signal, taken without annotation or UTR context. Never declines. |
+| `Leaf2 multi-flag` | leafcutter2's actual final `PR`/`UP`/`NE` verdict — the label the tool appends to intron names in its clustered output |
+
+The last two are not "the tool" versus "a custom rule": they are the tool's internal coding
+flag versus the tool's published classification. Comparing them measures what leafcutter2's
+consolidation logic buys over the bare flag.
+
+**Junction subclasses.** Every junction carries three bits, `GencodePC:Annot:UTR` — is it in a
+Gencode protein-coding transcript, is it annotated at all, does it lie in a UTR. These are
+always assigned from *comprehensive Gencode*, even when scoring the MANE or MinOrfEnds runs,
+so a subclass means the same thing in every panel. `0:0:*` is the interesting corner:
+junctions no annotation knows about.
+
+## The master confusion table
+
+```{python}
+from pathlib import Path
+
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from IPython.display import display
+from matplotlib.colors import LogNorm
+from mpl_toolkits.axes_grid1.inset_locator import inset_axes
+from plotnine import (
+    aes, annotate, coord_cartesian, element_rect, element_text, geom_abline,
+    geom_hline, geom_point, ggplot, labs, scale_color_manual,
+    scale_size_continuous, scale_x_continuous, scale_y_continuous, theme,
+    theme_classic,
+)
+
+PROJECT = Path.cwd().resolve()
+if PROJECT.name == "analysis":
+    PROJECT = PROJECT.parent
+OUTPUT = PROJECT / "output"
+
+MM = 1 / 25.4
+
+SUBCLASS_LEVELS = ["0:0:0", "0:0:1", "0:1:0", "0:1:1", "1:1:0", "1:1:1", "Overall"]
+COUNT_COLS = [
+    "TP", "TN", "FP", "FN",
+    "UP_NE_ByMethod", "PR_NE_ByMethod",
+    "UP_NotDetected", "PR_NotDetected",
+]
+METHOD_LONG = {
+    "Annotations": "Annotations",
+    "Assume unannotated is UP": "Annotations, assume\nunannotated is unproductive",
+    "Leaf2 junction_classifier": "Leaf2, junction_classifier\ndecision",
+    "Leaf2 multi-flag": "Leaf2, multi-flag\ndecision",
+}
+METHOD_LONG_LEVELS = list(METHOD_LONG.values())
+GTF_LEVELS = ["MANE", "MinOrfEnds", "Comprehensive_Gencode"]
+GTF_LABELS = {
+    "MANE": "Minimal (MANE)",
+    "MinOrfEnds": "Complete start/stop codons,\nbut otherwise minimal\n(MinOrfEnds)",
+    "Comprehensive_Gencode": "Comprehensive (Gencode)",
+}
+
+# Source data: one entry per panel, collected as the notebook runs and written to a single
+# multi-tab spreadsheet (one tab per panel, main and supplemental together) at the end.
+SOURCE_DATA = {}
+
+
+def record_source(panel, df):
+    """Stash the exact table behind a panel's plot, keyed by its panel label."""
+    assert panel not in SOURCE_DATA, f"duplicate source-data panel label: {panel}"
+    SOURCE_DATA[panel] = df.reset_index(drop=True).copy()
+
+
+master = pd.read_csv(OUTPUT / "master_confusion_table.tsv.gz", sep="\t")
+for col in COUNT_COLS:
+    master[col] = master[col].fillna(0)
+master["Subclass"] = pd.Categorical(
+    master["Subclass"], categories=SUBCLASS_LEVELS, ordered=True)
+
+print(f"{len(master):,} rows x {master.shape[1]} columns")
+print(f"{master.GTF.nunique()} annotation sets"
+      f" x {master.Method.nunique()} methods"
+      f" x {master.Subclass.nunique()} subclasses"
+      f" x {master.Coverage_GB.nunique()} depths"
+      f" x {master.Coverage_bias_Beta_params.nunique()} bias conditions")
+```
+
+One row per (annotation set, method, subclass, depth, bias condition). The eight count
+columns partition every ground-truth junction:
+
+| Column | Meaning |
+|---|---|
+| `TP` | truly unproductive, called unproductive |
+| `TN` | truly productive, called productive |
+| `FP` | truly productive, called unproductive |
+| `FN` | truly unproductive, called productive |
+| `UP_NE_ByMethod` | truly unproductive, but the method **declined to call it** |
+| `PR_NE_ByMethod` | truly productive, but the method declined to call it |
+| `UP_NotDetected` | truly unproductive, junction **not seen** in the short reads at this depth |
+| `PR_NotDetected` | truly productive, not seen at this depth |
+
+The last four columns are what make this more than a confusion matrix. A method that refuses
+to answer, and a depth too shallow to see the junction, are different kinds of failure from a
+wrong answer — and both have to be charged somewhere, or an abstaining method looks
+artificially good.
+
+That is why there are two recalls. `Recall_v1` is `TP / (TP + FN)`, which scores only the
+junctions a method actually called. `Recall_v2` is
+`TP / (TP + FN + UP_NE_ByMethod + UP_NotDetected)`, which **scores against every ground-truth
+unproductive junction**, so declining to answer and failing to detect both count as misses.
+`Recall_v2` is the honest number, and the one used below.
+
+```{python}
+metrics = master.copy()
+metrics["n_classified"] = metrics[["TP", "TN", "FP", "FN"]].sum(axis=1)
+metrics["Accuracy"] = np.where(
+    metrics.n_classified > 0,
+    (metrics.TP + metrics.TN) / metrics.n_classified, np.nan)
+metrics["Precision"] = np.where(
+    (metrics.TP + metrics.FP) > 0, metrics.TP / (metrics.TP + metrics.FP), np.nan)
+metrics["Recall_v1"] = np.where(
+    (metrics.TP + metrics.FN) > 0, metrics.TP / (metrics.TP + metrics.FN), np.nan)
+metrics["Recall_v2"] = metrics.TP / (
+    metrics.TP + metrics.FN + metrics.UP_NE_ByMethod + metrics.UP_NotDetected)
+metrics["FPR_v2"] = metrics.FP / (
+    metrics.FP + metrics.TN + metrics.PR_NE_ByMethod + metrics.PR_NotDetected)
+metrics["Method_long"] = pd.Categorical(
+    metrics.Method.map(METHOD_LONG), categories=METHOD_LONG_LEVELS, ordered=True)
+```
+
+A slice of the table — the deepest, unbiased condition against comprehensive Gencode, for the
+two leafcutter2 methods:
+
+```{python}
+preview = metrics[
+    metrics.GTF.eq("Comprehensive_Gencode")
+    & metrics.Coverage_GB.eq(20)
+    & metrics.Coverage_bias_Beta_params.eq("alpha_1_beta_1")
+    & metrics.Method.str.startswith("Leaf2")
+][["Method", "Subclass"] + COUNT_COLS + ["Accuracy", "Precision", "Recall_v2"]]
+
+display(
+    preview.sort_values(["Method", "Subclass"])
+    .style
+    .format("{:,.0f}", subset=COUNT_COLS)
+    .format("{:.3f}", subset=["Accuracy", "Precision", "Recall_v2"], na_rep="--")
+    .hide(axis="index")
+)
+```
+
+Read the `0:0:0` and `0:0:1` rows against the rest: those are the unannotated junctions, and
+they carry a large `UP_NotDetected` count even at full depth, plus — for the multi-flag method
+— a non-zero `UP_NE_ByMethod`. Both of those are why the next figure exists.
+
+## FigS4C — junction subclass composition and ground-truth productivity
+
+As published: junctions binned by leafcutter2's full 4-bit flag
+(`GencodePC:Annot:Coding:UTR`, packed as `8*GencodePC + 4*Annot + 2*Coding + 1*UTR`), at the
+reference condition (comprehensive Gencode, 20 GB, uniform coverage). Only 12 of the 16
+possible combinations are populated — `GencodePC=1` with `Annot=0` (decimal flags 8-11)
+essentially never happens, since a junction Gencode calls part of a productive isoform is
+(trivially) also one it annotates at all. Bar colour is the `Leaf2 multi-flag` verdict for
+that exact flag combination (a deterministic lookup on the decimal flag, independent of any
+particular junction): `{0, 4} -> UP`, `{1, 5} -> NE`, everything else `-> PR`.
+
+```{python}
+#| fig-cap: "Number of junctions and ground-truth productive fraction, by the full 4-bit junction flag, at the reference condition (comprehensive Gencode, 20 GB, uniform coverage)."
+flagcomb = pd.read_csv(OUTPUT / "FigS4C_FlagCombinationProductiveFraction.tsv.gz", sep="\t")
+CATEGORY_COL = {"NE": "#999999", "PR": "#1f78b4", "UP": "#e31a1c"}
+
+fig, ax1 = plt.subplots(figsize=(6.4, 2.8))
+x = np.arange(len(flagcomb))
+ax1.bar(x, flagcomb.Frac_Productive * 100, width=0.7,
+       color=[CATEGORY_COL[c] for c in flagcomb.Category])
+ax1.set_ylim(0, 100)
+ax1.set_ylabel("Fraction of productive junctions (%)", fontsize=8)
+ax1.set_xticks(x)
+ax1.set_xticklabels(flagcomb.DecimalFlag, fontsize=8)
+ax1.set_xlabel("Bitwise flag label (decimal); GencodePC:Annot:Coding:UTR", fontsize=8)
+ax1.tick_params(axis="y", labelsize=7)
+ax1.spines["top"].set_visible(False)
+ax1.legend(handles=[plt.Rectangle((0, 0), 1, 1, color=c) for c in CATEGORY_COL.values()],
+          labels=[f"{cat} ({lab})" for cat, lab in
+                  [("NE", "NEither"), ("PR", "PRoductive"), ("UP", "UnProductive")]],
+          title="Simplified label from multi-flag decision", title_fontsize=7, fontsize=7,
+          loc="upper left", frameon=False)
+
+ax2 = ax1.twinx()
+ax2.plot(x, flagcomb.Total, marker="o", color="#4daf4a", lw=1.2, ms=4)
+ax2.set_yscale("log")
+ax2.set_ylabel("Number of junctions", fontsize=8, color="#4daf4a")
+ax2.tick_params(axis="y", labelsize=7, colors="#4daf4a")
+fig.tight_layout()
+plt.show()
+```
+
+```{python}
+#| label: source-s4c
+record_source("FigS4C", flagcomb)
+```
+
+Unannotated junctions (decimal flags 0-3, `GencodePC=Annot=0`) split close to evenly between
+productive and unproductive, while fully annotated ones (12-15) are overwhelmingly
+productive — the imbalance an annotation-blind classifier has to overcome.
+
+## FigS4D — classification accuracy by method and junction subclass
+
+The same reference condition as FigS4C, now crossing all four classification methods.
+Annotation-only methods score `NaN` on the two unannotated subclasses — they have nothing to
+say about a junction no annotation contains — which is exactly the gap the two leafcutter2
+methods fill.
+
+```{python}
+#| fig-cap: "Classification accuracy (%) by method and junction subclass at the reference condition. Each cell also gives the number of junctions classified. P-values: two-sided chi-square on the shipped aggregate correct/incorrect counts (an unpaired approximation to the manuscript's per-junction paired test; see FOOTNOTES.md)."
+ref_d = pd.concat([
+    master[master.GTF.eq("Comprehensive_Gencode") & master.Coverage_GB.eq(20)
+           & master.Coverage_bias_Beta_params.eq("alpha_1_beta_1")],
+    master[master.GTF.eq("Comprehensive_Gencode") & master.Coverage_GB.isna()],
+], ignore_index=True)
+ref_d = ref_d[ref_d.Subclass.isin(SUBCLASS_LEVELS[:-1])].copy()
+ref_d["n_classified"] = ref_d[["TP", "TN", "FP", "FN"]].sum(axis=1)
+ref_d["Accuracy"] = np.where(ref_d.n_classified > 0,
+                             (ref_d.TP + ref_d.TN) / ref_d.n_classified, np.nan)
+
+METHOD_D_ORDER = ["Annotations", "Assume unannotated is UP",
+                  "Leaf2 junction_classifier", "Leaf2 multi-flag"]
+piv_acc = (ref_d.pivot(index="Method", columns="Subclass", values="Accuracy")
+           .reindex(index=METHOD_D_ORDER, columns=SUBCLASS_LEVELS[:-1]) * 100)
+piv_n = (ref_d.pivot(index="Method", columns="Subclass", values="n_classified")
+         .reindex(index=METHOD_D_ORDER, columns=SUBCLASS_LEVELS[:-1]))
+
+fig, ax = plt.subplots(figsize=(5.6, 2.4))
+im = ax.imshow(np.ma.masked_invalid(piv_acc.to_numpy()), cmap="viridis",
+              vmin=0, vmax=100, aspect="auto")
+for i in range(piv_acc.shape[0]):
+    for j in range(piv_acc.shape[1]):
+        v, n = piv_acc.iloc[i, j], piv_n.iloc[i, j]
+        lab = "" if np.isnan(v) else f"{v:.1f}\n(n={int(n):,})"
+        ax.text(j, i, lab, ha="center", va="center", fontsize=6, color="white")
+ax.set_xticks(range(len(SUBCLASS_LEVELS[:-1])))
+ax.set_xticklabels(SUBCLASS_LEVELS[:-1], fontsize=8)
+ax.set_yticks(range(len(METHOD_D_ORDER)))
+ax.set_yticklabels(METHOD_D_ORDER, fontsize=7)
+ax.set_xlabel("Junction subclass, GencodePC:Annot:UTR", fontsize=8)
+fig.colorbar(im, ax=ax, fraction=0.04, pad=0.02).set_label("Accuracy (%)", fontsize=8)
+fig.tight_layout()
+plt.show()
+
+
+def correct_incorrect(method, subclass):
+    r = ref_d[(ref_d.Method == method) & (ref_d.Subclass == subclass)].iloc[0]
+    return r.TP + r.TN, r.FP + r.FN
+
+
+from scipy.stats import chi2_contingency
+for m1, m2, sub in [("Assume unannotated is UP", "Leaf2 multi-flag", "0:0:0"),
+                    ("Leaf2 junction_classifier", "Leaf2 multi-flag", "0:0:1")]:
+    table = [correct_incorrect(m1, sub), correct_incorrect(m2, sub)]
+    _, p, _, _ = chi2_contingency(table)
+    print(f"{sub}: {m1} vs {m2}, chi-square P = {p:.2g}")
+```
+
+```{python}
+#| label: source-s4d
+record_source("FigS4D", ref_d[["Method", "Subclass", "n_classified", "Accuracy"]])
+```
+
+Comprehensiveness of the annotation cannot fix what it fundamentally cannot see: the
+annotation-only methods are undefined or degenerate on `0:0:*`, while both leafcutter2 methods
+still score there, and multi-flag's consolidation over the bare junction_classifier flag is a
+significant improvement in both unannotated subclasses (both comparisons above, chi-square
+P < 1e-25).
+
+## Unannotated junctions: the case the annotation cannot reach
+
+This is the panel that motivates the whole exercise. It restricts to **completely unannotated
+junctions** (`0:0:0` and `0:0:1` pooled), against comprehensive Gencode, and asks how well
+leafcutter2's own verdict recovers their productivity status.
+
+An annotation-based method scores zero here by construction — it has nothing to say about a
+junction it has never seen. So the y-axis is not "is the classifier good", it is "can anything
+be recovered at all".
+
+Each point is one (depth × bias) condition: colour is the fragment-bias condition, size is
+sequencing depth. The dashed diagonal is chance; the dotted line is the ceiling set by
+leafcutter2's own abstentions.
+
+```{python}
+#| fig-cap: "Recall and false-positive rate for completely unannotated junctions (subclasses 0:0:0 and 0:0:1 pooled), comprehensive Gencode annotation, leafcutter2 multi-flag verdict. Colour: fragment-bias condition. Size: sequencing depth. Dashed line: chance. Dotted line: the recall ceiling imposed by leafcutter2 declining to classify UTR-overlapping junctions."
+BIAS_COLORS = {
+    "alpha_1_beta_1": "#1b9e77",
+    "alpha_1.5_beta_1": "#d95f02",
+    "alpha_2.5_beta_1": "#7570b3",
+    "alpha_4.5_beta_1": "#e7298a",
+    "alpha_8.5_beta_1": "#66a61e",
+}
+BIAS_LABELS = {
+    "alpha_1_beta_1": "Uniform coverage",
+    "alpha_1.5_beta_1": "Slight 3' bias",
+    "alpha_2.5_beta_1": "Moderate 3' bias",
+    "alpha_4.5_beta_1": "Strong 3' bias",
+    "alpha_8.5_beta_1": "Extreme 3' bias (low-RIN proxy)",
+}
+# Coverage_GB -> read pairs in millions, so the legend is in units people think in
+COV_BREAKS = [0.3125, 0.625, 1.25, 2.5, 5, 10, 20]
+COV_LABELS = ["1.56", "3.13", "6.25", "12.5", "25", "50", "100"]
+
+# Pool the two unannotated subclasses, then recompute metrics on the pooled counts --
+# these are ratios, so they cannot simply be averaged.
+unannot = (
+    metrics[metrics.Subclass.astype(str).isin(["0:0:0", "0:0:1"])]
+    .groupby(["GTF", "Method", "Coverage_bias_Beta_params", "Coverage_GB"],
+             dropna=False)[COUNT_COLS]
+    .sum()
+    .reset_index()
+)
+unannot["Recall_v2"] = unannot.TP / (
+    unannot.TP + unannot.FN + unannot.UP_NE_ByMethod + unannot.UP_NotDetected)
+unannot["FPR_v2"] = unannot.FP / (
+    unannot.FP + unannot.TN + unannot.PR_NE_ByMethod + unannot.PR_NotDetected)
+
+sr = unannot[
+    unannot.GTF.eq("Comprehensive_Gencode")
+    & unannot.Coverage_GB.notna()
+    & unannot.Method.eq("Leaf2 multi-flag")
+].copy()
+# Order the factor so the legend reads uniform -> extreme; alphabetical would put
+# alpha_1.5 before alpha_1.
+sr["Coverage_bias_Beta_params"] = pd.Categorical(
+    sr.Coverage_bias_Beta_params, categories=list(BIAS_COLORS), ordered=True)
+
+# The ceiling is set by the junctions leafcutter2 returns NE for by design: those
+# overlapping an annotated UTR, where its coding flag carries no information.
+ref = unannot[
+    unannot.GTF.eq("Comprehensive_Gencode")
+    & unannot.Method.eq("Leaf2 multi-flag")
+    & unannot.Coverage_GB.eq(20)
+    & unannot.Coverage_bias_Beta_params.eq("alpha_1_beta_1")
+].iloc[0]
+n_up = ref.TP + ref.FN + ref.UP_NE_ByMethod + ref.UP_NotDetected
+n_pr = ref.FP + ref.TN + ref.PR_NE_ByMethod + ref.PR_NotDetected
+ceiling = 100 * (n_up - ref.UP_NE_ByMethod) / n_up
+
+print(f"{int(n_up + n_pr):,} ground-truth labels in unannotated junctions "
+      f"({100 * n_up / (n_up + n_pr):.1f}% unproductive)")
+print(f"leafcutter2 returns NE for {int(ref.UP_NE_ByMethod):,} of {int(n_up):,} "
+      f"unproductive ones -> recall ceiling {ceiling:.1f}%")
+
+p_unannot = (
+    ggplot(sr, aes("FPR_v2*100", "Recall_v2*100"))
+    + geom_abline(slope=1, intercept=0, linetype="dashed", color="#b3b3b3", size=0.4)
+    + geom_hline(yintercept=ceiling, linetype="dotted", color="#808080", size=0.5)
+    + geom_point(aes(color="Coverage_bias_Beta_params", size="Coverage_GB"), alpha=0.9)
+    + annotate(
+        "text", x=2, y=ceiling - 3.5,
+        label=f"{ceiling:.0f}% ceiling: leafcutter2 returns NE for UTR-overlapping junctions",
+        ha="left", va="top", size=7, color="#666666")
+    + scale_color_manual(values=BIAS_COLORS, labels=BIAS_LABELS,
+                         name="Simulated coverage")
+    + scale_size_continuous(name="Read pairs (M)", range=(1.2, 5),
+                            breaks=COV_BREAKS, labels=COV_LABELS)
+    + scale_x_continuous(breaks=[0, 25, 50, 75, 100])
+    + scale_y_continuous(breaks=[0, 25, 50, 75, 100])
+    + coord_cartesian(xlim=(0, 100), ylim=(0, 100))
+    + labs(x="1 - Specificity (false-positive rate, %)", y="Recall (%)")
+    + theme_classic(base_size=9)
+    + theme(
+        # Legend outside the panel: at the original 2x2in panel size it sat on the data.
+        legend_position="right",
+        legend_box="vertical",
+        legend_text=element_text(size=8),
+        legend_title=element_text(size=8),
+        panel_background=element_rect(fill="white", color="black", size=0.4),
+        figure_size=(7.2, 4.0),
+    )
+)
+p_unannot
+```
+
+```{python}
+#| label: source-unannot
+record_source("Fig1F", sr[["Coverage_bias_Beta_params", "Coverage_GB", "FPR_v2", "Recall_v2"]])
+```
+
+Every point sits well above the diagonal, so unproductive junctions absent from every
+annotation *are* recoverable from short reads — the central claim. But the quantitative
+picture is worth stating precisely, because it is more modest than "recoverable" suggests:
+
+- **Specificity is good, recall is partial.** False-positive rate stays between 13% and 20%,
+  while recall peaks at **61%** — not at the 82% ceiling.
+- **Recall saturates early.** At uniform coverage it climbs 30% → 53% → 60% over the first
+  three depth steps and then flattens: 5 GB gives 60.2% and 20 GB gives 60.9%. Past roughly
+  25 M read pairs, more sequencing buys essentially nothing.
+- **Depth and 3' bias matter about equally.** Recall spans 30-61% across depths at uniform
+  coverage, and 32-61% across bias conditions at full depth. Neither axis dominates.
+
+Those two axes fail by the *same* mechanism, which the table makes visible: not
+misclassification but **non-detection**. `UP_NotDetected` accounts for 54% of unproductive
+junctions at the shallowest depth, and 53% at full depth under extreme 3' bias. In both cases
+the junction is never observed, so no classifier could have called it.
+
+That leaves the gap at the top. At 20 GB with uniform coverage only 0.2% of unproductive
+junctions go undetected, yet recall is 60.9% against an 82% ceiling — so about **21 points are
+genuine misclassification**: junctions seen, called, and called productive when they are not.
+The remaining 18 points to 100% are leafcutter2's abstentions, which it returns for junctions
+overlapping an annotated UTR because outside the CDS its coding flag carries no information
+about productivity. `Recall_v2` charges those as misses, which is why they appear as a ceiling
+rather than being quietly excluded.
+
+## Does a more comprehensive annotation help?
+
+Held at the best condition — 20 GB, uniform coverage — this crosses all four methods against
+all three annotation sets, for every subclass. Rows are metrics, columns are subclasses.
+
+The question it answers: if a classifier is only as good as the annotation you give it, then
+moving from minimal (MANE) to comprehensive (Gencode) should lift performance across the
+board. It does not, and the bottom row shows why.
+
+```{python}
+#| fig-cap: "Performance by annotation comprehensiveness at 20 GB with uniform coverage. Rows: Recall, Precision, Accuracy (viridis, 0-100%) and number of junctions classified (terrain, log scale). Columns: junction subclass GencodePC:Annot:UTR, plus the overall pool. Within each panel, rows are the four methods and columns the three annotation sets."
+fig6_dat = pd.concat([
+    metrics[metrics.Coverage_GB.eq(20)
+            & metrics.Coverage_bias_Beta_params.eq("alpha_1_beta_1")],
+    metrics[metrics.Coverage_GB.isna()],
+], ignore_index=True)
+
+gtf_order = [GTF_LABELS[g] for g in GTF_LEVELS]
+metric_order = ["Recall", "Precision", "Accuracy", "n"]
+
+fig, axes = plt.subplots(len(metric_order), len(SUBCLASS_LEVELS),
+                         figsize=(7.5, 8.3), constrained_layout=True)
+perf_cmap, perf_norm = plt.cm.viridis, mpl.colors.Normalize(vmin=0, vmax=100)
+n_vals = fig6_dat.n_classified.where(fig6_dat.n_classified > 0)
+n_cmap = plt.cm.terrain
+n_norm = LogNorm(vmin=max(1, float(n_vals.min(skipna=True))),
+                 vmax=float(n_vals.max(skipna=True)))
+
+for cidx, subclass in enumerate(SUBCLASS_LEVELS):
+    sub = fig6_dat[fig6_dat.Subclass.astype(str).eq(subclass)].copy()
+    sub["GTF_label"] = pd.Categorical(
+        sub.GTF.map(GTF_LABELS), categories=gtf_order, ordered=True)
+    mats = {
+        "Recall": sub.pivot(index="Method_long", columns="GTF_label",
+                            values="Recall_v1") * 100,
+        "Precision": sub.pivot(index="Method_long", columns="GTF_label",
+                               values="Precision") * 100,
+        "Accuracy": sub.pivot(index="Method_long", columns="GTF_label",
+                              values="Accuracy") * 100,
+        "n": sub.pivot(index="Method_long", columns="GTF_label",
+                       values="n_classified").astype(float),
+    }
+    for ridx, name in enumerate(metric_order):
+        ax = axes[ridx, cidx]
+        vals = mats[name].reindex(index=METHOD_LONG_LEVELS, columns=gtf_order).to_numpy()
+        ax.imshow(np.ma.masked_invalid(vals),
+                  cmap=perf_cmap if name != "n" else n_cmap,
+                  norm=perf_norm if name != "n" else n_norm, aspect="auto")
+        for i in range(vals.shape[0]):
+            for j in range(vals.shape[1]):
+                v = vals[i, j]
+                if np.isnan(v):
+                    lab = ""
+                elif name == "n":
+                    lab = f"{int(round(v)):,}"
+                else:
+                    lab = f"{v:.1f}"
+                ax.text(j, i, lab, ha="center", va="center", fontsize=4)
+        ax.set_xticks(range(len(gtf_order)))
+        ax.set_yticks(range(len(METHOD_LONG_LEVELS)))
+        if ridx == len(metric_order) - 1:
+            ax.set_xticklabels([g.replace("\n", " ") for g in gtf_order],
+                               fontsize=5, rotation=35, ha="right")
+        else:
+            ax.set_xticklabels([])
+        if cidx == 0:
+            ax.set_yticklabels(METHOD_LONG_LEVELS, fontsize=5)
+            ax.set_ylabel(name, fontsize=6)
+        else:
+            ax.set_yticklabels([])
+        if ridx == 0:
+            ax.set_title(subclass if subclass == "Overall"
+                         else subclass.replace(":", "\n"), fontsize=6)
+        for sp in ax.spines.values():
+            sp.set_visible(True)
+            sp.set_linewidth(0.4)
+        ax.tick_params(length=0)
+
+for row, cmap, cnorm, clabel in [
+    (0, perf_cmap, perf_norm, "Performance metric (%)"),
+    (-1, n_cmap, n_norm, "Number junctions classified"),
+]:
+    cax = inset_axes(axes[row, -1], width="8%", height="85%", loc="center left",
+                     bbox_to_anchor=(1.08, 0.0, 1, 1),
+                     bbox_transform=axes[row, -1].transAxes, borderpad=0)
+    mpl.colorbar.ColorbarBase(
+        cax, cmap=cmap, norm=cnorm, orientation="vertical").set_label(clabel, fontsize=6)
+
+fig.supxlabel("Annotation source", fontsize=7)
+fig.supylabel("Performance metric, classification approach", fontsize=7)
+plt.show()
+```
+
+The `0:0:*` columns are the point. There, the two annotation-only methods are blank or
+near-blank — an annotation cannot classify a junction it does not contain, however
+comprehensive — while both leafcutter2 readings still score. Comprehensiveness helps the
+*annotation* methods in the annotated subclasses, but it cannot manufacture coverage of the
+unannotated ones.
+
+The bottom `n` row is the necessary companion: a high percentage over a handful of junctions
+is not the same claim as a high percentage over thousands, and reading the upper rows without
+it is how these comparisons get overstated.
+
+## Is the simulated coverage bias realistic?
+
+A sanity check on the simulation itself, and the one figure here that does not come from the
+confusion table. If the `Beta(alpha, 1)` fragment-bias grid did not span the 3' bias seen in
+real degraded RNA, the depth-and-bias axes above would not mean much.
+
+```{python}
+#| fig-cap: "Metagene coverage, real degraded RNA versus simulation. Top: 12 public libraries with measured RIN 2-10 (Sigurgeirsson et al., SRP023548), coloured by RIN. Bottom: the 5 simulated fragment-bias conditions. Each library is normalised by its own mean coverage, so the panels compare profile shape rather than depth."
+def load_metagene(path):
+    long = pd.read_csv(path, sep="\t").melt(
+        id_vars="sample", var_name="bin", value_name="Coverage")
+    long["bin"] = long["bin"].str.removeprefix("bin_").astype(int)
+    long["Coverage"] = long.Coverage / long.groupby("sample").Coverage.transform("mean")
+    return long
+
+rin = load_metagene(OUTPUT / "Metagene" / "RIN_metagene_avg.txt")
+sim = load_metagene(OUTPUT / "Metagene" / "Simulated_metagene_avg.txt")
+meta = pd.read_csv(PROJECT / "code" / "config" / "RIN_Control_Samples.tsv", sep="\t")
+rin = rin.merge(meta[["sample", "RIN"]], on="sample", how="left")
+if rin.RIN.isna().any():
+    raise ValueError(f"no RIN for: {sorted(rin.loc[rin.RIN.isna(), 'sample'].unique())}")
+
+fig, axes = plt.subplots(2, 1, figsize=(160 * MM, 120 * MM), sharex=True, sharey=True)
+
+norm = mpl.colors.Normalize(vmin=rin.RIN.min(), vmax=rin.RIN.max())
+for _, g in rin.groupby("sample"):
+    g = g.sort_values("bin")
+    axes[0].plot(g.bin, g.Coverage, lw=1.0, color=plt.cm.viridis(norm(g.RIN.iloc[0])))
+axes[0].set_title("Real: short-read RNA-seq of degraded RNA", fontsize=9)
+cb = fig.colorbar(mpl.cm.ScalarMappable(norm=norm, cmap=plt.cm.viridis),
+                  ax=axes[0], pad=0.01, fraction=0.05)
+cb.set_label("RIN", fontsize=8)
+cb.ax.tick_params(labelsize=7)
+
+for name, color in zip(BIAS_COLORS, plt.cm.Dark2.colors):
+    g = sim[sim["sample"].eq(name)].sort_values("bin")
+    if not g.empty:
+        axes[1].plot(g.bin, g.Coverage, lw=1.3, color=color, label=BIAS_LABELS[name])
+axes[1].set_title("Simulated: short reads from long-read cDNAs", fontsize=9)
+axes[1].legend(fontsize=6.5, frameon=False, loc="upper left")
+
+for ax in axes:
+    ax.set_xticks([0, 100])
+    ax.set_xticklabels(["TSS", "TES"], fontsize=8)
+    ax.tick_params(axis="y", labelsize=8)
+    ax.spines[["top", "right"]].set_visible(False)
+axes[1].set_xlabel("Relative position along transcript", fontsize=8)
+fig.supylabel("Normalized coverage", fontsize=8)
+fig.tight_layout()
+plt.show()
+```
+
+The real libraries fan out with RIN: intact ones (yellow) are flat-to-5'-weighted, and the
+most degraded (dark purple, RIN 2) piles coverage at the 3' end. The simulated grid reproduces
+that span, with `alpha_8.5` reaching past the worst real sample. So the extreme end of the
+bias axis is not an extrapolation — it brackets real data.
+
+## Source data
+
+One spreadsheet, one tab per panel (main-text and supplemental together), holding the exact
+table each panel above plots.
+
+```{python}
+#| label: source-data-xlsx
+SOURCE_DATA_XLSX = PROJECT / "analysis" / "SourceData_SimulationBenchmark.xlsx"
+with pd.ExcelWriter(SOURCE_DATA_XLSX, engine="openpyxl") as xl:
+    for panel, df in SOURCE_DATA.items():
+        df.to_excel(xl, sheet_name=panel[:31], index=False)
+print(f"{len(SOURCE_DATA)} tabs -> {SOURCE_DATA_XLSX.name} "
+      f"({SOURCE_DATA_XLSX.stat().st_size / 1024:.0f} KB)")
+pd.DataFrame({"panel": list(SOURCE_DATA), "n_rows": [len(d) for d in SOURCE_DATA.values()]})
+```
+
+---
+
+Details of provenance, the leafcutter2 version difference, and what this bundle does not
+reproduce are in [FOOTNOTES.md](../FOOTNOTES.md).

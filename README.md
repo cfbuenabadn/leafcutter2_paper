@@ -34,6 +34,7 @@ The paper's figures are split across three repositories.
 
 | Figure | Built in | What |
 |---|---|---|
+| Fig. 1 | [`analysis/Figure1/`](analysis/Figure1/) | junction classification by usage; GENCODE composition; enrichment under four NMD perturbations; the NMD-efficiency rules; unproductive splicing against intron length and expression |
 | Fig. 2 | [`analysis/Figure2/`](analysis/Figure2/) | unproductive splicing across 49 GTEx tissues; UPF3A correlation; splicing-vs-expression; the tissue-pattern heatmap; *GABBR1* |
 | Fig. 4 | [`analysis/Figure4/`](analysis/Figure4/) | p-sQTLs and u-sQTLs across GTEx; effects on host gene expression; GWAS colocalization; the *ASB16* / bipolar disorder locus |
 | Fig. 5 | [`analysis/Figure5/`](analysis/Figure5/) | ROSMAP brain u-sQTLs; enrichment against eQTLs and pQTLs; PTWAS and colocalization; *TSPAN14* |
@@ -41,11 +42,13 @@ The paper's figures are split across three repositories.
 | Fig. 3 | [bfairkun/20260825_comparativesplicing_paper][comp] | comparative unproductive splicing across seven vertebrate species; conserved poison exons; *ARHGAP17* |
 | Supplementary Note 1 | [bfairkun/20260825_leaf2simulation_paper][sim] | the simulation benchmark against long-read ground truth, across depth, 3' coverage bias, annotation and method |
 
-Both of Ben's repositories publish a rendered figure notebook that needs no setup:
-[comparative splicing](https://bfairkun.github.io/20260825_comparativesplicing_paper/ComparativeSplicingFigures.html)
-and [simulation benchmark](https://bfairkun.github.io/20260825_leaf2simulation_paper/SimulationBenchmarkFigures.html).
+Ben's two notebooks are reproduced here as rendered pages so that every figure can be
+read in one place — see the table below. Their sources are in
+[`analysis/external_figures/`](analysis/external_figures/), but re-running them requires
+the originals, which carry the pipelines and inputs.
 
-Figure 1 is not built in this repository.
+Figure 1 is rebuilt here from pipeline output that lives outside this repository, so its
+panels redraw from the committed data but cannot be regenerated from scratch by a clone.
 
 [comp]: https://github.com/bfairkun/20260825_comparativesplicing_paper
 [sim]: https://github.com/bfairkun/20260825_leaf2simulation_paper
@@ -64,6 +67,10 @@ nothing to install:
 | [Figure 4](https://cfbuenabadn.github.io/leafcutter2_paper/Figure4.html) | p-sQTLs and u-sQTLs; GWAS colocalization; the *ASB16* locus |
 | [Figure 5 (Python)](https://cfbuenabadn.github.io/leafcutter2_paper/Figure5_Python.html) | *TSPAN14* mediation |
 | [Figure 5 (R)](https://cfbuenabadn.github.io/leafcutter2_paper/Figure5_R.html) | QTL enrichment and PTWAS panels |
+| [Figure 1i](https://cfbuenabadn.github.io/leafcutter2_paper/Figure1_fig1i.html) | unproductive splicing against intron length and expression |
+| [Figure 3](https://cfbuenabadn.github.io/leafcutter2_paper/ComparativeSplicingFigures.html) | comparative unproductive splicing across seven vertebrate species |
+| [Supplementary Note 1](https://cfbuenabadn.github.io/leafcutter2_paper/SimulationBenchmarkFigures.html) | short-read classification benchmarked against long-read ground truth |
+| [Footnote](https://cfbuenabadn.github.io/leafcutter2_paper/NMD_GroupingDiscrepancy.html) | two ways of calling a testis library juvenile or adult |
 
 The same files are committed under [`docs/`](docs/). To rebuild them after re-running a
 notebook — save it first, then:
