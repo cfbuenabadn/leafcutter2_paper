@@ -2304,7 +2304,7 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 </tbody>
 </table>
 <p>The panel itself is drawn in <code>Figure1.ipynb</code>.</p>
-<div id="80669ac7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-09-01T18:28:16.474572Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-09-01T18:28:16.473340Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-09-01T18:28:16.924704Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-09-01T18:28:16.923494Z&quot;}}" data-execution_count="1">
+<div id="80669ac7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;vscode&quot;,&quot;value&quot;:{&quot;languageId&quot;:&quot;r&quot;}}" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>({</span>
@@ -2328,7 +2328,7 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 <section id="read-counts-and-unproductive-fractions" class="level2">
 <h2 class="anchored" data-anchor-id="read-counts-and-unproductive-fractions">Read counts and unproductive fractions</h2>
 <p><code>cts</code> is the leafcutter2 junction-count matrix; <code>stored</code> holds the unproductive fraction already computed per cluster and per gene for every sample.</p>
-<div id="8ccee250" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-09-01T18:28:16.943597Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-09-01T18:28:16.926962Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-09-01T18:28:21.782759Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-09-01T18:28:21.781694Z&quot;}}" data-execution_count="2">
+<div id="8ccee250" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;vscode&quot;,&quot;value&quot;:{&quot;languageId&quot;:&quot;r&quot;}}" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>cts <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">file.path</span>(SPLIFI,</span>
@@ -2352,7 +2352,7 @@ genes with an unproductive fraction: 12987 </code></pre>
 <section id="intron-length" class="level2">
 <h2 class="anchored" data-anchor-id="intron-length">Intron length</h2>
 <p>Restricted to clusters carrying both productive and unproductive introns. Within each cluster the <strong>most-used productive intron</strong> supplies the length, so the comparison is between a cluster’s unproductive fraction and the size of the intron it is competing with.</p>
-<div id="41ee531c" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-09-01T18:28:21.786295Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-09-01T18:28:21.785326Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-09-01T18:28:59.737002Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-09-01T18:28:59.734951Z&quot;}}" data-execution_count="3">
+<div id="41ee531c" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;vscode&quot;,&quot;value&quot;:{&quot;languageId&quot;:&quot;r&quot;}}" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">copy</span>(cts)[<span class="fu">str_detect</span>(clu_type, <span class="st">&#39;PR</span><span class="sc">\\</span><span class="st">,UP&#39;</span>)]</span>
@@ -2429,7 +2429,7 @@ genes with an unproductive fraction: 12987 </code></pre>
 <h2 class="anchored" data-anchor-id="gene-expression">Gene expression</h2>
 <p>RPKM per gene: total junction reads over the genomic span of the gene, then averaged across samples and cut at its own quintiles.</p>
 <p>Gene length is <code>end - start</code> of protein-coding <code>gene</code> features in GENCODE v43.</p>
-<div id="a29b238a" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-09-01T18:28:59.742795Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-09-01T18:28:59.741784Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-09-01T18:29:04.815010Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-09-01T18:29:04.813916Z&quot;}}" data-execution_count="4">
+<div id="a29b238a" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;vscode&quot;,&quot;value&quot;:{&quot;languageId&quot;:&quot;r&quot;}}" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>gtf <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="at">cmd =</span> <span class="fu">paste</span>(<span class="st">&#39;zcat&#39;</span>, GTF, <span class="st">&#39;| awk -F</span><span class="sc">\&#39;\\</span><span class="st">t</span><span class="sc">\&#39;</span><span class="st"> </span><span class="sc">\&#39;</span><span class="st">$3==&quot;gene&quot;</span><span class="sc">\&#39;</span><span class="st">&#39;</span>),</span>
@@ -2445,7 +2445,7 @@ genes with an unproductive fraction: 12987 </code></pre>
 <pre><code>protein-coding genes with a length: 20013 </code></pre>
 </div>
 </div>
-<div id="47cd5fb5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-09-01T18:29:04.913129Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-09-01T18:29:04.912225Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-09-01T18:29:35.941912Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-09-01T18:29:35.940359Z&quot;}}" data-execution_count="5">
+<div id="47cd5fb5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;vscode&quot;,&quot;value&quot;:{&quot;languageId&quot;:&quot;r&quot;}}" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>juncClass <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="fu">file.path</span>(SPLIFI,</span>
@@ -2467,7 +2467,7 @@ genes with an unproductive fraction: 12987 </code></pre>
 <span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>                       <span class="at">meanrpkm =</span> <span class="fu">rowMeans</span>(<span class="fu">as.matrix</span>(rpkm), <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="0d643fa5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-09-01T18:29:35.946292Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-09-01T18:29:35.945412Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-09-01T18:29:36.337069Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-09-01T18:29:36.335909Z&quot;}}" data-execution_count="6">
+<div id="0d643fa5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;vscode&quot;,&quot;value&quot;:{&quot;languageId&quot;:&quot;r&quot;}}" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>ratio_gene <span class="ot">&lt;-</span> <span class="fu">as.data.table</span>(stored<span class="sc">$</span>unprod_ratio_by_gene)</span>
@@ -2538,7 +2538,7 @@ genes with an unproductive fraction: 12987 </code></pre>
 <section id="write-the-tables" class="level2">
 <h2 class="anchored" data-anchor-id="write-the-tables">Write the tables</h2>
 <p><code>Figure1.ipynb</code> reads these two files and draws the panel.</p>
-<div id="8281e020" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-09-01T18:29:36.340209Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-09-01T18:29:36.339331Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-09-01T18:29:36.463048Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-09-01T18:29:36.461859Z&quot;}}" data-execution_count="7">
+<div id="8281e020" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;vscode&quot;,&quot;value&quot;:{&quot;languageId&quot;:&quot;r&quot;}}" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(len,  <span class="fu">file.path</span>(OUT, <span class="st">&#39;fig1i_intron_length.tsv&#39;</span>),</span>
@@ -2555,7 +2555,7 @@ genes with an unproductive fraction: 12987 </code></pre>
 <section id="the-panel" class="level2">
 <h2 class="anchored" data-anchor-id="the-panel">The panel</h2>
 <p>Cumulative distribution of the unproductive fraction, split each way. A zero fraction cannot go on a log axis, so zeros are floored at 0.05% — the same treatment the original analysis used.</p>
-<div id="cb6875b3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-09-01T18:29:36.466208Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-09-01T18:29:36.465361Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-09-01T18:29:38.209552Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-09-01T18:29:38.208431Z&quot;}}" data-execution_count="8">
+<div id="cb6875b3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;vscode&quot;,&quot;value&quot;:{&quot;languageId&quot;:&quot;r&quot;}}" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>ZERO_FLOOR <span class="ot">&lt;-</span> <span class="fl">0.0005</span></span>
@@ -2594,7 +2594,7 @@ genes with an unproductive fraction: 12987 </code></pre>
 </div>
 </div>
 </div>
-<div id="0149ce76" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-09-01T18:29:38.213236Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-09-01T18:29:38.212373Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-09-01T18:29:39.168393Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-09-01T18:29:39.167276Z&quot;}}" data-execution_count="9">
+<div id="0149ce76" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;vscode&quot;,&quot;value&quot;:{&quot;languageId&quot;:&quot;r&quot;}}" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (ext <span class="cf">in</span> <span class="fu">c</span>(<span class="st">&#39;png&#39;</span>, <span class="st">&#39;pdf&#39;</span>, <span class="st">&#39;svg&#39;</span>)) {</span>
