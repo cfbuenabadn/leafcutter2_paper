@@ -159,39 +159,6 @@ def plot_fig1h(h, cmap='Blues'):
 
 
 
-def plot_fig1i(panels, ncols=2):
-    """Cumulative distribution of unproductive splicing, split two ways.
-
-    Left: clusters binned by the length of their most-used productive intron.
-    Right: genes binned by expression quintile. Both use a log x axis labelled
-    in percent, and a light-to-dark ramp within each panel so the ordering of
-    the bins is readable without the legend.
-    """
-    fig, axes = plt.subplots(1, len(panels), figsize=(4.2 * len(panels), 3.4),
-                             dpi=300, squeeze=False)
-    for ax, p in zip(axes[0], panels):
-        shades = plt.cm.Blues(np.linspace(0.35, 0.95, len(p['series'])))
-        for s, c in zip(p['series'], shades):
-            ax.step(s['x'], s['y'], where='post', color=c, linewidth=1.8,
-                    label=f"{s['group']} (n = {s['n']:,})")
-        ax.set_xscale('log')
-        ax.set_xticks([0.001, 0.01, 0.1, 1], ['0%', '1%', '10%', '100%'])
-        ax.set_xlabel('Unproductive splicing')
-        ax.set_ylim(0, 1)
-        ax.spines[['top', 'right']].set_visible(False)
-        ax.legend(frameon=False, fontsize=6, loc='upper left',
-                  title=p['legend_title'], title_fontsize=6.5)
-        ax.text(0.98, 0.03,
-                r'Spearman $\rho = $' + f"{p['rho']:.2f}" + '\n' + fmt_p(p['pvalue'])
-                + '\n' + f"n = {p['n']:,}",
-                transform=ax.transAxes, ha='right', va='bottom', fontsize=6.5)
-    axes[0][0].set_ylabel('Cumulative distribution')
-    for ax in axes[0][1:]:
-        ax.set_yticklabels([])
-    fig.tight_layout()
-    return fig, axes[0]
-
-
 def save_panel(name, plots_dir='plots', dpi=300):
     import os
     os.makedirs(plots_dir, exist_ok=True)

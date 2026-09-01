@@ -29,7 +29,7 @@ NOTEBOOKS = [
     ("Figure1/Figure1.ipynb",
      "Figure 1: classification of unproductive splice junctions", True),
     ("Figure1/Figure1_fig1i.ipynb",
-     "Figure 1i: inputs for unproductive splicing vs intron length and expression", False),
+     "Figure 1i: unproductive splicing vs intron length and expression", True),
     ("Figure2/Figure2.ipynb",
      "Figure 2: differential unproductive splicing across human tissues", True),
     ("Figure2/Figure2_heatmap.ipynb",
